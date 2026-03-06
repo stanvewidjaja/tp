@@ -268,7 +268,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: It allows for much more efficient searching for destinations and planning routes between points, and a much more accessible and seamless UI for users to list, edit or delete the destinations (by contacts and address) they are interested in for overseas trips, leisure or social visits.
 
 
 ### User stories
@@ -290,28 +290,149 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: Add a location**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User inputs the details of a location.
+2. User submits the details to the system.
+3. AddressMe confirms the addition.
+4. AddressMe shows the updated list.
+Use case ends.
 
-    Use case ends.
+**Extensions**
+
+* 2a. The given details are invalid.
+* 2a1. AddressMe shows an error message, and if it can handle gracefully with incomplete data, will show the details it managed to add.
+Use case resumes at step 3.
+
+
+* 2b. The given location name is invalid.
+* 2b1. AddressMe shows an error message and informs the user it is unable to add the entry.
+Use case ends.
+
+---
+
+**Use case: Shorten/specify own commands to enhance usage speed**
+
+**MSS**
+
+1. User types a command to open a "shortcut" menu.
+2. AddressMe opens the shortcut menu with two input bars.
+3. User types a desired shortcut for a desired command (e.g., Command: `list t/restaurant`, Shortcut: `ls r`).
+4. User confirms the choice.
+5. AddressMe shows all shortcuts before prompting the user to exit the shortcut menu.
+6. User either goes back to add another shortcut or exits the menu.
+Use case ends.
+
+**Extensions**
+
+* 3a. User wants to edit or delete a shortcut.
+* 3a1. AddressMe skips steps 3 and 4 and goes to step 5 where User can delete a specified shortcut.
+
+
+* 3b. The command for the shortcut is invalid.
+* 3b1. When confirming the choice, AddressMe prompts the user that the command is invalid.
+* 3b2. AddressMe lets the user back to the menu with the invalid command.
+Use case resumes at step 3.
+
+---
+
+**Use case: Edit a location**
+
+**MSS**
+
+1. User requests to list locations using the list command.
+2. AddressMe shows a list of locations.
+3. User requests to edit a specific location in the list by providing its index and the new details to be updated.
+4. AddressMe updates the location and shows a success message with the updated details.
+Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
+Use case ends.
+* 3a. The given index is invalid (out of range or non-numeric).
+* 3a1. AddressMe shows an error message: "Invalid index. Please enter a valid location index."
+Use case resumes at step 2.
 
-  Use case ends.
+
+* 3b. The provided email format is invalid.
+* 3b1. AddressMe shows an error message regarding the invalid email.
+Use case resumes at step 2.
+
+
+* 3c. The provided phone number format is invalid.
+* 3c1. AddressMe shows an error message regarding the invalid phone number.
+Use case resumes at step 2.
+
+
+* 3d. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
+* 3d1. AddressMe rejects the edit, leaves the original record unchanged, and shows an error message.
+Use case resumes at step 2.
+
+---
+
+**Use case: List all locations**
+
+**MSS**
+
+1. User enters the list command.
+2. AddressMe shows a list of locations.
+Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+* 2a1. System informs the user the list is empty.
+Use case ends.
+
+---
+
+**Use case: Save and exit**
+
+**MSS**
+
+1. User enters the save/exit command.
+2. System saves the data.
+3. System closes the application.
+Use case ends.
+
+**Extensions**
+
+---
+
+**Use case: Delete a location**
+
+**MSS**
+
+1. User requests to list locations.
+2. AddressMe shows a list of locations.
+3. User requests to delete a specific location.
+4. AddressMe deletes the location.
+Use case ends.
+
+**Extensions**
+
+* 2a. The list of locations is empty.
+* 2a1. AddressMe informs the user that there are no locations to delete.
+Use case ends.
+
 
 * 3a. The given index is invalid.
+* 3a1. AddressMe shows an error message.
+* 3a2. AddressMe lists the available locations again.
+Use case resumes at step 2.
 
-    * 3a1. AddressBook shows an error message.
 
-      Use case resumes at step 2.
+* 4a. An error occurs during deletion.
+* 4a1. AddressMe informs the user that the deletion failed.
+Use case ends.
+
+
+* *a. At any time, the user cancels the delete operation.
+* *a1. AddressMe aborts the delete operation.
+Use case ends.
 
 *{More to be added}*
 
