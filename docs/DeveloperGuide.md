@@ -463,16 +463,21 @@ Use case ends.
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed. 
+2. Should be able to hold up to 1000 locations without a noticeable sluggishness in performance for typical usage. 
+3. Should display a list of 1000 entries under 0.5 seconds when searching or using the “list” command.
+4. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+5. Should work well for standard screen resolutions 1920x1080 and higher of 100% and 125% scales.
+6. Should be usable for resolutions 1280x720 and higher and for screen scales 150%.
+
 
 *{More to be added}*
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Mainstream OS**: Windows, macOS, and Linux.
+* **Location**: A saved place in AddressMe together with its contact and address details.
+* **Tag**: A label used to group similar saved locations.
 
 --------------------------------------------------------------------------------------------------------------------
 
