@@ -123,6 +123,98 @@ public class StringUtilTest {
         assertTrue(StringUtil.containsWordIgnoreCase("AAA bBb ccc  bbb", "bbB"));
     }
 
+    //---------------- Tests for containsSubstringIgnoreCase --------------------------------------
+
+    /*
+     * Invalid equivalence partitions for substring: null, empty
+     * Invalid equivalence partitions for sentence: null
+     * The two test cases below test one invalid input at a time.
+     */
+
+    @Test
+    public void containsSubstringIgnoreCase_nullSubstring_throwsNullPointerException() {
+        assertThrows(
+            NullPointerException.class, () -> StringUtil.containsSubstringIgnoreCase("typical sentence", null)
+        );
+    }
+
+    @Test
+    public void containsSubstringIgnoreCase_emptySubstring_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, "Substring parameter cannot be empty", ()
+            -> StringUtil.containsSubstringIgnoreCase("typical sentence", "  "));
+    }
+
+    @Test
+    public void containsSubstringIgnoreCase_nullSentence_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> StringUtil.containsSubstringIgnoreCase(null, "abc"));
+    }
+
+    /*
+     * Valid equivalence partitions for substring:
+     *   - prefix of a word
+     *   - suffix of a word
+     *   - middle of a word
+     *   - complete word
+     *   - substring spanning multiple words
+     *   - substring with leading/trailing spaces
+     *
+     * Valid equivalence partitions for sentence:
+     *   - empty string
+     *   - one word
+     *   - multiple words
+     *   - sentence with extra spaces
+     *
+     * Possible scenarios returning true:
+     *   - substring at start of sentence
+     *   - substring at end of sentence
+     *   - substring in middle of sentence
+     *   - substring matches across word boundary
+     *
+     * Possible scenarios returning false:
+     *   - substring not found in sentence
+     *   - similar but not exact substring
+     */
+
+    @Test
+    public void containsSubstringIgnoreCase_validInputs_correctResult() {
+
+        // Empty sentence
+        assertFalse(StringUtil.containsSubstringIgnoreCase("", "abc")); // Boundary case
+        assertFalse(StringUtil.containsSubstringIgnoreCase("    ", "123"));
+
+        // Substring not found
+        assertFalse(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "xyz"));
+        assertFalse(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "bbbb"));
+
+        // Matches prefix of word
+        assertTrue(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "aa")); // Prefix
+        assertTrue(StringUtil.containsSubstringIgnoreCase("Hans Gruber", "Han")); // Prefix of first word
+        assertTrue(StringUtil.containsSubstringIgnoreCase("Hans Gruber", "han")); // Case insensitive
+
+        // Matches suffix of word
+        assertTrue(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "bb")); // Suffix
+        assertTrue(StringUtil.containsSubstringIgnoreCase("Hans Gruber", "ns")); // Suffix of first word
+
+        // Matches middle of word
+        assertTrue(StringUtil.containsSubstringIgnoreCase("abcdef", "cde"));
+        assertTrue(StringUtil.containsSubstringIgnoreCase("John", "oh")); // Middle of word
+
+        // Matches complete word
+        assertTrue(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "bbb"));
+        assertTrue(StringUtil.containsSubstringIgnoreCase("John Smith", "John"));
+
+        // Matches across word boundaries
+        assertTrue(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "a b"));
+        assertTrue(StringUtil.containsSubstringIgnoreCase("Hans Gruber", "s G")); // Crosses word boundary
+
+        // Case insensitivity
+        assertTrue(StringUtil.containsSubstringIgnoreCase("ABCdef", "bCdE"));
+        assertTrue(StringUtil.containsSubstringIgnoreCase("HELLO World", "llo wo"));
+
+        // Leading/trailing spaces in substring
+        assertTrue(StringUtil.containsSubstringIgnoreCase("aaa bbb ccc", "  bbb  ")); // Will be trimmed
+    }
+
     //---------------- Tests for getDetails --------------------------------------
 
     /*

@@ -8,7 +8,7 @@
 
 Are you tired of organizing trips in scattered notes and maps, and losing track of which places to go in the actual trip?
 
-Fret not, for AddressMe is designed for you! 
+Fret not, for AddressMe is designed for you!
 
 AddressMe is a desktop application which helps you organize destinations for curious explorers who
 want a quick and efficient way to store destinations during trips.
@@ -21,7 +21,11 @@ Add contacts, places of interest, restaurants and accommodation; as a bonus, org
 ## Features
 ***
 
-- Add/edit/delete places 
+- Add/edit/delete places
+- Intelligent search with substring matching
+  - Find destinations by partial name matching (e.g., `find Jo` matches `João's Restaurant`)
+  - Case-insensitive search for convenience
+  - Multiple search keywords with OR logic (e.g., `find Ramen Pizza` returns all ramen and pizza restaurants)
 - Shortcuts and accessibility
   - Help and examples for first-time users
   - Confirmation for deletions, and an undo button

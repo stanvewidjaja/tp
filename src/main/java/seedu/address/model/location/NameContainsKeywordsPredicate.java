@@ -19,7 +19,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Location> {
     @Override
     public boolean test(Location location) {
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(location.getName().fullName, keyword));
+                .anyMatch(keyword -> StringUtil.containsSubstringIgnoreCase(location.getName().fullName, keyword));
     }
 
     @Override

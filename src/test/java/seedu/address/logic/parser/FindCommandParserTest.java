@@ -31,4 +31,23 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
     }
 
+    @Test
+    public void parse_substringArgs_returnsFindCommand() {
+        // Substring keyword (prefix)
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Ali")));
+        assertParseSuccess(parser, "Ali", expectedFindCommand);
+
+        // Substring keyword (middle)
+        expectedFindCommand = new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("lic")));
+        assertParseSuccess(parser, "lic", expectedFindCommand);
+
+        // Multiple substring keywords
+        expectedFindCommand = new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Jo", "Mey")));
+        assertParseSuccess(parser, "Jo Mey", expectedFindCommand);
+
+        // Mixed case substring
+        expectedFindCommand = new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("aLi")));
+        assertParseSuccess(parser, "aLi", expectedFindCommand);
+    }
 }

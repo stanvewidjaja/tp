@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_LOCATIONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalLocations.CARL;
+import static seedu.address.testutil.TypicalLocations.DANIEL;
 import static seedu.address.testutil.TypicalLocations.ELLE;
 import static seedu.address.testutil.TypicalLocations.FIONA;
 import static seedu.address.testutil.TypicalLocations.getTypicalAddressBook;
@@ -72,6 +73,50 @@ public class FindCommandTest {
         expectedModel.updateFilteredLocationList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredLocationList());
+    }
+
+    @Test
+    public void execute_substringMatch_locationFound() {
+        // Substring "Car" matches "Carl Kurz"
+        String expectedMessage = String.format(MESSAGE_LOCATIONS_LISTED_OVERVIEW, 1);
+        NameContainsKeywordsPredicate predicate = preparePredicate("Car");
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredLocationList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(CARL), model.getFilteredLocationList());
+    }
+
+    @Test
+    public void execute_substringPrefixMatch_locationFound() {
+        // Substring "El" (prefix) matches "Elle Meyer" and "Daniel Meier"
+        String expectedMessage = String.format(MESSAGE_LOCATIONS_LISTED_OVERVIEW, 2);
+        NameContainsKeywordsPredicate predicate = preparePredicate("El");
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredLocationList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(DANIEL, ELLE), model.getFilteredLocationList());
+    }
+
+    @Test
+    public void execute_substringMiddleMatch_locationFound() {
+        // Substring in the middle of a word matches "Carl Kurz"
+        String expectedMessage = String.format(MESSAGE_LOCATIONS_LISTED_OVERVIEW, 1);
+        NameContainsKeywordsPredicate predicate = preparePredicate("ar");
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredLocationList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(CARL), model.getFilteredLocationList());
+    }
+
+    @Test
+    public void execute_multipleSubstringKeywords_multipleLocationsFound() {
+        // Multiple substring keywords with OR logic
+        String expectedMessage = String.format(MESSAGE_LOCATIONS_LISTED_OVERVIEW, 2);
+        NameContainsKeywordsPredicate predicate = preparePredicate("Mey Kun");
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredLocationList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ELLE, FIONA), model.getFilteredLocationList());
     }
 
     @Test

@@ -59,6 +59,33 @@ public class NameContainsKeywordsPredicateTest {
     }
 
     @Test
+    public void test_nameContainsSubstringKeywords_returnsTrue() {
+        // Substring at start of word
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Ali"));
+        assertTrue(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
+
+        // Substring in middle of word
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("lic"));
+        assertTrue(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
+
+        // Substring at end of word
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("ice"));
+        assertTrue(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
+
+        // Substring matching across multiple names
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Han"));
+        assertTrue(predicate.test(new LocationBuilder().withName("Hans Gruber").build()));
+
+        // Multiple substring keywords (OR logic)
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Jo", "Dav"));
+        assertTrue(predicate.test(new LocationBuilder().withName("John Smith").build()));
+
+        // Substring with mixed case
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("aLiC"));
+        assertTrue(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
+    }
+
+    @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.emptyList());
@@ -72,6 +99,14 @@ public class NameContainsKeywordsPredicateTest {
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"));
         assertFalse(predicate.test(new LocationBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
+
+        // Substring not found
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Xyz"));
+        assertFalse(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
+
+        // Partial substring that doesn't exist
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("allice"));
+        assertFalse(predicate.test(new LocationBuilder().withName("Alice Bob").build()));
     }
 
     @Test

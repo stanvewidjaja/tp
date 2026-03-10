@@ -112,21 +112,24 @@ Examples:
 
 ### Locating locations by name: `find`
 
-Finds locations whose names contain any of the given keywords.
+Finds locations whose names contain any of the given keywords using substring matching.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive. e.g `thai` will match `Thai Pavilion`
+* The order of the keywords does not matter. e.g. `Restaurant Marina` will match `Marina Restaurant`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* **Substring matching is supported** e.g. `Han` will match `Hanjin Hotel`, `Jo` will match `John's Brewery`, `ast` will match `Castle Museum`
 * Locations matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+  e.g. `Ramen Cafe` will return `Ramen House`, `Cafe Mocha`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find Restaurant` returns all locations with "Restaurant" in the name
+* `find Han` returns `Hanjin Hotel`, `Hana Sushi` (substring prefix match)
+* `find otel` returns all locations with "otel" such as `Hotel Marina`, `Motel Inn` (substring middle match)
+* `find Marina Beach` returns `Marina Park`, `Beach Resort`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find Ramen` returns all ramen restaurants (substring matching without requiring full word)
 
 ### Deleting a location : `delete`
 
