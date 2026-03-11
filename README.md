@@ -22,10 +22,10 @@ Add contacts, places of interest, restaurants and accommodation; as a bonus, org
 ***
 
 - Add/edit/delete places
-- Improved search with substring matching
-  - Find destinations by partial name matching (e.g., `find Jo` matches `John`)
+- Intelligent search with substring matching
+  - Find destinations by partial name matching (e.g., `find Jo` matches `João's Restaurant`)
   - Case-insensitive search for convenience
-  - Support for multiple search keywords with OR logic
+  - Multiple search keywords with OR logic (e.g., `find Ramen Pizza` returns all ramen and pizza restaurants)
 - Shortcuts and accessibility
   - Help and examples for first-time users
   - Confirmation for deletions, and an undo button

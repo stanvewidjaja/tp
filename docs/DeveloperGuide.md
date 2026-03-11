@@ -243,11 +243,11 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
-### Updated Find Command
+### Substring Matching in Find Command
 
 #### Implementation
 
-The substring matching feature for the `find` command enables users to search for persons by matching any substring of their name, rather than requiring full word matches.
+The substring matching feature for the `find` command enables users to search for locations by matching any substring of their name, rather than requiring full word matches.
 
 **Design Overview:**
 
@@ -259,13 +259,14 @@ The implementation involves three key components:
    * Validates input (null checks, empty string checks)
 
 2. **NameContainsKeywordsPredicate** - Filtering logic at the model layer
+   * Located in `seedu.address.model.location` package (works with `Location` objects)
    * Modified `test()` method to use `containsSubstringIgnoreCase()` instead of `containsWordIgnoreCase()`
-   * Maintains OR search logic: multiple keywords return matching persons if ANY keyword matches
+   * Maintains OR search logic: multiple keywords return matching locations if ANY keyword matches
    * Each keyword can now be a substring
 
 3. **FindCommand** - Command execution layer
    * No changes needed; works seamlessly with the updated predicate
-   * Reports filtered results to the UI through the model
+   * Reports filtered results to the UI through the model's filtered location list
 
 **Sequence Flow:**
 
@@ -274,13 +275,13 @@ User Input: "find Jo"
     ↓
 FindCommandParser → Creates FindCommand with NameContainsKeywordsPredicate(["Jo"])
     ↓
-FindCommand.execute() → Calls Model.updateFilteredPersonList(predicate)
+FindCommand.execute() → Calls Model.updateFilteredLocationList(predicate)
     ↓
-NameContainsKeywordsPredicate.test(person) → For each person, checks:
-    - containsSubstringIgnoreCase("John Doe", "Jo") → true
-    - containsSubstringIgnoreCase("Jane Smith", "Jo") → false
+NameContainsKeywordsPredicate.test(location) → For each location, checks:
+    - containsSubstringIgnoreCase("John Restaurant", "Jo") → true ✓
+    - containsSubstringIgnoreCase("Jane Cafe", "Jo") → false ✗
     ↓
-Result: "John Doe" is included in filtered list
+Result: "John Restaurant" is included in filtered list
 ```
 
 **Key Changes:**
@@ -288,17 +289,17 @@ Result: "John Doe" is included in filtered list
 | Component | Old Behavior | New Behavior |
 |-----------|-------------|-------------|
 | `StringUtil` | `containsWordIgnoreCase()` only (full word match) | Added `containsSubstringIgnoreCase()` (substring match) |
-| `NameContainsKeywordsPredicate` | Uses `containsWordIgnoreCase()` | Uses `containsSubstringIgnoreCase()` |
-| Find Command | `find Han` does not match `Hans` | `find Han` matches `Hans` |
+| `NameContainsKeywordsPredicate` | Uses `containsWordIgnoreCase()` with `Person` | Uses `containsSubstringIgnoreCase()` with `Location` |
+| Find Command | `find Hans` ❌ matches partial name | `find Han` ✓ matches `Hans Restaurant` |
 
 #### Design Considerations:
 
 **Aspect: Substring vs. Full Word Matching**
 
 * **Alternative 1 (current choice):** Substring matching (case-insensitive)
-  * Pros: More flexible search; users can find names with partial input (e.g., "Jo" matches "John", "Johnny", "Johanna")
+  * Pros: More flexible search; users can find locations with partial input (e.g., "Jo" matches "John's Restaurant", "Johan's Cafe", "Joust Arena")
   * Pros: Simple to implement using `String.contains()`
-  * Cons: May return more results than user expects (e.g., "e" matches many names)
+  * Cons: May return more results than user expects (e.g., "e" matches many location names)
 
 * **Alternative 2:** Full word matching only (previous implementation)
   * Pros: More precise results; reduces false positives
@@ -312,10 +313,10 @@ Result: "John Doe" is included in filtered list
 
 **Aspect: Search Scope**
 
-* **Current choice:** Search only in person names
+* **Current choice:** Search only in location names
   * Pros: Focused search; reduces noise
-  * Cons: Cannot search by address, phone, email, etc.
-  * Future enhancement: Support for multi-field search
+  * Cons: Cannot search by address, phone, email, tags, etc.
+  * Future enhancement: Support for multi-field search (e.g., find by category tags, address, or distance)
 
 #### Testing Strategy:
 
@@ -334,7 +335,8 @@ Comprehensive test coverage includes:
 3. **Integration Tests** (`FindCommandTest`, `FindCommandParserTest`):
    - End-to-end find command execution
    - Parser correctly handles substring keywords
-   - Multiple persons matching different keywords
+   - Multiple locations matching different keywords
+   - Test data includes typical locations (e.g., restaurants, attractions, hotels)
 
 
 --------------------------------------------------------------------------------------------------------------------
