@@ -34,9 +34,6 @@ public class CliHistory {
      * @return the String before the current point in history, can be empty
      */
     public String getPrevious() {
-        System.out.println(history);
-        System.out.println(indexPointer);
-
         // no history yet
         if (history.isEmpty()) {
             return "";
