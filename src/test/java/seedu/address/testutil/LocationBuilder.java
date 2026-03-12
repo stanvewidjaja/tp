@@ -8,6 +8,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -20,11 +21,13 @@ public class LocationBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_VISIT_DATE = "2026-03-12";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
+    private VisitDate visitDate;
     private Set<Tag> tags;
 
     /**
@@ -35,6 +38,7 @@ public class LocationBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        visitDate = new VisitDate(DEFAULT_VISIT_DATE);
         tags = new HashSet<>();
     }
 
@@ -46,6 +50,7 @@ public class LocationBuilder {
         phone = locationToCopy.getPhone();
         email = locationToCopy.getEmail();
         address = locationToCopy.getAddress();
+        visitDate = locationToCopy.getVisitDate();
         tags = new HashSet<>(locationToCopy.getTags());
     }
 
@@ -89,8 +94,16 @@ public class LocationBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code VisitDate} of the {@code Location} that we are building.
+     */
+    public LocationBuilder withVisitDate(String visitDate) {
+        this.visitDate = new VisitDate(visitDate);
+        return this;
+    }
+
     public Location build() {
-        return new Location(name, phone, email, address, tags);
+        return new Location(name, phone, email, address, visitDate, tags);
     }
 
 }

@@ -10,6 +10,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -68,6 +69,14 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Address} of the {@code EditLocationDescriptor} that we are building.
+     */
+    public EditLocationDescriptorBuilder withVisitDate(String visitDate) {
+        descriptor.setVisitDate(new VisitDate(visitDate));
         return this;
     }
 

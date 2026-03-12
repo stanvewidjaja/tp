@@ -9,6 +9,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DATE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,10 @@ public class EditLocationDescriptorTest {
         editedAmy = new EditLocationDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
+        // different visit date -> returns false
+        editedAmy = new EditLocationDescriptorBuilder(DESC_AMY).withVisitDate(VALID_DATE_BOB).build();
+        assertFalse(DESC_AMY.equals(editedAmy));
+
         // different tags -> returns false
         editedAmy = new EditLocationDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
@@ -64,7 +69,8 @@ public class EditLocationDescriptorTest {
                 + editLocationDescriptor.getName().orElse(null) + ", phone="
                 + editLocationDescriptor.getPhone().orElse(null) + ", email="
                 + editLocationDescriptor.getEmail().orElse(null) + ", address="
-                + editLocationDescriptor.getAddress().orElse(null) + ", tags="
+                + editLocationDescriptor.getAddress().orElse(null) + ", visitDate="
+                + editLocationDescriptor.getVisitDate().orElse(null) + ", tags="
                 + editLocationDescriptor.getTags().orElse(null) + "}";
         assertEquals(expected, editLocationDescriptor.toString());
     }

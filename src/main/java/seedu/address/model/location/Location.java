@@ -23,17 +23,19 @@ public class Location {
 
     // Data fields
     private final Address address;
+    private final VisitDate visitDate;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Location(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Location(Name name, Phone phone, Email email, Address address, VisitDate visitDate, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, visitDate, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.visitDate = visitDate;
         this.tags.addAll(tags);
     }
 
@@ -51,6 +53,10 @@ public class Location {
 
     public Address getAddress() {
         return address;
+    }
+
+    public VisitDate getVisitDate() {
+        return visitDate;
     }
 
     /**
@@ -94,13 +100,14 @@ public class Location {
                 && phone.equals(otherLocation.phone)
                 && email.equals(otherLocation.email)
                 && address.equals(otherLocation.address)
+                && visitDate.equals(otherLocation.visitDate)
                 && tags.equals(otherLocation.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, visitDate, tags);
     }
 
     @Override
@@ -110,6 +117,7 @@ public class Location {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
+                .add("visitDate", visitDate)
                 .add("tags", tags)
                 .toString();
     }

@@ -15,6 +15,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -28,6 +29,7 @@ class JsonAdaptedLocation {
     private final String phone;
     private final String email;
     private final String address;
+    private final String visitDate;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -36,11 +38,13 @@ class JsonAdaptedLocation {
     @JsonCreator
     public JsonAdaptedLocation(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
+            @JsonProperty("visitDate") String visitDate,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.visitDate = visitDate;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -54,6 +58,7 @@ class JsonAdaptedLocation {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
+        visitDate = source.getVisitDate().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -102,8 +107,16 @@ class JsonAdaptedLocation {
         }
         final Address modelAddress = new Address(address);
 
+        if (visitDate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, VisitDate.class.getSimpleName()));
+        }
+        if (!VisitDate.isValidVisitDate(visitDate)) {
+            throw new IllegalValueException(VisitDate.MESSAGE_CONSTRAINTS);
+        }
+        final VisitDate modelVisitDate = new VisitDate(visitDate);
+
         final Set<Tag> modelTags = new HashSet<>(locationTags);
-        return new Location(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Location(modelName, modelPhone, modelEmail, modelAddress, modelVisitDate, modelTags);
     }
 
 }

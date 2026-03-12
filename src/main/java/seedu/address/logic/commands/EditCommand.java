@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_LOCATIONS;
 
@@ -26,6 +27,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -43,6 +45,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_DATE + "DATE]"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -100,9 +103,10 @@ public class EditCommand extends Command {
         Phone updatedPhone = editLocationDescriptor.getPhone().orElse(locationToEdit.getPhone());
         Email updatedEmail = editLocationDescriptor.getEmail().orElse(locationToEdit.getEmail());
         Address updatedAddress = editLocationDescriptor.getAddress().orElse(locationToEdit.getAddress());
+        VisitDate updatedVisitDate = editLocationDescriptor.getVisitDate().orElse(locationToEdit.getVisitDate());
         Set<Tag> updatedTags = editLocationDescriptor.getTags().orElse(locationToEdit.getTags());
 
-        return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Location(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedVisitDate, updatedTags);
     }
 
     @Override
@@ -138,6 +142,7 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
+        private VisitDate visitDate;
         private Set<Tag> tags;
 
         public EditLocationDescriptor() {}
@@ -151,6 +156,7 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setVisitDate(toCopy.visitDate);
             setTags(toCopy.tags);
         }
 
@@ -158,7 +164,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, visitDate, tags);
         }
 
         public void setName(Name name) {
@@ -191,6 +197,14 @@ public class EditCommand extends Command {
 
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
+        }
+
+        public void setVisitDate(VisitDate visitDate) {
+            this.visitDate = visitDate;
+        }
+
+        public Optional<VisitDate> getVisitDate() {
+            return Optional.ofNullable(visitDate);
         }
 
         /**
@@ -226,6 +240,7 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditLocationDescriptor.phone)
                     && Objects.equals(email, otherEditLocationDescriptor.email)
                     && Objects.equals(address, otherEditLocationDescriptor.address)
+                    && Objects.equals(visitDate, otherEditLocationDescriptor.visitDate)
                     && Objects.equals(tags, otherEditLocationDescriptor.tags);
         }
 
@@ -236,6 +251,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("visitDate", visitDate)
                     .add("tags", tags)
                     .toString();
         }
