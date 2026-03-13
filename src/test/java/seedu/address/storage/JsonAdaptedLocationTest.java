@@ -44,7 +44,8 @@ public class JsonAdaptedLocationTest {
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedLocation location =
-                new JsonAdaptedLocation(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_VISIT_DATE, VALID_TAGS);
+                new JsonAdaptedLocation(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_VISIT_DATE, VALID_TAGS);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, location::toModelType);
     }
@@ -60,7 +61,8 @@ public class JsonAdaptedLocationTest {
     @Test
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedLocation location =
-                new JsonAdaptedLocation(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_VISIT_DATE, VALID_TAGS);
+                new JsonAdaptedLocation(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        VALID_VISIT_DATE, VALID_TAGS);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, location::toModelType);
     }
@@ -76,7 +78,8 @@ public class JsonAdaptedLocationTest {
     @Test
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedLocation location =
-                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_VISIT_DATE, VALID_TAGS);
+                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS,
+                        VALID_VISIT_DATE, VALID_TAGS);
         String expectedMessage = Email.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, location::toModelType);
     }
@@ -92,7 +95,8 @@ public class JsonAdaptedLocationTest {
     @Test
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedLocation location =
-                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_VISIT_DATE, VALID_TAGS);
+                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS,
+                        VALID_VISIT_DATE, VALID_TAGS);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, location::toModelType);
     }
@@ -128,7 +132,8 @@ public class JsonAdaptedLocationTest {
         List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedLocation location =
-                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_VISIT_DATE, invalidTags);
+                new JsonAdaptedLocation(VALID_NAME, VALID_PHONE, VALID_EMAIL,
+                        VALID_ADDRESS, VALID_VISIT_DATE, invalidTags);
         assertThrows(IllegalValueException.class, location::toModelType);
     }
 
