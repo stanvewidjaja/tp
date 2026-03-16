@@ -74,7 +74,7 @@ public class EditLocationDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Address} of the {@code EditLocationDescriptor} that we are building.
+     * Sets the {@code VisitDate} of the {@code EditLocationDescriptor} that we are building.
      */
     public EditLocationDescriptorBuilder withVisitDate(String visitDate) {
         descriptor.setVisitDate(new VisitDate(visitDate));
