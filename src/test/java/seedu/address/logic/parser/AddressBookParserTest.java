@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_LOCATION;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_LOCATION;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.location.CombinedLocationPredicate;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.NameContainsKeywordsPredicate;
 import seedu.address.testutil.EditLocationDescriptorBuilder;
@@ -80,7 +82,8 @@ public class AddressBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+        assertEquals(new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
+                new NameContainsKeywordsPredicate(keywords)))), command);
     }
 
     @Test
