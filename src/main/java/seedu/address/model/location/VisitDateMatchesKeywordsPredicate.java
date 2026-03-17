@@ -1,22 +1,23 @@
 package seedu.address.model.location;
 
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
- * Tests that a {@code Location}'s {@code VisitDate} matches the keyword given.
+ * Tests that a {@code Location}'s {@code VisitDate} matches the date given.
  */
 public class VisitDateMatchesKeywordsPredicate implements Predicate<Location> {
-    private final String keyword;
+    private final LocalDate date;
 
-    public VisitDateMatchesKeywordsPredicate(String keyword) {
-        this.keyword = keyword;
+    public VisitDateMatchesKeywordsPredicate(LocalDate date) {
+        this.date = date;
     }
 
     @Override
     public boolean test(Location location) {
-        return location.getVisitDate().toString().equals(keyword);
+        return location.getVisitDate().getValue().equals(date);
     }
 
     @Override
@@ -31,11 +32,11 @@ public class VisitDateMatchesKeywordsPredicate implements Predicate<Location> {
         }
 
         VisitDateMatchesKeywordsPredicate otherPredicate = (VisitDateMatchesKeywordsPredicate) other;
-        return keyword.equals(otherPredicate.keyword);
+        return date.equals(otherPredicate.date);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("keyword", keyword).toString();
+        return new ToStringBuilder(this).add("date", date).toString();
     }
 }

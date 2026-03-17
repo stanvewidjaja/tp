@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.AddressContainsKeywordsPredicate;
@@ -54,7 +55,11 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         // 4. Parse Dates (AND logic)
         for (String dateKeyword : argMultimap.getAllValues(PREFIX_DATE)) {
-            predicates.add(new VisitDateMatchesKeywordsPredicate(dateKeyword));
+            try {
+                predicates.add(new VisitDateMatchesKeywordsPredicate(DateParser.parse(dateKeyword)));
+            } catch (IllegalValueException e) {
+                throw new ParseException(e.getMessage());
+            }
         }
 
         if (predicates.isEmpty()) {

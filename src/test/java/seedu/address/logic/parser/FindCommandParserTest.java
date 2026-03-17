@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -58,8 +59,11 @@ public class FindCommandParserTest {
         // Date prefix
         expectedFindCommand =
                 new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
-                        new VisitDateMatchesKeywordsPredicate("2024-01-15"))));
+                        new VisitDateMatchesKeywordsPredicate(LocalDate.parse("2024-01-15")))));
         assertParseSuccess(parser, " " + PREFIX_DATE + "2024-01-15", expectedFindCommand);
+
+        // Different date format (e.g., dd/MM/yyyy)
+        assertParseSuccess(parser, " " + PREFIX_DATE + "15/01/2024", expectedFindCommand);
 
         // Combined prefixes (AND logic)
         expectedFindCommand =
