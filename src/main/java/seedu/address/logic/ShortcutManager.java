@@ -63,9 +63,14 @@ public class ShortcutManager {
             return userInput;
         }
 
-        String firstToken = normalizeToken(matcher.group("firstToken"));
+        String originalFirstToken = matcher.group("firstToken");
+        String normalizedFirstToken = normalizeToken(originalFirstToken);
         String remainder = matcher.group("remainder");
-        String expandedToken = model.getShortcutMap().getOrDefault(firstToken, firstToken);
+        String expandedToken = model.getShortcutMap().get(normalizedFirstToken);
+        if (expandedToken == null) {
+            // No shortcut mapping; return the original (trimmed) input unchanged.
+            return trimmedInput;
+        }
         return expandedToken + remainder;
     }
 

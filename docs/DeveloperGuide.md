@@ -451,7 +451,7 @@ Use case ends.
 **Extensions**
 
 **2a. The alias violates validation constraints.**  
-(e.g. contains illegal characters, exceeds length limits, matches a reserved keyword, or conflicts with an existing alias)  
+(e.g. contains illegal characters, matches a reserved keyword, or conflicts with an existing alias)  
 2a1. AddressMe rejects the request and shows an appropriate error message.  
 Use case ends.
 

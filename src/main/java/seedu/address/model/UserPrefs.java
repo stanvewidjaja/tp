@@ -63,7 +63,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     @Override
     public Map<String, String> getShortcutMap() {
-        return Collections.unmodifiableMap(new LinkedHashMap<>(shortcutMap));
+        return Collections.unmodifiableMap(shortcutMap);
     }
 
     public void setShortcutMap(Map<String, String> shortcutMap) {
