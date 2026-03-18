@@ -32,6 +32,7 @@ public class ShortcutManagerTest {
     @Test
     public void expandShortcut_noShortcut_returnsOriginalCommand() {
         assertEquals("list", shortcutManager.expandShortcut("list"));
+        assertEquals("Add n/A", shortcutManager.expandShortcut("Add n/A"));
     }
 
     @Test

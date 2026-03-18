@@ -55,4 +55,12 @@ public class ShortcutCommandTest {
         ShortcutCommand command = new ShortcutCommand(ShortcutCommand.Action.SET, "a", "edit");
         assertCommandFailure(command, model, String.format(ShortcutManager.MESSAGE_ALIAS_EXISTS, "a"));
     }
+
+    @Test
+    public void execute_setUnknownCommand_throwsCommandException() {
+        Model model = new ModelManager();
+
+        ShortcutCommand command = new ShortcutCommand(ShortcutCommand.Action.SET, "a", "unknown_command");
+        assertCommandFailure(command, model, ShortcutManager.MESSAGE_INVALID_COMMAND_WORD);
+    }
 }
