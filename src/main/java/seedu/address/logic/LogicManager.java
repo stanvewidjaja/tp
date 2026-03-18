@@ -75,6 +75,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public ObservableList<Location> getPlannerLocationList() {
+        return model.getPlannerLocationList();
+    }
+
+    @Override
     public Path getAddressBookFilePath() {
         return model.getAddressBookFilePath();
     }

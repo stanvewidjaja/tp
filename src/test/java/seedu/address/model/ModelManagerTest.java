@@ -94,6 +94,11 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void getPlannerLocationList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getPlannerLocationList().remove(0));
+    }
+
+    @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withLocation(ALICE).withLocation(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();

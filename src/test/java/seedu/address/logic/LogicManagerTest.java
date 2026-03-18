@@ -88,6 +88,11 @@ public class LogicManagerTest {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredLocationList().remove(0));
     }
 
+    @Test
+    public void getPlannerLocationList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> logic.getPlannerLocationList().remove(0));
+    }
+
     /**
      * Executes the command and confirms that
      * - no exceptions are thrown <br>

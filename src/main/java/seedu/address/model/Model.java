@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -83,9 +84,18 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered location list */
     ObservableList<Location> getFilteredLocationList();
 
+    /** Returns an unmodifiable view of the planner location list */
+    ObservableList<Location> getPlannerLocationList();
+
     /**
      * Updates the filter of the filtered location list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredLocationList(Predicate<Location> predicate);
+
+    /**
+     * Updates the planner list to filter by the given {@code daate}.
+     * clears the list if {@code date} is null.
+     */
+    void updatePlannerLocationList(LocalDate date);
 }

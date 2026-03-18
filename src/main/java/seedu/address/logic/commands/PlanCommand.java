@@ -36,13 +36,15 @@ public class PlanCommand extends Command {
         this.date = date;
     }
 
+    /* TODO: Revisit */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+
+        model.updatePlannerLocationList(this.date);
+
         return new CommandResult(generateSuccessMessage(date != null));
         /*
-        model.updatePlannerLocationList(PREDICATE_SHOW_ALL_LOCATIONS);
-
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {

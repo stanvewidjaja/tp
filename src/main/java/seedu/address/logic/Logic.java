@@ -33,6 +33,9 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of locations */
     ObservableList<Location> getFilteredLocationList();
 
+    /** Returns an unmodifiable view of the locations to be displayed in the planner */
+    ObservableList<Location> getPlannerLocationList();
+
     /**
      * Returns the user prefs' address book file path.
      */

@@ -125,6 +125,7 @@ public class ModelManager implements Model {
         return filteredLocations;
     }
 
+    @Override
     public ObservableList<Location> getPlannerLocationList() {
         return plannerLocations;
     }
@@ -139,9 +140,13 @@ public class ModelManager implements Model {
      * TODO: Updates planner list to show locations with a specific date
      * @param date LocalDate to find
      */
+    @Override
     public void updatePlannerLocationList(LocalDate date) {
-        requireNonNull(date);
-        plannerLocations.setPredicate(location -> location.getVisitDate().getValue().equals(date));
+        if (date == null) {
+            plannerLocations.setPredicate(PREDICATE_HIDE_ALL_LOCATIONS);
+        } else {
+            plannerLocations.setPredicate(location -> location.getVisitDate().getValue().equals(date));
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalLocations.ALICE;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -167,7 +168,17 @@ public class AddCommandTest {
         }
 
         @Override
+        public ObservableList<Location> getPlannerLocationList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void updateFilteredLocationList(Predicate<Location> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updatePlannerLocationList(LocalDate date) {
             throw new AssertionError("This method should not be called.");
         }
     }
