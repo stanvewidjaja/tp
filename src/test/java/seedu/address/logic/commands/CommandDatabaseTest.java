@@ -29,6 +29,7 @@ public class CommandDatabaseTest {
         assertEquals("clear", commandDatabase.completePrefix("cl"));
         assertEquals("delete", commandDatabase.completePrefix("del"));
         assertEquals("help", commandDatabase.completePrefix("he"));
+        assertEquals("shortcut", commandDatabase.completePrefix("sh"));
     }
 
     // Test multiple prefix matches (longest common prefix)
