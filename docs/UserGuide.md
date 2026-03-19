@@ -100,6 +100,29 @@ Shows a list of all locations in the address book.
 
 Format: `list`
 
+### Managing command shortcuts : `shortcut`
+
+Creates, removes, and lists shortcuts for existing command words.
+
+Format: 
+```
+shortcut set ALIAS COMMAND_WORD
+shortcut remove ALIAS
+shortcut list
+```
+
+* Only the first token of user input is expanded.
+* Aliases are case-insensitive and are stored in lowercase.
+* Aliases must start with a letter and contain only alphanumeric characters.
+* Aliases cannot reuse existing command words such as `add` or `list`.
+* `COMMAND_WORD` must be an existing built-in command word.
+
+Examples:
+* `shortcut set a add`     Creates alias 'a' for 'add'
+* `shortcut set e edit`    Creates alias 'e' for 'edit'
+* `shortcut list`          Lists all defined shortcuts
+* `shortcut remove e`      Removes alias 'e'
+
 ### Editing a location : `edit`
 
 Edits an existing location in the address book.
@@ -227,3 +250,4 @@ Action | Format, Examples
 **Find** | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG] [d/DATE]`<br> e.g., `find n/Cafe t/Halal`
 **List** | `list`
 **Help** | `help`
+**Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`

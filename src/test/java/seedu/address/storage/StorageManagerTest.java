@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.testutil.TypicalLocations.getTypicalAddressBook;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,7 @@ public class StorageManagerTest {
          */
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
+        original.setShortcutMap(Map.of("a", "add"));
         storageManager.saveUserPrefs(original);
         UserPrefs retrieved = storageManager.readUserPrefs().get();
         assertEquals(original, retrieved);

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -73,6 +74,29 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
+    }
+
+    @Override
+    public Map<String, String> getShortcutMap() {
+        return userPrefs.getShortcutMap();
+    }
+
+    @Override
+    public boolean hasShortcut(String alias) {
+        requireNonNull(alias);
+        return userPrefs.hasShortcut(alias);
+    }
+
+    @Override
+    public void setShortcut(String alias, String commandWord) {
+        requireAllNonNull(alias, commandWord);
+        userPrefs.setShortcut(alias, commandWord);
+    }
+
+    @Override
+    public void removeShortcut(String alias) {
+        requireNonNull(alias);
+        userPrefs.removeShortcut(alias);
     }
 
     //=========== AddressBook ================================================================================

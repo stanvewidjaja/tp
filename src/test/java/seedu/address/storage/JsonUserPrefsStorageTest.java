@@ -7,6 +7,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,14 @@ public class JsonUserPrefsStorageTest {
     public void readUserPrefs_fileInOrder_successfullyRead() throws DataLoadingException {
         UserPrefs expected = getTypicalUserPrefs();
         UserPrefs actual = readUserPrefs("TypicalUserPref.json").get();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void readUserPrefs_withShortcuts_successfullyRead() throws DataLoadingException {
+        UserPrefs expected = getTypicalUserPrefs();
+        expected.setShortcutMap(Map.of("a", "add", "e", "edit"));
+        UserPrefs actual = readUserPrefs("TypicalUserPrefWithShortcuts.json").get();
         assertEquals(expected, actual);
     }
 
@@ -104,6 +113,7 @@ public class JsonUserPrefsStorageTest {
 
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(1200, 200, 0, 2));
+        original.setShortcutMap(Map.of("a", "add"));
 
         Path pefsFilePath = testFolder.resolve("TempPrefs.json");
         JsonUserPrefsStorage jsonUserPrefsStorage = new JsonUserPrefsStorage(pefsFilePath);

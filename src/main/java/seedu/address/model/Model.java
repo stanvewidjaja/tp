@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -43,6 +44,26 @@ public interface Model {
      * Sets the user prefs' address book file path.
      */
     void setAddressBookFilePath(Path addressBookFilePath);
+
+    /**
+     * Returns an unmodifiable view of the user-defined shortcuts.
+     */
+    Map<String, String> getShortcutMap();
+
+    /**
+     * Returns true if a shortcut exists for {@code alias}.
+     */
+    boolean hasShortcut(String alias);
+
+    /**
+     * Adds or updates a shortcut.
+     */
+    void setShortcut(String alias, String commandWord);
+
+    /**
+     * Removes the shortcut associated with {@code alias}.
+     */
+    void removeShortcut(String alias);
 
     /**
      * Replaces address book data with the data in {@code addressBook}.
