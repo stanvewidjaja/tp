@@ -84,15 +84,15 @@ Format: `help`
 
 Adds a location to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DATE]… [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A location can have any number of tags (including 0)
+A location can have any number of visit dates or tags (including 0)
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 d/2026-01-01`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal d/2026-03-12 d/2026-04-12`
 
 ### Listing all locations : `list`
 
@@ -127,18 +127,20 @@ Examples:
 
 Edits an existing location in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`
 
 * Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the location will be removed i.e adding of tags is not cumulative.
-* You can remove all the location’s tags by typing `t/` without
-    specifying any tags after it.
+* When editing tags or visit dates using `t/` or `d/`, the existing tags/dates of the location will be removed i.e. adding is not cumulative.
+* You can add or remove individual tags or visit dates without affecting others using `t+/`, `t-/`, `d+/`, or `d-/`.
+* You cannot mix `t/` with `t+/` or `t-/` for the same command. Similarly, `d/` cannot be mixed with `d+/` or `d-/`.
+* You can remove all the location’s tags or visit dates by typing `t/` or `d/` without specifying any values after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st location to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd location to be `Betsy Crower` and clears all existing tags.
+*  `edit 2 n/Betsy Crower t/ d+/2026-01-01` Edits the name of the 2nd location to be `Betsy Crower`, clears all existing tags, and adds a visit date of `2026-01-01`.
+*  `edit 1 d-/2025-12-25` Removes the visit date `2025-12-25` from the 1st location.
 
 ### Locating locations by name or other attributes: `find`
 
@@ -152,13 +154,16 @@ Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]
 * Multiple prefixes (and multiple occurrences of the same prefix) can be used to narrow down the search using AND semantics. e.g., `n/Bakery t/Halal t/Vegetarian` will find locations that have "Bakery" in their name AND have both the "Halal" and "Vegetarian" tags.
 * Only the unprefixed name keywords use OR semantics: a location matches if its name contains at least one of those keywords. e.g., `find Ramen Cafe` will return `Ramen House`, `Cafe Mocha`.
 * Each prefixed value (`n/`, `p/`, `e/`, `a/`, `t/`, `d/`) is treated as a single search string, even if it contains spaces (no further splitting into keywords is done).
-* **Date search** (`d/`) accepts any date format or keyword supported by AddressMe’s date parser (including formats like `YYYY-MM-DD` and `DD/MM/YYYY`, e.g. `15/01/2024`) and matches the last visit date exactly (no range or partial matching).
+* **Date search** (`d/`) accepts any date format or keyword supported by AddressMe’s date parser (including formats like `YYYY-MM-DD` and `DD/MM/YYYY`, e.g. `15/01/2024`).
+* Since a location can have multiple visit dates, a location matches the search if **any** of its visit dates match the given date.
+* Using multiple `d/` prefixes will find locations that have **all** of the specified visit dates (AND logic).
 
 Examples:
 * `find Restaurant` returns all locations with "Restaurant" in the name.
 * `find n/Hanjin p/9123` returns locations with "Hanjin" in the name AND "9123" in the phone number.
 * `find t/Japanese t/Halal` returns locations that have BOTH "Japanese" AND "Halal" tags.
-* `find d/2023-10-15` returns locations last visited on 15th Oct 2023.
+* `find d/2023-10-15` returns locations visited on 15th Oct 2023.
+* `find d/2023-10-15 d/2023-11-20` returns locations visited on BOTH 15th Oct 2023 AND 20th Nov 2023.
 * `find Marina Beach` returns `Marina Park`, `Beach Resort` (OR search for names).
 * `find n/Cafe e/gmail.com` returns all cafes with a Gmail address.
 
@@ -256,11 +261,11 @@ E.g. `A` autocompletes into `add`, while `e` autocompletes to `e`, since both `e
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DATE]… [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/2026-01-01 t/friend t/colleague`
 **Clear** | `clear`
 **Delete** | `delete INDEX [MORE_INDEXES]...`<br> e.g., `delete 3` or `delete 1 2 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG] [d/DATE]`<br> e.g., `find n/Cafe t/Halal`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d+/2026-02-01`
+**Find** | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`<br> e.g., `find n/Cafe t/Halal d/2026-01-01`
 **List** | `list`
 **Help** | `help`
 **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`

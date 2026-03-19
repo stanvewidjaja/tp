@@ -101,6 +101,14 @@ public class LocationBuilder {
         return this;
     }
 
+    /**
+     * Sets a single {@code VisitDate} of the {@code Location} that we are building.
+     * Convenience wrapper for compatibility.
+     */
+    public LocationBuilder withVisitDate(String visitDate) {
+        return withVisitDates(visitDate);
+    }
+
     public Location build() {
         return new Location(name, phone, email, address, visitDates, tags);
     }

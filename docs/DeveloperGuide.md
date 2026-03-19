@@ -338,6 +338,38 @@ Comprehensive test coverage includes:
    - Multiple locations matching different keywords
    - Test data includes typical locations (e.g., restaurants, attractions, hotels)
 
+### Multi-Date Support
+
+#### Implementation
+
+The multi-date support feature allows a `Location` to have multiple visit dates. This is useful for users who visit the same location multiple times.
+
+**Design Overview:**
+
+1. **Location Model**
+   - Changed `visitDate` field from a single `VisitDate` object to a `Set<VisitDate>`.
+   - Updated constructor and getters to handle the set of visit dates.
+
+2. **Predicate Logic**
+   - Updated `VisitDateMatchesKeywordsPredicate` to check if a given date is present in the `Set<VisitDate>` of a `Location`.
+   - The search follows AND logic for multiple date prefixes: a location must have **all** the specified dates to match.
+
+3. **Parser Support**
+   - Updated `AddCommandParser` and `EditCommandParser` to handle multiple `d/` prefixes.
+   - `EditCommand` now supports `d/` (overwrite all), `d+/` (add specific dates), and `d-/` (remove specific dates).
+
+4. **Storage Compatibility**
+   - Updated `JsonAdaptedLocation` to handle both the old single `visitDate` field and the new `visitDates` array in the JSON file.
+   - This ensures that users can upgrade to the new version without losing their existing data.
+
+**Key Changes:**
+
+| Component | Old Behavior | New Behavior |
+|-----------|-------------|-------------|
+| `Location` | Single `VisitDate` | `Set<VisitDate>` |
+| `FindCommand` | Matches single last visit date | Matches if ANY visit date matches the keyword |
+| `EditCommand` | Overwrites single visit date | Supports cumulative add/remove or overwrite |
+| `Storage` | Saves/loads `visitDate` | Saves/loads `visitDates` (with backward compatibility) |
 
 --------------------------------------------------------------------------------------------------------------------
 

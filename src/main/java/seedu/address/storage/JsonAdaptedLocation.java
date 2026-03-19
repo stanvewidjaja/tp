@@ -39,18 +39,30 @@ class JsonAdaptedLocation {
     @JsonCreator
     public JsonAdaptedLocation(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
+            @JsonProperty("visitDate") String visitDate,
             @JsonProperty("visitDates") List<String> visitDates,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        if (visitDate != null) {
+            this.visitDates.add(visitDate);
+        }
         if (visitDates != null) {
             this.visitDates.addAll(visitDates);
         }
         if (tags != null) {
             this.tags.addAll(tags);
         }
+    }
+
+    /**
+     * Constructs a {@code JsonAdaptedLocation} with the given location details.
+     */
+    public JsonAdaptedLocation(String name, String phone, String email, String address,
+                               List<String> visitDates, List<JsonAdaptedTag> tags) {
+        this(name, phone, email, address, null, visitDates, tags);
     }
 
     /**

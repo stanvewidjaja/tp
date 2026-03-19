@@ -19,6 +19,7 @@ Class Email
 Class Name
 Class Phone
 Class Tag
+Class VisitDate
 
 Class I #FFFFFF
 }
@@ -42,6 +43,7 @@ Location *--> Phone
 Location *--> Email
 Location *--> Address
 Location *--> "*" Tag
+Location *--> "*" VisitDate
 
 Location -[hidden]up--> I
 UniqueLocationList -[hidden]right-> I

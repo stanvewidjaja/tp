@@ -43,7 +43,9 @@ public class Messages {
                 .append(location.getEmail())
                 .append("; Address: ")
                 .append(location.getAddress())
-                .append("; Tags: ");
+                .append("; Visit Dates: ");
+        location.getVisitDates().forEach(vd -> builder.append("[" + vd + "]"));
+        builder.append("; Tags: ");
         location.getTags().forEach(builder::append);
         return builder.toString();
     }
