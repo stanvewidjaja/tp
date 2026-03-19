@@ -21,10 +21,16 @@ public class EditLocationDescriptorBuilder {
 
     private EditLocationDescriptor descriptor;
 
+    /**
+     * Creates a new {@code EditLocationDescriptorBuilder} with an empty descriptor.
+     */
     public EditLocationDescriptorBuilder() {
         descriptor = new EditLocationDescriptor();
     }
 
+    /**
+     * Creates a new {@code EditLocationDescriptorBuilder} with an empty descriptor.
+     */
     public EditLocationDescriptorBuilder(EditLocationDescriptor descriptor) {
         this.descriptor = new EditLocationDescriptor(descriptor);
     }
@@ -43,26 +49,41 @@ public class EditLocationDescriptorBuilder {
         descriptor.setTags(location.getTags());
     }
 
+    /**
+     * Sets the {@code Name} of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withName(String name) {
         descriptor.setName(new Name(name));
         return this;
     }
 
+    /**
+     * Sets the {@code Phone} of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withPhone(String phone) {
         descriptor.setPhone(new Phone(phone));
         return this;
     }
 
+    /**
+     * Sets the {@code Phone} of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withEmail(String email) {
         descriptor.setEmail(new Email(email));
         return this;
     }
 
+    /**
+     * Sets the {@code Email} of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
         return this;
     }
 
+    /**
+     * Sets the {@code Address} of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withPostalCode(String postalCode) {
         descriptor.setPostalCode(new PostalCode(postalCode));
         return this;
@@ -85,6 +106,9 @@ public class EditLocationDescriptorBuilder {
         return withVisitDates(visitDate);
     }
 
+    /**
+     * Sets the {@code Tag}s of the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet =
                 Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
@@ -92,6 +116,9 @@ public class EditLocationDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the visit dates to add to the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withVisitDatesToAdd(String... visitDates) {
         Set<VisitDate> visitDateSet =
                 Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
@@ -99,6 +126,9 @@ public class EditLocationDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the visit dates to remove from the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withVisitDatesToRemove(String... visitDates) {
         Set<VisitDate> visitDateSet =
                 Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
@@ -106,6 +136,9 @@ public class EditLocationDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the visit dates to remove from the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withTagsToAdd(String... tags) {
         Set<Tag> tagSet =
                 Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
@@ -113,6 +146,9 @@ public class EditLocationDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the tags to remove from the {@code EditLocationDescriptor} that we are building.
+     */
     public EditLocationDescriptorBuilder withTagsToRemove(String... tags) {
         Set<Tag> tagSet =
                 Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
@@ -120,6 +156,9 @@ public class EditLocationDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Returns the built {@code EditLocationDescriptor}.
+     */
     public EditLocationDescriptor build() {
         return descriptor;
     }

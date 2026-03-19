@@ -17,7 +17,9 @@ public class EmailContainsKeywordsPredicate implements Predicate<Location> {
 
     @Override
     public boolean test(Location location) {
-        return StringUtil.containsSubstringIgnoreCase(location.getEmail().value, keyword);
+        return location.getEmail()
+                .map(email -> StringUtil.containsSubstringIgnoreCase(email.value, keyword))
+                .orElse(false);
     }
 
     @Override

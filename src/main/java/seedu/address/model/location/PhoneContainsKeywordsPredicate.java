@@ -17,7 +17,9 @@ public class PhoneContainsKeywordsPredicate implements Predicate<Location> {
 
     @Override
     public boolean test(Location location) {
-        return StringUtil.containsSubstringIgnoreCase(location.getPhone().value, keyword);
+        return location.getPhone()
+                .map(phone -> StringUtil.containsSubstringIgnoreCase(phone.value, keyword))
+                .orElse(false);
     }
 
     @Override

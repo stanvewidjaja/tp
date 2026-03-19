@@ -17,7 +17,9 @@ public class AddressContainsKeywordsPredicate implements Predicate<Location> {
 
     @Override
     public boolean test(Location location) {
-        return StringUtil.containsSubstringIgnoreCase(location.getAddress().value, keyword);
+        return location.getAddress()
+                .map(address -> StringUtil.containsSubstringIgnoreCase(address.value, keyword))
+                .orElse(false);
     }
 
     @Override

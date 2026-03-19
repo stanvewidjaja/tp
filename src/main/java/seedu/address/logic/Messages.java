@@ -45,9 +45,15 @@ public class Messages {
                 .append(location.getAddress().map(address -> address.value).orElse("-"))
                 .append("; Postal Code: ")
                 .append(location.getPostalCode().map(postalCode -> postalCode.value).orElse("-"))
-                .append("; Visit Date: ")
-                .append(location.getVisitDate().map(Object::toString).orElse("-"))
-                .append("; Tags: ");
+                .append("; Visit Dates: ");
+
+        if (location.getVisitDates().isEmpty()) {
+            builder.append("-");
+        } else {
+            builder.append(location.getVisitDates());
+        }
+
+        builder.append("; Tags: ");
         location.getTags().forEach(builder::append);
         return builder.toString();
     }
