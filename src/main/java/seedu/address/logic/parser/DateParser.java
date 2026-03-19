@@ -15,15 +15,13 @@ import seedu.address.commons.exceptions.IllegalValueException;
  * Represents a static utility class that can convert between Strings and LocalDate
  */
 public class DateParser {
-    public static final String MESSAGE_WRONG_DATE_FORMAT = "Not a valid date! Try using a dd/mm/YYYY format.";
+    public static final String MESSAGE_WRONG_DATE_FORMAT = "Not a valid date! Try using these formats:\n"
+            + "yyyy-MM-dd, yyyy/MM/dd, d-M-yyyy, d/M/yyyy,\n"
+            + "d-M-yy, d/M/yy, d-M, d/M, day of the week (e.g. Thu or Thursday).";
 
     private static final List<DateTimeFormatter> DATE_FORMATTERS = List.of(
             DateTimeFormatter.ofPattern("yyyy-MM-dd"),
-            DateTimeFormatter.ofPattern("dd-MM-yyyy"),
             DateTimeFormatter.ofPattern("yyyy/MM/dd"),
-            DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-            DateTimeFormatter.ofPattern("dd/MM/yy"),
-            DateTimeFormatter.ofPattern("dd-MM-yy"),
             DateTimeFormatter.ofPattern("yyyy-M-d"),
             DateTimeFormatter.ofPattern("d-M-yyyy"),
             DateTimeFormatter.ofPattern("yyyy/M/d"),

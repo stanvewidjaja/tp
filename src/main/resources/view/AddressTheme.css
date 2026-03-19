@@ -109,7 +109,6 @@
 .list-view {
     -fx-background-insets: 0;
     -fx-padding: 0;
-    -fx-background-color: #eff6ff;
     -fx-border-color: #bae6fd;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
@@ -119,6 +118,12 @@
     -fx-label-padding: 0;
     -fx-graphic-text-gap: 0;
     -fx-padding: 0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.list-cell:empty {
+    -fx-background-color: transparent;
 }
 
 .list-cell:filled:even {
@@ -126,7 +131,7 @@
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #ecfeff;
+    -fx-background-color: #FBF4DB;
 }
 
 .list-cell:filled:selected {
@@ -136,7 +141,6 @@
 .list-cell:filled:selected #cardPane {
     -fx-border-color: #0ea5e9;
     -fx-border-width: 1.5;
-    -fx-background-color: rgba(255,255,255,0.7);
 }
 
 .list-cell .label {
@@ -339,7 +343,6 @@
 }
 
 #cardPane {
-    -fx-background-color: rgba(255, 255, 255, 0.85);
     -fx-border-width: 0;
     -fx-background-radius: 12;
     -fx-border-radius: 12;
@@ -366,7 +369,6 @@
 }
 
 #filterField,
-#locationListPanel,
 #locationWebpage {
     -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.18), 14, 0.2, 0, 2);
 }
@@ -376,6 +378,21 @@
     -fx-background-radius: 0;
 }
 
+#visitDates {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
+#visitDates .label {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, #0ea5e9, #14b8a6);
+    -fx-padding: 2 6 2 6;
+    -fx-border-radius: 999;
+    -fx-background-radius: 999;
+    -fx-font-size: 11;
+    -fx-font-family: "Consolas", monospace;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
@@ -383,7 +400,7 @@
 
 #tags .label {
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(to right, #0ea5e9, #14b8a6);
+    -fx-background-color: linear-gradient(to right, #ff1d68, #f2c447);
     -fx-padding: 2 6 2 6;
     -fx-border-radius: 999;
     -fx-background-radius: 999;

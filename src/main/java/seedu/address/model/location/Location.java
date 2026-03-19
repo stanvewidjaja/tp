@@ -2,6 +2,7 @@ package seedu.address.model.location;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -82,6 +83,13 @@ public class Location {
 
         return otherLocation != null
                 && otherLocation.getName().equals(getName());
+    }
+
+    /**
+     * Returns true if location is tagged with a specific date
+     */
+    public boolean occursOn(LocalDate date) {
+        return this.visitDates.stream().anyMatch(vd -> vd.isOn(date));
     }
 
     /**

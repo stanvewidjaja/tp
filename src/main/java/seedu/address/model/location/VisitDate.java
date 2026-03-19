@@ -4,7 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.DateParser;
 
 /**
  * Represents a Location's visit date in the address book.
@@ -12,8 +14,7 @@ import java.time.format.DateTimeParseException;
  */
 public class VisitDate {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Visit dates should be in the format YYYY-MM-DD, and it should be a valid date";
+    public static final String MESSAGE_CONSTRAINTS = DateParser.MESSAGE_WRONG_DATE_FORMAT;
 
     private final LocalDate value;
 
@@ -24,8 +25,13 @@ public class VisitDate {
      */
     public VisitDate(String visitDate) {
         requireNonNull(visitDate);
-        checkArgument(isValidVisitDate(visitDate), MESSAGE_CONSTRAINTS);
-        value = LocalDate.parse(visitDate);
+        checkArgument(isValidVisitDate(visitDate), VisitDate.MESSAGE_CONSTRAINTS);
+        try {
+            value = DateParser.parse(visitDate);
+        } catch (IllegalValueException e) {
+            // should not happen since date was checked above
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -34,15 +40,19 @@ public class VisitDate {
     public static boolean isValidVisitDate(String test) {
         requireNonNull(test);
         try {
-            LocalDate.parse(test);
+            DateParser.parse(test);
             return true;
-        } catch (DateTimeParseException e) {
+        } catch (IllegalValueException e) {
             return false;
         }
     }
 
     public LocalDate getValue() {
         return value;
+    }
+
+    public boolean isOn(LocalDate date) {
+        return this.value.equals(date);
     }
 
     @Override

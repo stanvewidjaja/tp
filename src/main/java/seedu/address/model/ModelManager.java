@@ -146,7 +146,7 @@ public class ModelManager implements Model {
         if (date == null) {
             plannerLocations.setPredicate(PREDICATE_HIDE_ALL_LOCATIONS);
         } else {
-            plannerLocations.setPredicate(location -> location.getVisitDate().getValue().equals(date));
+            plannerLocations.setPredicate(location -> location.occursOn(date));
         }
     }
 
