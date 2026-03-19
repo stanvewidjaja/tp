@@ -383,7 +383,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | student                    | handle my classwork that requires moving to mobile places                     | have a better plan without being confused about where to go next            |
 | `* *`    | user                       | add keywords/notes to specific addresses                                      | remember the details easily                                                 |
 | `* *`    | experienced user           | set shortcuts for my commands                                                 | use the app more efficiently                                                |
-| `* *`    | frequent user              | save shortcuts across restarts                                                | avoid recreating them every time I open the app                             |
 | `* *`    | user                       | mark my destinations with dates                                               | get an overview of the whole day                                            |
 | `* *`    | food explorer              | manage restaurant recommendations                                             | easily keep track of their addresses and opening hours                      |
 | `* *`    | food explorer              | group restaurant recommendations                                              | sort them out by preference/some other metric                               |
@@ -442,29 +441,20 @@ Use case ends.
 
 **MSS**
 
-1. User requests to create a shortcut for an existing command.
-2. AddressMe validates the shortcut and the referenced command.
-3. AddressMe saves the shortcut.
-4. AddressMe confirms that the shortcut has been created.  
-   Use case ends.
+1. User types a command to open a "shortcut" menu.
+2. AddressMe opens the shortcut menu with two input bars.
+3. User types a desired shortcut for a desired command (e.g., Command: `list t/restaurant`, Shortcut: `ls r`).
+4. User confirms the choice.
+5. AddressMe shows all shortcuts before prompting the user to exit the shortcut menu.
+6. User either goes back to add another shortcut or exits the menu.
+Use case ends.
 
 **Extensions**
 
-**2a. The alias violates validation constraints.**  
-(e.g. contains illegal characters, matches a reserved keyword, or conflicts with an existing alias)  
-2a1. AddressMe rejects the request and shows an appropriate error message.  
-Use case ends.
-
-
-**2b. The referenced command word is invalid.**  
-(e.g. command does not exist or is not eligible for aliasing)  
-2b1. AddressMe shows an error message indicating that the command is invalid.  
-Use case ends.
-
-
-**3a. Saving the shortcut fails due to a storage I/O error.**  
-3a1. AddressMe shows an error message and does not persist the shortcut.  
-Use case ends.
+* 3a. The command for the shortcut is invalid.
+* 3a1. When confirming the choice, AddressMe prompts the user that the command is invalid.
+* 3a2. AddressMe lets the user back to the menu with the invalid command.
+Use case resumes at step 3.
 
 ---
 

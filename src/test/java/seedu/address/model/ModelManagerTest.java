@@ -11,7 +11,6 @@ import static seedu.address.testutil.TypicalLocations.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +39,6 @@ public class ModelManagerTest {
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setAddressBookFilePath(Paths.get("address/book/file/path"));
         userPrefs.setGuiSettings(new GuiSettings(1, 2, 3, 4));
-        userPrefs.setShortcutMap(Map.of("a", "add"));
         modelManager.setUserPrefs(userPrefs);
         assertEquals(userPrefs, modelManager.getUserPrefs());
 
@@ -72,17 +70,6 @@ public class ModelManagerTest {
         Path path = Paths.get("address/book/file/path");
         modelManager.setAddressBookFilePath(path);
         assertEquals(path, modelManager.getAddressBookFilePath());
-    }
-
-    @Test
-    public void shortcutOperations_success() {
-        modelManager.setShortcut("a", "add");
-        assertTrue(modelManager.hasShortcut("a"));
-        assertEquals(Map.of("a", "add"), modelManager.getShortcutMap());
-
-        modelManager.removeShortcut("a");
-        assertFalse(modelManager.hasShortcut("a"));
-        assertTrue(modelManager.getShortcutMap().isEmpty());
     }
 
     @Test
