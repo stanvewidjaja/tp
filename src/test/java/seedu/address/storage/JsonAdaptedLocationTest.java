@@ -7,7 +7,6 @@ import static seedu.address.testutil.TypicalLocations.BOB;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.PostalCode;
 import seedu.address.model.location.VisitDate;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.LocationBuilder;
 
 public class JsonAdaptedLocationTest {

@@ -18,6 +18,8 @@ import seedu.address.model.location.Address;
 import seedu.address.model.location.Email;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
+import seedu.address.model.location.PostalCode;
+import seedu.address.model.location.VisitDate;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -146,6 +148,81 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parsePostalCode_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePostalCode(null));
+    }
+
+    @Test
+    public void parsePostalCode_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePostalCode("12 34")); // space invalid
+    }
+
+    @Test
+    public void parsePostalCode_validValueWithoutWhitespace_returnsPostalCode() throws Exception {
+        PostalCode expected = new PostalCode("530456");
+        assertEquals(expected, ParserUtil.parsePostalCode("530456"));
+    }
+
+    @Test
+    public void parsePostalCode_validValueWithWhitespace_returnsTrimmedPostalCode() throws Exception {
+        String input = "  530456  ";
+        PostalCode expected = new PostalCode("530456");
+        assertEquals(expected, ParserUtil.parsePostalCode(input));
+    }
+
+    @Test
+    public void parseVisitDate_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseVisitDate(null));
+    }
+
+    @Test
+    public void parseVisitDate_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseVisitDate("invalid-date"));
+    }
+
+    @Test
+    public void parseVisitDate_validValueWithoutWhitespace_returnsVisitDate() throws Exception {
+        VisitDate expected = new VisitDate("2026-01-01");
+        assertEquals(expected, ParserUtil.parseVisitDate("2026-01-01"));
+    }
+
+    @Test
+    public void parseVisitDate_validValueWithWhitespace_returnsTrimmedVisitDate() throws Exception {
+        String input = "  2026-01-01  ";
+        VisitDate expected = new VisitDate("2026-01-01");
+        assertEquals(expected, ParserUtil.parseVisitDate(input));
+    }
+
+    @Test
+    public void parseVisitDates_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseVisitDates(null));
+    }
+
+    @Test
+    public void parseVisitDates_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(ParserUtil.parseVisitDates(Collections.emptyList()).isEmpty());
+    }
+
+    @Test
+    public void parseVisitDates_collectionWithValidDates_returnsVisitDateSet() throws Exception {
+        Set<VisitDate> actual = ParserUtil.parseVisitDates(
+                Arrays.asList("2026-01-01", "2026-01-02"));
+
+        Set<VisitDate> expected = new HashSet<>(Arrays.asList(
+                new VisitDate("2026-01-01"),
+                new VisitDate("2026-01-02")
+        ));
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseVisitDates_collectionWithInvalidDate_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseVisitDates(Arrays.asList("2026-01-01", "invalid-date")));
     }
 
     @Test
