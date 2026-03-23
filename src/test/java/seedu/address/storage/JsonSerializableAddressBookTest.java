@@ -1,4 +1,3 @@
-/*
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,5 +45,47 @@ public class JsonSerializableAddressBookTest {
                 dataFromFile::toModelType);
     }
 
+    @Test
+    public void toModelType_locationWithMissingOptionalFields_success() throws Exception {
+        AddressBook addressBook = new AddressBook();
+
+        addressBook.addLocation(new seedu.address.testutil.LocationBuilder()
+                .withName("Simple Place")
+                .withoutPhone()
+                .withoutEmail()
+                .withoutAddress()
+                .withoutPostalCode()
+                .withoutVisitDates()
+                .withTags()
+                .build());
+
+        JsonSerializableAddressBook jsonAddressBook =
+                new JsonSerializableAddressBook(addressBook);
+
+        AddressBook converted = jsonAddressBook.toModelType();
+
+        assertEquals(addressBook, converted);
+    }
+
+    @Test
+    public void toModelType_locationWithPostalCodeAndVisitDates_success() throws Exception {
+        AddressBook addressBook = new AddressBook();
+
+        addressBook.addLocation(new seedu.address.testutil.LocationBuilder()
+                .withName("Museum")
+                .withPhone("61234567")
+                .withEmail("museum@example.com")
+                .withAddress("123 Street")
+                .withPostalCode("530456")
+                .withVisitDates("2026-01-01", "2026-01-05")
+                .withTags("history")
+                .build());
+
+        JsonSerializableAddressBook jsonAddressBook =
+                new JsonSerializableAddressBook(addressBook);
+
+        AddressBook converted = jsonAddressBook.toModelType();
+
+        assertEquals(addressBook, converted);
+    }
 }
-*/
