@@ -24,53 +24,53 @@ public class SampleDataUtil {
     @SuppressWarnings("checkstyle:Indentation")
     public static Location[] getSampleLocations() {
         return new Location[]{new Location(
-                        new Name("Alex Yeoh"),
-                        Optional.of(new Phone("87438807")),
-                        Optional.of(new Email("alexyeoh@example.com")),
-                        Optional.of(new Address("Blk 30 Geylang Street 29, #06-40")),
+                        new Name("Sunrise Cafe"),
+                        Optional.of(new Phone("67438807")),
+                        Optional.of(new Email("contact@sunrisecafe.com")),
+                        Optional.of(new Address("10 Morning Blvd, #01-01")),
                         Optional.of(new PostalCode("408615")),
                         getVisitDateSet("2026-03-12", "2026-04-12"),
-                        getTagSet("friends")
+                        getTagSet("cafe", "breakfast")
                 ), new Location(
-                        new Name("Bernice Yu"),
-                        Optional.of(new Phone("99272758")),
-                        Optional.of(new Email("berniceyu@example.com")),
-                        Optional.of(new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18")),
+                        new Name("HarbourBack Hotel"),
+                        Optional.of(new Phone("69272758")),
+                        Optional.of(new Email("stay@harbourbackhotel.com")),
+                        Optional.of(new Address("200 Marina Promenade, #28-01")),
                         Optional.of(new PostalCode("554530")),
                         getVisitDateSet("2026-03-18"),
-                        getTagSet("colleagues", "friends")
+                        getTagSet("hotel", "stay")
                 ), new Location(
-                        new Name("Charlotte Oliveiro"),
-                        Optional.of(new Phone("93210283")),
-                        Optional.of(new Email("charlotte@example.com")),
-                        Optional.of(new Address("Blk 11 Ang Mo Kio Street 74, #11-04")),
+                        new Name("PastaHut"),
+                        Optional.of(new Phone("63210283")),
+                        Optional.of(new Email("contact@pastahut.com")),
+                        Optional.of(new Address("5 Little Italy Rd, #02-10")),
                         Optional.of(new PostalCode("560011")),
                         getVisitDateSet("2026-03-13"),
-                        getTagSet("neighbours")
+                        getTagSet("restaurant", "italian")
                 ), new Location(
-                        new Name("David Li"),
-                        Optional.of(new Phone("91031282")),
-                        Optional.of(new Email("lidavid@example.com")),
-                        Optional.of(new Address("Blk 436 Serangoon Gardens Street 26, #16-43")),
+                        new Name("Metro Inn"),
+                        Optional.of(new Phone("61031282")),
+                        Optional.of(new Email("reservations@metroinn.com")),
+                        Optional.of(new Address("12 Queen St, #05-02")),
                         Optional.of(new PostalCode("550436")),
                         getVisitDateSet("2026-03-21"),
-                        getTagSet("family")
+                        getTagSet("hotel", "stay", "budget")
                 ), new Location(
-                        new Name("Irfan Ibrahim"),
-                        Optional.of(new Phone("92492021")),
-                        Optional.of(new Email("irfan@example.com")),
-                        Optional.of(new Address("Blk 47 Tampines Street 20, #17-35")),
+                        new Name("Green Garden Restaurant"),
+                        Optional.of(new Phone("62492021")),
+                        Optional.of(new Email("hello@greengarden.sg")),
+                        Optional.of(new Address("78 Orchard Road, #03-05")),
                         Optional.of(new PostalCode("520047")),
                         getVisitDateSet("2026-03-05"),
-                        getTagSet("classmates")
+                        getTagSet("restaurant", "vegetarian")
                 ), new Location(
-                        new Name("Roy Balakrishnan"),
-                        Optional.of(new Phone("92624417")),
-                        Optional.of(new Email("royb@example.com")),
-                        Optional.of(new Address("Blk 45 Aljunied Street 85, #11-31")),
+                        new Name("Museum of Contemporary Fruit"),
+                        Optional.of(new Phone("62624417")),
+                        Optional.of(new Email("contact@museumofcontemporaryfruit.com")),
+                        Optional.of(new Address("15 Art Lane, #01-01")),
                         Optional.of(new PostalCode("380045")),
                         getVisitDateSet("2026-03-01"),
-                        getTagSet("colleagues")
+                        getTagSet("museum", "art", "attraction")
                 )
         };
     }
