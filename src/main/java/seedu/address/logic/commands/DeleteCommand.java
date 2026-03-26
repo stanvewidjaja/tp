@@ -51,6 +51,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert !targetIndexes.isEmpty();
         List<Location> lastShownList = model.getFilteredLocationList();
         Set<Integer> uniqueIndexes = new HashSet<>();
         List<Location> locationsToDelete = new ArrayList<>();
@@ -67,6 +68,7 @@ public class DeleteCommand extends Command {
             locationsToDelete.add(lastShownList.get(targetIndex.getZeroBased()));
         }
 
+        assert locationsToDelete.size() == targetIndexes.size();
         for (Location locationToDelete : locationsToDelete) {
             model.deleteLocation(locationToDelete);
         }

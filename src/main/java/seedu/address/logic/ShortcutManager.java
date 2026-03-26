@@ -71,6 +71,7 @@ public class ShortcutManager {
             // No shortcut mapping; return the original (trimmed) input unchanged.
             return trimmedInput;
         }
+        assert commandDatabase.isKnownCommand(expandedToken);
         return expandedToken + remainder;
     }
 
