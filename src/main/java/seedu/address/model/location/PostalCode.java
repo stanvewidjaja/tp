@@ -1,5 +1,10 @@
 package seedu.address.model.location;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
+import java.util.Objects;
+
 /**
  * Represents a PostalCode in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPostalCode(String)}
@@ -23,6 +28,8 @@ public class PostalCode {
      * @param postalCode A valid postal code.
      */
     public PostalCode(String postalCode) {
+        requireNonNull(postalCode);
+        checkArgument(isValidPostalCode(postalCode), MESSAGE_CONSTRAINTS);
         value = postalCode;
     }
 
@@ -44,5 +51,24 @@ public class PostalCode {
     @Override
     public String toString() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof PostalCode)) {
+            return false;
+        }
+
+        PostalCode otherPostalCode = (PostalCode) other;
+        return value.equals(otherPostalCode.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

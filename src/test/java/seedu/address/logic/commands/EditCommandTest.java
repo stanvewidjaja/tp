@@ -7,6 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POSTAL_CODE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -312,4 +313,17 @@ public class EditCommandTest {
         assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
     }
 
+    @Test
+    public void execute_editPostalCodeUnfilteredList_success() {
+        Location locationToEdit = model.getFilteredLocationList().get(INDEX_FIRST_LOCATION.getZeroBased());
+        Location editedLocation = new LocationBuilder(locationToEdit)
+                .withPostalCode(VALID_POSTAL_CODE_BOB)
+                .build();
+
+        EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder()
+                .withPostalCode(VALID_POSTAL_CODE_BOB)
+                .build();
+
+        assertEditSuccess(INDEX_FIRST_LOCATION, descriptor, editedLocation);
+    }
 }

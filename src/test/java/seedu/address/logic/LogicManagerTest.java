@@ -1,4 +1,3 @@
-/*
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -84,6 +83,7 @@ public class LogicManagerTest {
                 + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY
+                + POSTAL_CODE_DESC_AMY
                 + DATE_DESC_AMY;
         Location expectedLocation = new LocationBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
@@ -124,8 +124,6 @@ public class LogicManagerTest {
      *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
-
-/*
     private void assertCommandSuccess(String inputCommand, String expectedMessage, Model expectedModel)
             throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
@@ -139,7 +137,6 @@ public class LogicManagerTest {
      *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
-/*
     private void assertParseException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, ParseException.class, expectedMessage);
     }
@@ -150,7 +147,7 @@ public class LogicManagerTest {
      *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
-/*
+
     private void assertCommandException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, CommandException.class, expectedMessage);
     }
@@ -160,7 +157,6 @@ public class LogicManagerTest {
      *
      * @see #assertCommandSuccess(String, String, Model)
      */
-/*
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
                                       String expectedMessage) {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -175,7 +171,6 @@ public class LogicManagerTest {
      *
      * @see #assertCommandSuccess(String, String, Model)
      */
-/*
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
                                       String expectedMessage, Model expectedModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
@@ -188,7 +183,6 @@ public class LogicManagerTest {
      * @param e               the exception to be thrown by the Storage component
      * @param expectedMessage the message expected inside exception thrown by the Logic component
      */
-/*
     private void assertCommandFailureForExceptionFromStorage(IOException e, String expectedMessage) {
         Path prefPath = temporaryFolder.resolve("ExceptionUserPrefs.json");
 
@@ -215,4 +209,4 @@ public class LogicManagerTest {
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }
-*/
+

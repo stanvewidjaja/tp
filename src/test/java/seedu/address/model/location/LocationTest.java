@@ -12,6 +12,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalLocations.ALICE;
 import static seedu.address.testutil.TypicalLocations.BOB;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.LocationBuilder;
@@ -22,6 +24,19 @@ public class LocationTest {
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Location location = new LocationBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> location.getTags().remove(0));
+    }
+
+    @Test
+    public void getVisitDates_modifyList_throwsUnsupportedOperationException() {
+        Location location = new LocationBuilder().build();
+        assertThrows(UnsupportedOperationException.class, () -> location.getVisitDates().remove(0));
+    }
+
+    @Test
+    public void occursOn() {
+        assertTrue(ALICE.occursOn(LocalDate.parse("2026-01-07")));
+        assertTrue(ALICE.occursOn(LocalDate.parse("2026-01-10")));
+        assertFalse(ALICE.occursOn(LocalDate.parse("2026-01-08")));
     }
 
     @Test
@@ -69,6 +84,9 @@ public class LocationTest {
         editedAlice = new LocationBuilder(ALICE).withPostalCode("999999").build();
         assertFalse(ALICE.equals(editedAlice));
 
+        editedAlice = new LocationBuilder(ALICE).withVisitDates("2026-02-20").build();
+        assertFalse(ALICE.equals(editedAlice));
+
         editedAlice = new LocationBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
     }
@@ -84,5 +102,29 @@ public class LocationTest {
                 + ", visitDates=" + ALICE.getVisitDates()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+
+    @Test
+    public void toStringMethod_missingOptionalFields() {
+        Location location = new LocationBuilder()
+                .withName("Test Place")
+                .withoutPhone()
+                .withoutEmail()
+                .withoutAddress()
+                .withoutPostalCode()
+                .withoutVisitDates()
+                .withTags()
+                .build();
+
+        String expected = Location.class.getCanonicalName()
+                + "{name=" + location.getName()
+                + ", phone=-"
+                + ", email=-"
+                + ", address=-"
+                + ", postalCode=-"
+                + ", visitDates=" + location.getVisitDates()
+                + ", tags=" + location.getTags() + "}";
+        assertEquals(expected, location.toString());
     }
 }

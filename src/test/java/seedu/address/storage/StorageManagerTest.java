@@ -1,4 +1,3 @@
-/*
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,8 +33,7 @@ public class StorageManagerTest {
     private Path getTempFilePath(String fileName) {
         return testFolder.resolve(fileName);
     }
-*/
-/*
+
     @Test
     public void prefsReadSave() throws Exception {
         /*
@@ -43,7 +41,7 @@ public class StorageManagerTest {
          * {@link JsonUserPrefsStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link JsonUserPrefsStorageTest} class.
          */
-/*
+
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
         original.setShortcutMap(Map.of("a", "add"));
@@ -51,8 +49,7 @@ public class StorageManagerTest {
         UserPrefs retrieved = storageManager.readUserPrefs().get();
         assertEquals(original, retrieved);
     }
-*/
-/*
+
     @Test
     public void addressBookReadSave() throws Exception {
         /*
@@ -61,7 +58,6 @@ public class StorageManagerTest {
          * More extensive testing of UserPref saving/reading is done in {@link JsonAddressBookStorageTest} class.
          */
 
-/*
         AddressBook original = getTypicalAddressBook();
         storageManager.saveAddressBook(original);
         ReadOnlyAddressBook retrieved = storageManager.readAddressBook().get();
@@ -72,5 +68,44 @@ public class StorageManagerTest {
     public void getAddressBookFilePath() {
         assertNotNull(storageManager.getAddressBookFilePath());
     }
+
+    @Test
+    public void addressBookReadSave_missingOptionalFields_success() throws Exception {
+        AddressBook original = new AddressBook();
+
+        original.addLocation(new seedu.address.testutil.LocationBuilder()
+                .withName("Simple Place")
+                .withoutPhone()
+                .withoutEmail()
+                .withoutAddress()
+                .withoutPostalCode()
+                .withoutVisitDates()
+                .withTags()
+                .build());
+
+        storageManager.saveAddressBook(original);
+        ReadOnlyAddressBook retrieved = storageManager.readAddressBook().get();
+
+        assertEquals(original, new AddressBook(retrieved));
+    }
+
+    @Test
+    public void addressBookReadSave_withPostalCodeAndVisitDates_success() throws Exception {
+        AddressBook original = new AddressBook();
+
+        original.addLocation(new seedu.address.testutil.LocationBuilder()
+                .withName("Museum")
+                .withPhone("61234567")
+                .withEmail("museum@example.com")
+                .withAddress("123 Street")
+                .withPostalCode("530456")
+                .withVisitDates("2026-01-01", "2026-01-05")
+                .withTags("history")
+                .build());
+
+        storageManager.saveAddressBook(original);
+        ReadOnlyAddressBook retrieved = storageManager.readAddressBook().get();
+
+        assertEquals(original, new AddressBook(retrieved));
+    }
 }
-*/

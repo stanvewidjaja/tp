@@ -1,4 +1,3 @@
-/*
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +18,8 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.location.Location;
+import seedu.address.testutil.LocationBuilder;
 
 public class JsonAddressBookStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonAddressBookStorageTest");
@@ -86,7 +87,7 @@ public class JsonAddressBookStorageTest {
         assertEquals(original, new AddressBook(readBack));
 
     }
-/*
+
     @Test
     public void saveAddressBook_nullAddressBook_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> saveAddressBook(null, "SomeFile.json"));
@@ -95,8 +96,6 @@ public class JsonAddressBookStorageTest {
     /**
      * Saves {@code addressBook} at the specified {@code filePath}.
      */
-
-/*
     private void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) {
         try {
             new JsonAddressBookStorage(Paths.get(filePath))
@@ -110,5 +109,52 @@ public class JsonAddressBookStorageTest {
     public void saveAddressBook_nullFilePath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> saveAddressBook(new AddressBook(), null));
     }
+
+    @Test
+    public void readAndSaveAddressBook_locationWithMissingOptionalFields_success() throws Exception {
+        Path filePath = testFolder.resolve("TempAddressBookWithMissingOptionalFields.json");
+        AddressBook original = new AddressBook();
+
+        Location locationWithMissingOptionalFields = new LocationBuilder()
+                .withName("Test Place")
+                .withoutPhone()
+                .withoutEmail()
+                .withoutAddress()
+                .withoutPostalCode()
+                .withoutVisitDates()
+                .withTags()
+                .build();
+
+        original.addLocation(locationWithMissingOptionalFields);
+
+        JsonAddressBookStorage jsonAddressBookStorage = new JsonAddressBookStorage(filePath);
+        jsonAddressBookStorage.saveAddressBook(original, filePath);
+
+        ReadOnlyAddressBook readBack = jsonAddressBookStorage.readAddressBook(filePath).get();
+        assertEquals(original, new AddressBook(readBack));
+    }
+
+    @Test
+    public void readAndSaveAddressBook_locationWithPostalCodeAndVisitDates_success() throws Exception {
+        Path filePath = testFolder.resolve("TempAddressBookWithPostalCodeAndDates.json");
+        AddressBook original = new AddressBook();
+
+        Location location = new LocationBuilder()
+                .withName("Museum")
+                .withPhone("61234567")
+                .withEmail("museum@example.com")
+                .withAddress("123 Street")
+                .withPostalCode("530456")
+                .withVisitDates("2026-01-01", "2026-01-05")
+                .withTags("history")
+                .build();
+
+        original.addLocation(location);
+
+        JsonAddressBookStorage jsonAddressBookStorage = new JsonAddressBookStorage(filePath);
+        jsonAddressBookStorage.saveAddressBook(original, filePath);
+
+        ReadOnlyAddressBook readBack = jsonAddressBookStorage.readAddressBook(filePath).get();
+        assertEquals(original, new AddressBook(readBack));
+    }
 }
-*/
