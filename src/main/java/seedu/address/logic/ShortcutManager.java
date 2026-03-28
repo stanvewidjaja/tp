@@ -2,8 +2,6 @@ package seedu.address.logic;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Comparator;
-import java.util.Map;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,11 +109,8 @@ public class ShortcutManager {
             return MESSAGE_USAGE_LIST_EMPTY;
         }
 
-        Map<String, String> shortcuts = model.getShortcutMap().getShortcutMappings();
         StringJoiner joiner = new StringJoiner("\n");
-        shortcuts.entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry<String, String>::getValue)
-                        .thenComparing(Map.Entry::getKey))
+        model.getShortcutMap().getSortedShortcutMappings()
                 .forEach(entry -> joiner.add(entry.getKey() + " -> " + entry.getValue()));
         return joiner.toString();
     }

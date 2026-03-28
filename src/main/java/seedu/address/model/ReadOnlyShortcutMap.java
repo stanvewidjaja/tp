@@ -1,6 +1,8 @@
 package seedu.address.model;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 /**
  * Unmodifiable view of a shortcut map.
@@ -21,4 +23,9 @@ public interface ReadOnlyShortcutMap {
      * Returns an unmodifiable view of the shortcut mappings.
      */
     Map<String, String> getShortcutMappings();
+
+    /**
+     * Returns a stream of shortcut mappings sorted for display.
+     */
+    Stream<Entry<String, String>> getSortedShortcutMappings();
 }

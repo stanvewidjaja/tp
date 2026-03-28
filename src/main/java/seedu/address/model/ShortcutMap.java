@@ -3,8 +3,11 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
 
@@ -81,6 +84,13 @@ public class ShortcutMap implements ReadOnlyShortcutMap {
     @Override
     public Map<String, String> getShortcutMappings() {
         return Collections.unmodifiableMap(shortcutMappings);
+    }
+
+    @Override
+    public Stream<Entry<String, String>> getSortedShortcutMappings() {
+        return shortcutMappings.entrySet().stream()
+                .sorted(Comparator.comparing(Entry<String, String>::getValue)
+                        .thenComparing(Entry::getKey));
     }
 
     @Override
