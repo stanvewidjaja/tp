@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyShortcutMap;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -19,13 +21,16 @@ public class StorageManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
+    private ShortcutStorage shortcutStorage;
 
     /**
      * Creates a {@code StorageManager} with the given {@code AddressBookStorage} and {@code UserPrefStorage}.
      */
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage,
+            ShortcutStorage shortcutStorage) {
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
+        this.shortcutStorage = shortcutStorage;
     }
 
     // ================ UserPrefs methods ==============================
@@ -45,6 +50,28 @@ public class StorageManager implements Storage {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
 
+    // ================ Shortcut methods ==============================
+
+    @Override
+    public Path getShortcutFilePath() {
+        return shortcutStorage.getShortcutFilePath();
+    }
+
+    @Override
+    public Optional<ShortcutMap> readShortcutMap() throws DataLoadingException {
+        return shortcutStorage.readShortcutMap();
+    }
+
+    @Override
+    public void saveShortcutMap(ReadOnlyShortcutMap shortcutMap) throws IOException {
+        shortcutStorage.saveShortcutMap(shortcutMap, shortcutStorage.getShortcutFilePath());
+    }
+
+    @Override
+    public void saveShortcutMap(ReadOnlyShortcutMap shortcutMap, Path filePath) throws IOException {
+        logger.fine("Attempting to write to shortcut file: " + filePath);
+        shortcutStorage.saveShortcutMap(shortcutMap, filePath);
+    }
 
     // ================ AddressBook methods ==============================
 

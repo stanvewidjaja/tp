@@ -27,7 +27,8 @@ public class ShortcutCommandTest {
     public void execute_removeShortcut_success() {
         Model model = new ModelManager();
         model.setShortcut("a", "add");
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(model.getUserPrefs()));
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(model.getUserPrefs()),
+                model.getShortcutMap());
         expectedModel.removeShortcut("a");
 
         ShortcutCommand command = new ShortcutCommand(ShortcutCommand.Action.REMOVE, "a", null);
@@ -40,7 +41,8 @@ public class ShortcutCommandTest {
         Model model = new ModelManager();
         model.setShortcut("a", "add");
         model.setShortcut("e", "edit");
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(model.getUserPrefs()));
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(model.getUserPrefs()),
+                model.getShortcutMap());
 
         ShortcutCommand command = new ShortcutCommand(ShortcutCommand.Action.LIST, null, null);
         assertCommandSuccess(command, model,

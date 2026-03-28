@@ -2,7 +2,6 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -53,7 +52,7 @@ public interface Model {
     /**
      * Returns an unmodifiable view of the user-defined shortcuts.
      */
-    Map<String, String> getShortcutMap();
+    ReadOnlyShortcutMap getShortcutMap();
 
     /**
      * Returns true if a shortcut exists for {@code alias}.

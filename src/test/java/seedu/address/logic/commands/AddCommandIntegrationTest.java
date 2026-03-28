@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.location.Location;
 import seedu.address.testutil.LocationBuilder;
@@ -23,14 +24,14 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new ShortcutMap());
     }
 
     @Test
     public void execute_newLocation_success() {
         Location validLocation = new LocationBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new ShortcutMap());
         expectedModel.addLocation(validLocation);
 
         assertCommandSuccess(new AddCommand(validLocation), model,

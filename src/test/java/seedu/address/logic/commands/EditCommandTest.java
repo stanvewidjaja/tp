@@ -24,6 +24,7 @@ import seedu.address.logic.commands.EditCommand.EditLocationDescriptor;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.location.Location;
 import seedu.address.testutil.EditLocationDescriptorBuilder;
@@ -34,7 +35,7 @@ import seedu.address.testutil.LocationBuilder;
  */
 public class EditCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new ShortcutMap());
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
@@ -45,7 +46,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(
                 EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new ShortcutMap());
         expectedModel.setLocation(model.getFilteredLocationList().get(0), editedLocation);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
@@ -67,7 +69,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(
                 EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new ShortcutMap());
         expectedModel.setLocation(lastLocation, editedLocation);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
@@ -81,7 +84,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(
                 EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new ShortcutMap());
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -98,7 +102,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(
                 EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new ShortcutMap());
         expectedModel.setLocation(model.getFilteredLocationList().get(0), editedLocation);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
@@ -196,7 +201,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(
                 EditCommand.MESSAGE_EDIT_LOCATION_SUCCESS, Messages.format(editedLocation));
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new ShortcutMap());
         expectedModel.setLocation(locationToEdit, editedLocation);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);

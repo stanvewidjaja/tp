@@ -7,7 +7,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -58,14 +57,6 @@ public class JsonUserPrefsStorageTest {
     }
 
     @Test
-    public void readUserPrefs_withShortcuts_successfullyRead() throws DataLoadingException {
-        UserPrefs expected = getTypicalUserPrefs();
-        expected.setShortcutMap(Map.of("a", "add", "e", "edit"));
-        UserPrefs actual = readUserPrefs("TypicalUserPrefWithShortcuts.json").get();
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void readUserPrefs_valuesMissingFromFile_defaultValuesUsed() throws DataLoadingException {
         UserPrefs actual = readUserPrefs("EmptyUserPrefs.json").get();
         assertEquals(new UserPrefs(), actual);
@@ -79,10 +70,18 @@ public class JsonUserPrefsStorageTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void readUserPrefs_legacyShortcutField_ignored() throws DataLoadingException {
+        UserPrefs expected = getTypicalUserPrefs();
+        UserPrefs actual = readUserPrefs("TypicalUserPrefWithShortcuts.json").get();
+        assertEquals(expected, actual);
+    }
+
     private UserPrefs getTypicalUserPrefs() {
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setGuiSettings(new GuiSettings(1000, 500, 300, 100));
         userPrefs.setAddressBookFilePath(Paths.get("addressbook.json"));
+        userPrefs.setShortcutMapFilePath(Paths.get("shortcut.json"));
         return userPrefs;
     }
 
@@ -113,7 +112,6 @@ public class JsonUserPrefsStorageTest {
 
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(1200, 200, 0, 2));
-        original.setShortcutMap(Map.of("a", "add"));
 
         Path pefsFilePath = testFolder.resolve("TempPrefs.json");
         JsonUserPrefsStorage jsonUserPrefsStorage = new JsonUserPrefsStorage(pefsFilePath);

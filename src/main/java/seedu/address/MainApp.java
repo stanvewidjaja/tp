@@ -19,12 +19,16 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyShortcutMap;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.storage.JsonShortcutStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.ShortcutStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
@@ -58,7 +62,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        ShortcutStorage shortcutStorage = new JsonShortcutStorage(userPrefs.getShortcutMapFilePath());
+        storage = new StorageManager(addressBookStorage, userPrefsStorage, shortcutStorage);
 
         model = initModelManager(storage, userPrefs);
 
@@ -90,7 +95,28 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        logger.info("Using shortcut file : " + storage.getShortcutFilePath());
+
+        ReadOnlyShortcutMap initialShortcuts;
+        try {
+            Optional<ShortcutMap> shortcutMapOptional = storage.readShortcutMap();
+            if (!shortcutMapOptional.isPresent()) {
+                logger.info("Creating a new shortcut file " + storage.getShortcutFilePath());
+            }
+            initialShortcuts = shortcutMapOptional.orElseGet(ShortcutMap::new);
+        } catch (DataLoadingException e) {
+            logger.warning("Shortcut file at " + storage.getShortcutFilePath() + " could not be loaded."
+                    + " Will be starting with an empty shortcut list.");
+            initialShortcuts = new ShortcutMap();
+        }
+
+        try {
+            storage.saveShortcutMap(initialShortcuts);
+        } catch (IOException e) {
+            logger.warning("Failed to save shortcut file : " + StringUtil.getDetails(e));
+        }
+
+        return new ModelManager(initialData, userPrefs, initialShortcuts);
     }
 
     private void initLogging(Config config) {

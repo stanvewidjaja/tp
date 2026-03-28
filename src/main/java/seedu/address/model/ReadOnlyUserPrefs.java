@@ -1,7 +1,6 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
-import java.util.Map;
 
 import seedu.address.commons.core.GuiSettings;
 
@@ -14,6 +13,6 @@ public interface ReadOnlyUserPrefs {
 
     Path getAddressBookFilePath();
 
-    Map<String, String> getShortcutMap();
+    Path getShortcutMapFilePath();
 
 }
