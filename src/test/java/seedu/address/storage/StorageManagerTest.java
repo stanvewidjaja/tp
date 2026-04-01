@@ -15,6 +15,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.Theme;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 
 public class StorageManagerTest {
@@ -28,7 +29,8 @@ public class StorageManagerTest {
     public void setUp() {
         JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonShortcutStorage shortcutStorage = new JsonShortcutStorage(getTempFilePath("shortcut"));
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, shortcutStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -46,9 +48,17 @@ public class StorageManagerTest {
         UserPrefs original = new UserPrefs();
         original.setGuiSettings(new GuiSettings(300, 600, 4, 6));
         original.setTheme(Theme.DARK);
-        original.setShortcutMap(Map.of("a", "add"));
         storageManager.saveUserPrefs(original);
         UserPrefs retrieved = storageManager.readUserPrefs().get();
+        assertEquals(original, retrieved);
+    }
+
+    @Test
+    public void shortcutReadSave() throws Exception {
+        ShortcutMap original = new ShortcutMap();
+        original.setShortcutMappings(Map.of("a", "add", "e", "edit"));
+        storageManager.saveShortcutMap(original);
+        ShortcutMap retrieved = storageManager.readShortcutMap().get();
         assertEquals(original, retrieved);
     }
 
@@ -69,6 +79,11 @@ public class StorageManagerTest {
     @Test
     public void getAddressBookFilePath() {
         assertNotNull(storageManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void getShortcutFilePath() {
+        assertEquals(getTempFilePath("shortcut"), storageManager.getShortcutFilePath());
     }
 
     @Test

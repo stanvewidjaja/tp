@@ -8,5 +8,6 @@
     }
   },
   "theme" : "DARK",
-  "addressBookFilePath" : "addressbook.json"
+  "addressBookFilePath" : "addressbook.json",
+  "shortcutMapFilePath" : "shortcut.json"
 }

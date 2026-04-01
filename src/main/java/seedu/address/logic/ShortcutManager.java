@@ -2,8 +2,6 @@ package seedu.address.logic;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Comparator;
-import java.util.Map;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +64,7 @@ public class ShortcutManager {
         String originalFirstToken = matcher.group("firstToken");
         String normalizedFirstToken = normalizeToken(originalFirstToken);
         String remainder = matcher.group("remainder");
-        String expandedToken = model.getShortcutMap().get(normalizedFirstToken);
+        String expandedToken = model.getShortcutMap().getCommandWord(normalizedFirstToken);
         if (expandedToken == null) {
             // No shortcut mapping; return the original (trimmed) input unchanged.
             return trimmedInput;
@@ -107,15 +105,12 @@ public class ShortcutManager {
      * Returns a user-friendly listing of all shortcuts.
      */
     public String formatShortcutList() {
-        Map<String, String> shortcuts = model.getShortcutMap();
-        if (shortcuts.isEmpty()) {
+        if (model.getShortcutMap().isEmpty()) {
             return MESSAGE_USAGE_LIST_EMPTY;
         }
 
         StringJoiner joiner = new StringJoiner("\n");
-        shortcuts.entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry<String, String>::getValue)
-                        .thenComparing(Map.Entry::getKey))
+        model.getShortcutMap().getSortedShortcutMappings()
                 .forEach(entry -> joiner.add(entry.getKey() + " -> " + entry.getValue()));
         return joiner.toString();
     }

@@ -40,7 +40,6 @@ public class ModelManagerTest {
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setAddressBookFilePath(Paths.get("address/book/file/path"));
         userPrefs.setGuiSettings(new GuiSettings(1, 2, 3, 4));
-        userPrefs.setShortcutMap(Map.of("a", "add"));
         modelManager.setUserPrefs(userPrefs);
         assertEquals(userPrefs, modelManager.getUserPrefs());
 
@@ -78,11 +77,11 @@ public class ModelManagerTest {
     public void shortcutOperations_success() {
         modelManager.setShortcut("a", "add");
         assertTrue(modelManager.hasShortcut("a"));
-        assertEquals(Map.of("a", "add"), modelManager.getShortcutMap());
+        assertEquals(Map.of("a", "add"), modelManager.getShortcutMap().getShortcutMappings());
 
         modelManager.removeShortcut("a");
         assertFalse(modelManager.hasShortcut("a"));
-        assertTrue(modelManager.getShortcutMap().isEmpty());
+        assertTrue(modelManager.getShortcutMap().getShortcutMappings().isEmpty());
     }
 
     @Test
@@ -118,8 +117,10 @@ public class ModelManagerTest {
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true
-        modelManager = new ModelManager(addressBook, userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(addressBook, userPrefs);
+        ShortcutMap shortcutMap = new ShortcutMap();
+        shortcutMap.setShortcutMappings(Map.of("a", "add"));
+        modelManager = new ModelManager(addressBook, userPrefs, shortcutMap);
+        ModelManager modelManagerCopy = new ModelManager(addressBook, userPrefs, shortcutMap);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -132,12 +133,12 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentAddressBook, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(differentAddressBook, userPrefs, shortcutMap)));
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredLocationList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs, shortcutMap)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredLocationList(PREDICATE_SHOW_ALL_LOCATIONS);
@@ -145,6 +146,11 @@ public class ModelManagerTest {
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs, shortcutMap)));
+
+        // different shortcuts -> returns false
+        ShortcutMap differentShortcutMap = new ShortcutMap();
+        differentShortcutMap.setShortcutMappings(Map.of("e", "edit"));
+        assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs, differentShortcutMap)));
     }
 }

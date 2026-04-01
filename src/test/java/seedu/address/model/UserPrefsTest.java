@@ -3,8 +3,6 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 
 public class UserPrefsTest {
@@ -22,21 +20,19 @@ public class UserPrefsTest {
     }
 
     @Test
-    public void setShortcutMap_nullMap_throwsNullPointerException() {
+    public void setShortcutMapFilePath_nullPath_throwsNullPointerException() {
         UserPrefs userPrefs = new UserPrefs();
-        assertThrows(NullPointerException.class, () -> userPrefs.setShortcutMap(null));
+        assertThrows(NullPointerException.class, () -> userPrefs.setShortcutMapFilePath(null));
     }
 
     @Test
-    public void shortcutOperations_success() {
-        UserPrefs userPrefs = new UserPrefs();
-        userPrefs.setShortcut("a", "add");
-        userPrefs.setShortcut("e", "edit");
+    public void copyConstructorAndResetData_ignoreLegacyShortcutFields() {
+        UserPrefs original = new UserPrefs();
+        original.setAddressBookFilePath(java.nio.file.Paths.get("data", "custom.json"));
+        original.setShortcutMapFilePath(java.nio.file.Paths.get("data", "custom-shortcut.json"));
 
-        assertEquals(Map.of("a", "add", "e", "edit"), userPrefs.getShortcutMap());
-
-        userPrefs.removeShortcut("a");
-        assertEquals(Map.of("e", "edit"), userPrefs.getShortcutMap());
+        UserPrefs copied = new UserPrefs(original);
+        assertEquals(original, copied);
     }
 
 }

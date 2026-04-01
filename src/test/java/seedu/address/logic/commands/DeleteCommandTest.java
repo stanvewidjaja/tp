@@ -19,6 +19,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.location.Location;
 
@@ -28,7 +29,7 @@ import seedu.address.model.location.Location;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new ShortcutMap());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -38,7 +39,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_LOCATION_SUCCESS,
                 Messages.format(locationToDelete));
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new ShortcutMap());
         expectedModel.deleteLocation(locationToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -58,7 +59,7 @@ public class DeleteCommandTest {
         Location thirdLocationToDelete = model.getFilteredLocationList().get(INDEX_THIRD_LOCATION.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_LOCATION, INDEX_THIRD_LOCATION));
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new ShortcutMap());
         expectedModel.deleteLocation(firstLocationToDelete);
         expectedModel.deleteLocation(thirdLocationToDelete);
 
@@ -84,7 +85,7 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_LOCATION_SUCCESS,
                 Messages.format(locationToDelete));
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new ShortcutMap());
         expectedModel.deleteLocation(locationToDelete);
         showNoLocation(expectedModel);
 

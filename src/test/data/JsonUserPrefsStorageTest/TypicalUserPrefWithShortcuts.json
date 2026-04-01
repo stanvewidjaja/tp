@@ -8,8 +8,5 @@
     }
   },
   "addressBookFilePath" : "addressbook.json",
-  "shortcutMap" : {
-    "a" : "add",
-    "e" : "edit"
-  }
+  "shortcutMapFilePath" : "shortcut.json"
 }

@@ -5,7 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -25,26 +24,28 @@ public class ModelManager implements Model {
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
+    private final ShortcutMap shortcutMap;
     private final FilteredList<Location> filteredLocations;
     private final FilteredList<Location> plannerLocations;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, userPrefs and shortcuts.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
-        requireAllNonNull(addressBook, userPrefs);
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs, ReadOnlyShortcutMap shortcutMap) {
+        requireAllNonNull(addressBook, userPrefs, shortcutMap);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.shortcutMap = new ShortcutMap(shortcutMap);
         filteredLocations = new FilteredList<>(this.addressBook.getLocationList());
         plannerLocations = new FilteredList<>(
                 this.addressBook.getLocationList()).filtered(PREDICATE_HIDE_ALL_LOCATIONS);
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new ShortcutMap());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -93,27 +94,29 @@ public class ModelManager implements Model {
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
+    //=========== ShortcutMap ================================================================================
+
     @Override
-    public Map<String, String> getShortcutMap() {
-        return userPrefs.getShortcutMap();
+    public ReadOnlyShortcutMap getShortcutMap() {
+        return shortcutMap;
     }
 
     @Override
     public boolean hasShortcut(String alias) {
         requireNonNull(alias);
-        return userPrefs.hasShortcut(alias);
+        return shortcutMap.hasShortcut(alias);
     }
 
     @Override
     public void setShortcut(String alias, String commandWord) {
         requireAllNonNull(alias, commandWord);
-        userPrefs.setShortcut(alias, commandWord);
+        shortcutMap.setShortcut(alias, commandWord);
     }
 
     @Override
     public void removeShortcut(String alias) {
         requireNonNull(alias);
-        userPrefs.removeShortcut(alias);
+        shortcutMap.removeShortcut(alias);
     }
 
     //=========== AddressBook ================================================================================
@@ -201,6 +204,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
+                && shortcutMap.equals(otherModelManager.shortcutMap)
                 && filteredLocations.equals(otherModelManager.filteredLocations);
     }
 

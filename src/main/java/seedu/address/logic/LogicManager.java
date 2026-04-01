@@ -66,6 +66,14 @@ public class LogicManager implements Logic {
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
+        try {
+            storage.saveShortcutMap(model.getShortcutMap());
+        } catch (AccessDeniedException e) {
+            logger.warning(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()));
+        } catch (IOException ioe) {
+            logger.warning(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()));
+        }
+
         // Save user preferences as a best-effort operation. Failures here should not
         // cause the entire command to be reported as failed when the address book
         // has already been successfully persisted.

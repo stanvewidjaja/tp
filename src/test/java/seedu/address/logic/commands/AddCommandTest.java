@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyShortcutMap;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.location.Location;
 import seedu.address.testutil.LocationBuilder;
@@ -145,7 +145,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public Map<String, String> getShortcutMap() {
+        public ReadOnlyShortcutMap getShortcutMap() {
             throw new AssertionError("This method should not be called.");
         }
 
