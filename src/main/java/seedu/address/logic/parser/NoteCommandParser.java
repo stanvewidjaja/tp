@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.location.NoteContent;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * Parses input arguments and creates a new NoteCommand object.

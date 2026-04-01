@@ -21,8 +21,6 @@ public class PlanCommand extends Command {
             + "Parameters: DATE\n"
             + "Example: " + COMMAND_WORD + " 13/3/26";
 
-    public static final String MESSAGE_ARGUMENTS = "Date: %1$s";
-
     public static final String MESSAGE_DISPLAY_SUCCESS = "Displaying date: %1$s";
 
     public static final String MESSAGE_CLEAR_SUCCESS = "Cleared planner display.";

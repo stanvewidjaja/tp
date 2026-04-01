@@ -7,9 +7,10 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 public class DeleteNoteCommandTest {
 
@@ -23,18 +24,18 @@ public class DeleteNoteCommandTest {
     }
 
     @Test
-    public void execute_deleteNote_success() {
-        DeleteNoteCommand command = new DeleteNoteCommand(new VisitDate("2026-03-24"));
-        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_SUCCESS, "2026-03-24");
+    public void execute_deleteNote_success() throws IllegalValueException {
+        DeleteNoteCommand command = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
+        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_SUCCESS, "24 Mar 26");
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void equals() {
-        DeleteNoteCommand first = new DeleteNoteCommand(new VisitDate("2026-03-24"));
-        DeleteNoteCommand second = new DeleteNoteCommand(new VisitDate("2026-03-24"));
-        DeleteNoteCommand third = new DeleteNoteCommand(new VisitDate("2026-03-25"));
+    public void equals() throws IllegalValueException {
+        DeleteNoteCommand first = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
+        DeleteNoteCommand second = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
+        DeleteNoteCommand third = new DeleteNoteCommand(VisitDate.of("2026-03-25"));
 
         assertEquals(first, first);
         assertEquals(first, second);
@@ -44,16 +45,16 @@ public class DeleteNoteCommandTest {
     }
 
     @Test
-    public void getDate() {
-        VisitDate date = new VisitDate("2026-03-24");
+    public void getDate() throws IllegalValueException {
+        VisitDate date = VisitDate.of("2026-03-24");
         DeleteNoteCommand command = new DeleteNoteCommand(date);
 
         assertEquals(date, command.getDate());
     }
 
     @Test
-    public void toStringMethod() {
-        DeleteNoteCommand command = new DeleteNoteCommand(new VisitDate("2026-03-24"));
+    public void toStringMethod() throws IllegalValueException {
+        DeleteNoteCommand command = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
 
         String expected = DeleteNoteCommand.class.getCanonicalName() + "{date=2026-03-24}";
         assertEquals(expected, command.toString());

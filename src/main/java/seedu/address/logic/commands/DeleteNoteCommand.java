@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * Deletes notes in AddressMe for a given date (backend implementation deferred).
@@ -58,7 +58,7 @@ public class DeleteNoteCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("date", date)
+                .add("date", date.toDataString())
                 .toString();
     }
 }

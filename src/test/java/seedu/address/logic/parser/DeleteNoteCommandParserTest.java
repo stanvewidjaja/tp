@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.DeleteNoteCommand;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 public class DeleteNoteCommandParserTest {
 
@@ -16,7 +16,7 @@ public class DeleteNoteCommandParserTest {
 
     @Test
     public void parse_validArgs_success() throws Exception {
-        DeleteNoteCommand expected = new DeleteNoteCommand(new VisitDate("2026-03-24"));
+        DeleteNoteCommand expected = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
 
         assertParseSuccess(parser, " d-/2026-03-24", expected);
     }
@@ -24,7 +24,7 @@ public class DeleteNoteCommandParserTest {
     @Test
     public void parse_missingDate_throwsParseException() {
         assertParseFailure(parser, " d-/",
-                VisitDate.MESSAGE_CONSTRAINTS);
+                VisitDate.MESSAGE_CONSTRAINTS_EMPTY);
     }
 
     @Test

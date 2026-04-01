@@ -22,7 +22,6 @@ public class JsonSerializableAddressBookTest {
 
     @Test
     public void toModelType_typicalLocationsFile_success() throws Exception {
-        System.out.println(TYPICAL_LOCATIONS_FILE);
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(TYPICAL_LOCATIONS_FILE,
                 JsonSerializableAddressBook.class).get();
         AddressBook addressBookFromFile = dataFromFile.toModelType();

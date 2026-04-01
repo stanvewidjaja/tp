@@ -18,7 +18,7 @@ import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.PostalCode;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.testutil.LocationBuilder;
 
 public class JsonAdaptedLocationTest {
@@ -42,7 +42,7 @@ public class JsonAdaptedLocationTest {
             .collect(Collectors.toList());
 
     private static final List<String> VALID_VISIT_DATES = BOB.getVisitDates().stream()
-            .map(VisitDate::toString)
+            .map(VisitDate::toDataString)
             .collect(Collectors.toList());
 
     @Test
