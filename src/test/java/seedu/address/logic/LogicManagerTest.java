@@ -34,7 +34,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyShortcutMap;
-import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.location.Location;
 import seedu.address.storage.JsonAddressBookStorage;
@@ -134,7 +133,8 @@ public class LogicManagerTest {
                 createModelWithShortcut("a", "add"));
 
         assertCommandSuccess(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_SUCCESS, new ModelManager());
-        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, createModelWithShortcut("a", "add"));
+        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS,
+                createModelWithShortcut("a", "add"));
     }
 
     @Test
@@ -143,8 +143,10 @@ public class LogicManagerTest {
         logic.execute(UndoCommand.COMMAND_WORD);
 
         Model expectedModel = new ModelManager();
-        assertCommandSuccess(ShortcutCommand.COMMAND_WORD + " list", "No shortcuts defined.", expectedModel);
-        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, createModelWithShortcut("a", "add"));
+        assertCommandSuccess(ShortcutCommand.COMMAND_WORD + " list",
+                "No shortcuts defined.", expectedModel);
+        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS,
+                createModelWithShortcut("a", "add"));
     }
 
     @Test
