@@ -6,7 +6,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.location.NoteContent;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * Records a note in AddressMe (backend implementation deferred).
@@ -15,12 +15,13 @@ public class NoteCommand extends Command {
 
     public static final String COMMAND_WORD = "note";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Records a date-tagged note in AddressMe (work in progress).\n"
-            + "Parameters: "
-            + "n/NOTE_CONTENT "
-            + "d/DATE "
-            + "\nExample: " + COMMAND_WORD + " n/Great place d/2026-03-24";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Records or deletes notes in AddressMe "
+            + "(work in progress).\n"
+            + "Add format: n/NOTE_CONTENT d/DATE\n"
+            + "Delete format: d-/DATE\n"
+            + "\nExamples:\n"
+            + COMMAND_WORD + " n/Great place d/2026-03-24\n"
+            + COMMAND_WORD + " d-/2026-03-24";
 
     public static final String MESSAGE_SUCCESS = "New note recorded: %1$s";
 

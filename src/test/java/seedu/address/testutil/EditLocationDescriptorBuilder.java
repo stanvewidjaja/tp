@@ -11,7 +11,7 @@ import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.PostalCode;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -94,7 +94,7 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withVisitDates(String... visitDates) {
         Set<VisitDate> visitDateSet =
-                Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
+                Stream.of(visitDates).map(VisitDate::safeOf).collect(Collectors.toSet());
         descriptor.setVisitDates(visitDateSet);
         return this;
     }
@@ -121,7 +121,7 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withVisitDatesToAdd(String... visitDates) {
         Set<VisitDate> visitDateSet =
-                Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
+                Stream.of(visitDates).map(VisitDate::safeOf).collect(Collectors.toSet());
         descriptor.setVisitDatesToAdd(visitDateSet);
         return this;
     }
@@ -131,7 +131,7 @@ public class EditLocationDescriptorBuilder {
      */
     public EditLocationDescriptorBuilder withVisitDatesToRemove(String... visitDates) {
         Set<VisitDate> visitDateSet =
-                Stream.of(visitDates).map(VisitDate::new).collect(Collectors.toSet());
+                Stream.of(visitDates).map(VisitDate::safeOf).collect(Collectors.toSet());
         descriptor.setVisitDatesToRemove(visitDateSet);
         return this;
     }

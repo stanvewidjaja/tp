@@ -13,7 +13,7 @@ import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.PostalCode;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -97,7 +97,7 @@ public class SampleDataUtil {
      */
     public static Set<VisitDate> getVisitDateSet(String... dates) {
         return Arrays.stream(dates)
-                .map(VisitDate::new)
+                .map(VisitDate::safeOf)
                 .collect(Collectors.toSet());
     }
 }

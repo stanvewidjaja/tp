@@ -87,4 +87,35 @@ public class CommandDatabaseTest {
         assertEquals(AddCommand.MESSAGE_USAGE,
                 commandDatabase.getDetailedHelp(AddCommand.COMMAND_WORD).orElseThrow());
     }
+
+    @Test
+    void getDetailedHelp_noteCommand_returnsUsage() {
+        assertEquals(NoteCommand.MESSAGE_USAGE,
+                commandDatabase.getDetailedHelp(NoteCommand.COMMAND_WORD).orElseThrow());
+    }
+
+    @Test
+    void getDetailedHelp_unknownCommand_returnsEmpty() {
+        assertTrue(commandDatabase.getDetailedHelp("unknown").isEmpty());
+    }
+
+    @Test
+    void getDetailedHelp_null_returnsEmpty() {
+        assertTrue(commandDatabase.getDetailedHelp(null).isEmpty());
+    }
+
+    @Test
+    void isKnownCommand_note_returnsTrue() {
+        assertTrue(commandDatabase.isKnownCommand("note"));
+    }
+
+    @Test
+    void isKnownCommand_upperCaseNote_returnsTrue() {
+        assertTrue(commandDatabase.isKnownCommand("NOTE"));
+    }
+
+    @Test
+    void completePrefix_note_returnsNote() {
+        assertEquals("note", commandDatabase.completePrefix("no"));
+    }
 }

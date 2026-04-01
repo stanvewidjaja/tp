@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE_REMOVE;
 
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -81,6 +82,9 @@ public class AddressBookParser {
             return new FindCommandParser().parse(arguments);
 
         case NoteCommand.COMMAND_WORD:
+            if (arguments.contains(PREFIX_DATE_REMOVE.getPrefix())) {
+                return new DeleteNoteCommandParser().parse(arguments);
+            }
             return new NoteCommandParser().parse(arguments);
 
         case PlanCommand.COMMAND_WORD:

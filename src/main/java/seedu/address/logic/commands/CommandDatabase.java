@@ -33,7 +33,7 @@ public class CommandDatabase {
         register(HelpCommand.COMMAND_WORD, "Show help overview or details for a command.",
                 HelpCommand.MESSAGE_USAGE);
         register(ListCommand.COMMAND_WORD, "List all saved locations.", ListCommand.MESSAGE_USAGE);
-        register(NoteCommand.COMMAND_WORD, "Record a note in AddressMe.", NoteCommand.MESSAGE_USAGE);
+        register(NoteCommand.COMMAND_WORD, "Record a note or delete notes by date.", NoteCommand.MESSAGE_USAGE);
         register(PlanCommand.COMMAND_WORD, "Show or clear the planner for a specific date.", PlanCommand.MESSAGE_USAGE);
         register(RedoCommand.COMMAND_WORD, "Reapply the most recent undone change.",
                 RedoCommand.MESSAGE_USAGE);

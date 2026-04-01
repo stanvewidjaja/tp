@@ -58,11 +58,11 @@ public class DateParserTest {
 
         LocalDate expected = LocalDate.of(2026, 6, 7);
         assertEquals(expected,
-                DateParser.parseMonthDay(today, MonthDay.of(6, 7)));
+                DateParser.monthDayToDate(today, MonthDay.of(6, 7)));
 
         expected = LocalDate.of(2026, 12, 31);
         assertEquals(expected,
-                DateParser.parseMonthDay(today, MonthDay.of(12, 31)));
+                DateParser.monthDayToDate(today, MonthDay.of(12, 31)));
     }
 
     @Test
@@ -71,19 +71,20 @@ public class DateParserTest {
 
         LocalDate expected = LocalDate.of(2027, 2, 20);
         assertEquals(expected,
-                DateParser.parseMonthDay(today, MonthDay.of(2, 20)));
+                DateParser.monthDayToDate(today, MonthDay.of(2, 20)));
 
         expected = LocalDate.of(2027, 12, 1);
         assertEquals(expected,
-                DateParser.parseMonthDay(today, MonthDay.of(12, 1)));
+                DateParser.monthDayToDate(today, MonthDay.of(12, 1)));
     }
 
     @Test
     void testMonthDate_sameDay() {
+        // boundary value test
         LocalDate today = LocalDate.of(2026, 12, 2);
 
         assertEquals(today,
-                DateParser.parseMonthDay(today, MonthDay.of(12, 2)));
+                DateParser.monthDayToDate(today, MonthDay.of(12, 2)));
     }
 
     @Test
@@ -113,6 +114,29 @@ public class DateParserTest {
     }
 
     // ---------- Days of Week tests ----------
+    @Test
+    void testDayOfWeek_parseSuccess() throws IllegalValueException {
+        // test short forms
+        assertEquals(DayOfWeek.MONDAY, DateParser.parseDayOfWeek("mon"));
+        assertEquals(DayOfWeek.TUESDAY, DateParser.parseDayOfWeek("TuE"));
+        assertEquals(DayOfWeek.WEDNESDAY, DateParser.parseDayOfWeek("WED"));
+        assertEquals(DayOfWeek.THURSDAY, DateParser.parseDayOfWeek("thu"));
+        // test long form
+        assertEquals(DayOfWeek.FRIDAY, DateParser.parseDayOfWeek("fRiDaY"));
+        assertEquals(DayOfWeek.SATURDAY, DateParser.parseDayOfWeek("SATURDAY"));
+        assertEquals(DayOfWeek.SUNDAY, DateParser.parseDayOfWeek("   sunday   "));
+    }
+
+    @Test
+    void testDayOfWeek_parseFailure() throws IllegalValueException {
+        assertThrows(IllegalValueException.class, ()->DateParser.parseDayOfWeek(""));
+        assertThrows(IllegalValueException.class, ()->DateParser.parseDayOfWeek("    "));
+        assertThrows(IllegalValueException.class, ()->DateParser.parseDayOfWeek("thur"));
+        assertThrows(IllegalValueException.class, ()->DateParser.parseDayOfWeek("123"));
+        assertThrows(IllegalValueException.class, ()->DateParser.parseDayOfWeek("Fridaynight"));
+    }
+
+
     @Test
     void testDayShortForm_everyDayOfWeek() throws IllegalValueException {
         LocalDate today = LocalDate.now();

@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.tag.Tag;
 
 /**

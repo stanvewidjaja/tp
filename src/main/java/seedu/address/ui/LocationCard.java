@@ -8,7 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.location.Location;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * An UI component that displays information of a {@code Location}.

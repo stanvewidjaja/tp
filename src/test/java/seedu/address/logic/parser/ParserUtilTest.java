@@ -19,7 +19,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
 import seedu.address.model.location.PostalCode;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
@@ -185,14 +185,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseVisitDate_validValueWithoutWhitespace_returnsVisitDate() throws Exception {
-        VisitDate expected = new VisitDate("2026-01-01");
+        VisitDate expected = VisitDate.of("2026-01-01");
         assertEquals(expected, ParserUtil.parseVisitDate("2026-01-01"));
     }
 
     @Test
     public void parseVisitDate_validValueWithWhitespace_returnsTrimmedVisitDate() throws Exception {
         String input = "  2026-01-01  ";
-        VisitDate expected = new VisitDate("2026-01-01");
+        VisitDate expected = VisitDate.of("2026-01-01");
         assertEquals(expected, ParserUtil.parseVisitDate(input));
     }
 
@@ -212,8 +212,8 @@ public class ParserUtilTest {
                 Arrays.asList("2026-01-01", "2026-01-02"));
 
         Set<VisitDate> expected = new HashSet<>(Arrays.asList(
-                new VisitDate("2026-01-01"),
-                new VisitDate("2026-01-02")
+                VisitDate.of("2026-01-01"),
+                VisitDate.of("2026-01-02")
         ));
 
         assertEquals(expected, actual);

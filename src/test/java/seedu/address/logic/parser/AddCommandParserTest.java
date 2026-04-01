@@ -43,7 +43,7 @@ import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
 import seedu.address.model.location.Name;
 import seedu.address.model.location.Phone;
-import seedu.address.model.location.VisitDate;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.LocationBuilder;
 

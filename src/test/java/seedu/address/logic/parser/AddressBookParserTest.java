@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.Theme;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteNoteCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -140,8 +141,14 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_note_success() throws Exception {
         assertEquals(new NoteCommand(new seedu.address.model.location.NoteContent("Great place"),
-                new seedu.address.model.location.VisitDate("2026-03-24")),
+                        seedu.address.model.location.dates.VisitDate.of("2026-03-24")),
                 parser.parseCommand("note n/Great place d/2026-03-24"));
+    }
+
+    @Test
+    public void parseCommand_deleteNote_success() throws Exception {
+        assertTrue(parser.parseCommand("note d-/2026-03-24")
+                instanceof DeleteNoteCommand);
     }
 
     @Test
