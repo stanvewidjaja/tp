@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.location.Name;
+import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.VisitDate;
 
 /**
@@ -24,13 +24,13 @@ public class NoteCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New note recorded: %1$s";
 
-    private final Name noteContent;
+    private final NoteContent noteContent;
     private final VisitDate date;
 
     /**
      * Creates a NoteCommand with the given note text and date.
      */
-    public NoteCommand(Name noteContent, VisitDate date) {
+    public NoteCommand(NoteContent noteContent, VisitDate date) {
         requireNonNull(noteContent);
         requireNonNull(date);
         this.noteContent = noteContent;

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.location.Name;
+import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.VisitDate;
 
 public class NoteCommandTest {
@@ -25,7 +25,7 @@ public class NoteCommandTest {
 
     @Test
     public void execute_noteWithDate_success() {
-        NoteCommand command = new NoteCommand(new Name("Great place"), new VisitDate("2026-03-24"));
+        NoteCommand command = new NoteCommand(new NoteContent("Great place"), new VisitDate("2026-03-24"));
         String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS, "Great place (2026-03-24)");
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -33,9 +33,9 @@ public class NoteCommandTest {
 
     @Test
     public void equals() {
-        NoteCommand first = new NoteCommand(new Name("Great place"), new VisitDate("2026-03-24"));
-        NoteCommand second = new NoteCommand(new Name("Great place"), new VisitDate("2026-03-24"));
-        NoteCommand third = new NoteCommand(new Name("Different note"), new VisitDate("2026-03-24"));
+        NoteCommand first = new NoteCommand(new NoteContent("Great place"), new VisitDate("2026-03-24"));
+        NoteCommand second = new NoteCommand(new NoteContent("Great place"), new VisitDate("2026-03-24"));
+        NoteCommand third = new NoteCommand(new NoteContent("Different note"), new VisitDate("2026-03-24"));
 
         assertEquals(first, first);
         assertEquals(first, second);

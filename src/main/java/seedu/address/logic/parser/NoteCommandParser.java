@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.location.Name;
+import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.VisitDate;
 
 /**
@@ -26,7 +26,7 @@ public class NoteCommandParser implements Parser<NoteCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_DATE);
 
-        Name noteContent = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        NoteContent noteContent = ParserUtil.parseNoteContent(argMultimap.getValue(PREFIX_NAME).get());
         VisitDate date = ParserUtil.parseVisitDate(argMultimap.getValue(PREFIX_DATE).get());
 
         return new NoteCommand(noteContent, date);
