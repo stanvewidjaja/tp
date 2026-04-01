@@ -155,89 +155,72 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Undo/redo feature
 
-#### Proposed Implementation
+#### Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+Undo/redo is implemented as a single-level snapshot mechanism in `ModelManager`, scoped to undoable application state.
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+The model stores up to three snapshots:
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+* `pendingState`: the pre-command snapshot captured before a mutating command executes
+* `undoState`: the last committed snapshot that `undo` can restore
+* `redoState`: the last undone snapshot that `redo` can restore
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+Each snapshot stores:
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+* a copy of the `AddressBook`
+* a copy of the `ShortcutMap`
+* the current `Theme`
 
-![UndoRedoState0](images/UndoRedoState0.png)
+The relevant model operations are:
 
-Step 2. The user executes `delete 5` command to delete the 5th location in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+* `Model#saveState()`: captures the current undoable state before a mutating command runs
+* `Model#commitState()`: promotes the pending snapshot to the undo slot if the command actually changed state
+* `Model#discardState()`: drops the pending snapshot when command execution fails
+* `Model#undoState()`: restores the undo snapshot and saves the current state as the redo snapshot
+* `Model#redoState()`: restores the redo snapshot and saves the current state as the undo snapshot
 
-![UndoRedoState1](images/UndoRedoState1.png)
+`LogicManager#execute(...)` coordinates this flow centrally:
 
-Step 3. The user executes `add n/David …​` to add a new location. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+1. Parse the command.
+2. If `Command#isStateMutating()` is `true`, call `Model#saveState()`.
+3. Execute the command.
+4. If execution succeeds, call `Model#commitState()`.
+5. If execution fails, call `Model#discardState()` so failed commands do not affect undo history.
 
-![UndoRedoState2](images/UndoRedoState2.png)
+`add`, `edit`, `delete`, `clear`, `shortcut set`, `shortcut remove`, and `theme` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find`, `plan`, `help`, `shortcut list`, and `note` do not change undo/redo history. `note` is excluded because it does not persist any model state yet. `undo` and `redo` themselves also do not create new history entries.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+#### Behavior
 
-</div>
+The implementation is intentionally limited to one level:
 
-Step 4. The user now decides that adding the location was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+* After one successful undo, there is no further undo available until another successful undoable change happens.
+* Redo is available after a successful undo until another successful undoable change happens.
+* A new successful undoable command clears the redo snapshot.
+* Commands that succeed without changing undoable state, such as `clear` on an already empty address book, do not consume the undo/redo slots.
 
-![UndoRedoState3](images/UndoRedoState3.png)
+#### Design considerations
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+**Aspect: Snapshot granularity**
 
-</div>
+* **Alternative 1 (current choice):** Save the whole undoable app state.
+  * Pros: Small implementation surface, keeps command classes simple, and supports address book, shortcuts, and theme uniformly.
+  * Cons: Uses more memory than command-specific inverse operations.
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+* **Alternative 2:** Each command stores enough information to reverse itself.
+  * Pros: Potentially more efficient and more flexible for future multi-level history.
+  * Cons: Higher implementation risk because every mutating command must define and maintain its own inverse logic.
 
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
+**Aspect: Where to trigger snapshotting**
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+* **Alternative 1 (current choice):** Centralize snapshot orchestration in `LogicManager`.
+  * Pros: Mutating commands only need to declare that they change undoable state; failed commands can be handled consistently in one place.
+  * Cons: Adds a small amount of command metadata via `isStateMutating()`.
 
-</div>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
-
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<img src="images/CommitActivityDiagram.png" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the location being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
+* **Alternative 2:** Let each command decide when to save snapshots.
+  * Pros: Commands can create a  snapshot at very precise points in execution.
+  * Cons: Easier to forget in new commands, and failure handling becomes duplicated across commands.
 
 ### \[Proposed\] Data archiving
 
@@ -446,7 +429,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `AddressMe` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Add a location**
 
@@ -454,19 +437,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User inputs the details of a location.
 2. User submits the details to the system.
-3. AddressMe confirms the addition.
-4. AddressMe shows the updated list.
+3. System confirms the addition.
+4. System shows the updated list.
 Use case ends.
 
 **Extensions**
 
 * 2a. The given details are invalid.
-* 2a1. AddressMe shows an error message, and if it can handle gracefully with incomplete data, will show the details it managed to add.
+* 2a1. System shows an error message, and if it can handle gracefully with incomplete data, will show the details it managed to add.
 Use case resumes at step 3.
 
 
 * 2b. The given location name is invalid.
-* 2b1. AddressMe shows an error message and informs the user it is unable to add the entry.
+* 2b1. System shows an error message and informs the user it is unable to add the entry.
 Use case ends.
 
 ---
@@ -476,27 +459,27 @@ Use case ends.
 **MSS**
 
 1. User requests to create a shortcut for an existing command.
-2. AddressMe validates the shortcut and the referenced command.
-3. AddressMe saves the shortcut.
-4. AddressMe confirms that the shortcut has been created.
+2. System validates the shortcut and the referenced command.
+3. System saves the shortcut.
+4. System confirms that the shortcut has been created.
    Use case ends.
 
 **Extensions**
 
 **2a. The alias violates validation constraints.**
 (e.g. contains illegal characters, matches a reserved keyword, or conflicts with an existing alias)
-2a1. AddressMe rejects the request and shows an appropriate error message.
+2a1. System rejects the request and shows an appropriate error message.
 Use case ends.
 
 
 **2b. The referenced command word is invalid.**
 (e.g. command does not exist or is not eligible for aliasing)
-2b1. AddressMe shows an error message indicating that the command is invalid.
+2b1. System shows an error message indicating that the command is invalid.
 Use case ends.
 
 
 **3a. Saving the shortcut fails due to a storage I/O error.**
-3a1. AddressMe shows an error message and does not persist the shortcut.
+3a1. System shows an error message and does not persist the shortcut.
 Use case ends.
 
 ---
@@ -506,9 +489,9 @@ Use case ends.
 **MSS**
 
 1. User requests to list locations using the list command.
-2. AddressMe shows a list of locations.
+2. System shows a list of locations.
 3. User requests to edit a specific location in the list by providing its index and the new details to be updated.
-4. AddressMe updates the location and shows a success message with the updated details.
+4. System updates the location and shows a success message with the updated details.
 Use case ends.
 
 **Extensions**
@@ -516,22 +499,22 @@ Use case ends.
 * 2a. The list is empty.
 Use case ends.
 * 3a. The given index is invalid (out of range or non-numeric).
-* 3a1. AddressMe shows an error message: "Invalid index. Please enter a valid location index."
+* 3a1. System shows an error message: "Invalid index. Please enter a valid location index."
 Use case resumes at step 2.
 
 
 * 3b. The provided email format is invalid.
-* 3b1. AddressMe shows an error message regarding the invalid email.
+* 3b1. System shows an error message regarding the invalid email.
 Use case resumes at step 2.
 
 
 * 3c. The provided phone number format is invalid.
-* 3c1. AddressMe shows an error message regarding the invalid phone number.
+* 3c1. System shows an error message regarding the invalid phone number.
 Use case resumes at step 2.
 
 
 * 3d. The edited details result in a duplicate entry (it matches an existing entry's name + phone/email).
-* 3d1. AddressMe rejects the edit, leaves the original record unchanged, and shows an error message.
+* 3d1. System rejects the edit, leaves the original record unchanged, and shows an error message.
 Use case resumes at step 2.
 
 ---
@@ -541,7 +524,7 @@ Use case resumes at step 2.
 **MSS**
 
 1. User enters the list command.
-2. AddressMe shows a list of locations.
+2. System shows a list of locations.
 Use case ends.
 
 **Extensions**
@@ -570,37 +553,73 @@ Use case ends.
 **MSS**
 
 1. User requests to list locations.
-2. AddressMe shows a list of locations.
+2. System shows a list of locations.
 3. User requests to delete one or more locations.
-4. AddressMe deletes all specified locations.
+4. System deletes all specified locations.
 Use case ends.
 
 **Extensions**
 
 * 2a. The list of locations is empty.
-* 2a1. AddressMe informs the user that there are no locations to delete.
+* 2a1. System informs the user that there are no locations to delete.
 Use case ends.
 
 
 * 3a. At least one given index is invalid.
-* 3a1. AddressMe shows an error message.
-* 3a2. AddressMe lists the available locations again.
+* 3a1. System shows an error message.
+* 3a2. System lists the available locations again.
 Use case resumes at step 2.
 
 
 * 3b. Duplicate indices are provided (e.g., `delete 2 2`).
-* 3b1. AddressMe shows an error message.
-* 3b2. AddressMe lists the available locations again.
+* 3b1. System shows an error message.
+* 3b2. System lists the available locations again.
 Use case resumes at step 2.
 
 
 * 5a. An error occurs during deletion.
-* 5a1. AddressMe informs the user that the deletion failed.
+* 5a1. System informs the user that the deletion failed.
 Use case ends.
 
 
 * *a. At any time, the user cancels the delete operation.
-* *a1. AddressMe aborts the delete operation.
+* *a1. System aborts the delete operation.
+Use case ends.
+
+---
+
+**Use case: Undo the last change**
+
+**MSS**
+
+1. User executes a successful command.
+2. User wants to undo the command.
+3. System restores the previous state.
+4. System shows a success message.
+Use case ends.
+
+**Extensions**
+
+* 2a. There is no stored undo state.
+* 2a1. System shows an error message.
+Use case ends.
+
+---
+
+**Use case: Redo the last undone change**
+
+**MSS**
+
+1. User successfully undoes an undoable change.
+2. User wants to redo the change.
+3. System reapplies the undone state.
+4. System shows a success message.
+Use case ends.
+
+**Extensions**
+
+* 2a. There is no stored redo state.
+* 2a1. System shows an error message.
 Use case ends.
 
 *{More to be added}*
@@ -678,3 +697,41 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+### Undoing and redoing changes
+
+1. Undo after a successful modifying command
+
+   1. Prerequisites: Start with at least one location in the list.
+
+   1. Test case: `delete 1` followed by `undo`<br>
+      Expected: The deleted location reappears. A success message for `undo` is shown.
+
+   1. Test case: `clear` followed by `undo`<br>
+      Expected: All previously saved locations are restored.
+
+   1. Test case: `theme dark` followed by `undo`<br>
+      Expected: The previous theme is restored.
+
+   1. Test case: `shortcut set a add` followed by `undo`<br>
+      Expected: The shortcut `a -> add` is removed.
+
+2. Undo when no undo state exists
+
+   1. Prerequisites: Fresh app start with no prior successful undoable command.
+
+   1. Test case: `undo`<br>
+      Expected: No data changes. An error message is shown.
+
+3. Redo after undo
+
+   1. Prerequisites: Execute `add n/Test Place`, then `undo`.
+
+   1. Test case: `redo`<br>
+      Expected: `Test Place` is added back. A success message for `redo` is shown.
+
+   1. Test case: `redo` again<br>
+      Expected: No data changes. An error message is shown because only one redo level is supported.
+
+   1. Test case: `theme dark`, `undo`, `redo`<br>
+      Expected: The theme becomes dark again.

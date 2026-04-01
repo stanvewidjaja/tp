@@ -237,6 +237,37 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Undoing the last change : `undo`
+
+Reverts the most recent successful undoable change.
+
+Format: `undo`
+
+* `undo` currently supports only one level of history.
+* Successful `add`, `edit`, `delete`, `clear`, `shortcut set`, `shortcut remove`, and `theme` commands are undoable.
+* Commands that do not change undoable state, such as `list`, `find`, `plan`, `help`, `shortcut list`, and `note`, do not affect undo history.
+* `note` is not undoable yet because it currently validates input and shows a confirmation message without persisting data.
+* If there is nothing to undo, AddressMe shows an error message.
+
+Examples:
+* `delete 3` followed by `undo` restores the deleted location.
+* `theme dark` followed by `undo` restores the previous theme.
+* `shortcut set a add` followed by `undo` removes the shortcut again.
+
+### Redoing the last undone change : `redo`
+
+Reapplies the most recent undone change.
+
+Format: `redo`
+
+* `redo` is available after a successful `undo` until another successful undoable command happens.
+* A new successful `add`, `edit`, `delete`, `clear`, `shortcut set`, `shortcut remove`, or `theme` command clears the redo state.
+* If there is nothing to redo, AddressMe shows an error message.
+
+Examples:
+* `add n/McDonalds` followed by `undo` and `redo` adds the same location back.
+* `theme dark` followed by `undo` and `redo` switches the theme back to dark.
+
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -306,3 +337,5 @@ E.g. `A` autocompletes into `add`, while `e` autocompletes to `e`, since both `e
 | **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`<br> e.g., `shortcut set a add`, `shortcut remove a`, `shortcut list`                                           |
 | **Theme**    | `theme light` / `theme dark`                                                                                                                                                                 |
 | **Note**     | `note n/NOTE d/DATE` <br> e.g., `note n/Great place d/2026-03-24`
+| **Undo**     | `undo`                                                                                                                                                                                       |
+| **Redo**     | `redo`                                                                                                                                                                                       |
