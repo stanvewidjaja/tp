@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import seedu.address.logic.parser.DateParser;
 
@@ -39,7 +40,7 @@ public class OneTimeDate extends VisitDate {
 
     @Override
     public String toString() {
-        return date.format(DateTimeFormatter.ofPattern("d MMM yy"));
+        return date.format(DateTimeFormatter.ofPattern("d MMM yy", Locale.ENGLISH));
     }
 
     @Override

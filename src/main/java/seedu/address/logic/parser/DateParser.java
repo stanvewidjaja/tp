@@ -30,21 +30,21 @@ public class DateParser {
             + "\n The case does not matter.";
 
     private static final DateTimeFormatter DATE_FORMATTERS = new DateTimeFormatterBuilder()
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy-M-d"))
-            .appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy"))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy/M/d"))
-            .appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy"))
-            .appendOptional(DateTimeFormatter.ofPattern("d/M/yy"))
-            .appendOptional(DateTimeFormatter.ofPattern("d-M-yy"))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy-M-d", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy/M/d", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yy", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-yy", Locale.ENGLISH))
             .toFormatter();
 
     private static final DateTimeFormatter MONTH_DAY_FORMATTERS = new DateTimeFormatterBuilder()
-            .appendOptional(DateTimeFormatter.ofPattern("dd-MM"))
-            .appendOptional(DateTimeFormatter.ofPattern("dd/MM"))
-            .appendOptional(DateTimeFormatter.ofPattern("d/M"))
-            .appendOptional(DateTimeFormatter.ofPattern("d-M"))
+            .appendOptional(DateTimeFormatter.ofPattern("dd-MM", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("dd/MM", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M", Locale.ENGLISH))
             .toFormatter();
 
     private static final List<DateTimeFormatter> DAY_OF_WEEK_FORMATTER = List.of(

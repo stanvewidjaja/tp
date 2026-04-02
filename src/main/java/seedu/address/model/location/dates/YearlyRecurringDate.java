@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import seedu.address.logic.parser.DateParser;
 
@@ -14,8 +15,8 @@ import seedu.address.logic.parser.DateParser;
 public class YearlyRecurringDate extends VisitDate {
     public static final String MESSAGE_CONSTRAINTS = DateParser.MESSAGE_WRONG_DATE_FORMAT;
 
-    private static final DateTimeFormatter PRETTY_FORMAT = DateTimeFormatter.ofPattern("dd MMM");
-    private static final DateTimeFormatter DATA_FORMAT = DateTimeFormatter.ofPattern("dd/MM");
+    private static final DateTimeFormatter PRETTY_FORMAT = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH);
+    private static final DateTimeFormatter DATA_FORMAT = DateTimeFormatter.ofPattern("dd/MM", Locale.ENGLISH);
     private final MonthDay date;
 
     /**
