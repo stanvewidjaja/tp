@@ -8,8 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
 
 /**
  * Panel containing the planner.
@@ -17,6 +19,9 @@ import seedu.address.model.location.Location;
 public class PlannerListPanel extends UiPart<Region> {
     private static final String FXML = "PlannerListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(PlannerListPanel.class);
+
+    @FXML
+    private VBox noteContainer;
 
     @FXML
     private ListView<Location> plannerListView;
@@ -31,6 +36,7 @@ public class PlannerListPanel extends UiPart<Region> {
         super(FXML);
         plannerListView.setItems(plannerList);
         plannerListView.setCellFactory(listView -> new PlannerListPanel.PlannerListViewCell());
+        showNote(new NoteContent("TTTSTESTS-STTSTESTSE"));
     }
 
     public void setPlannerHeader(String date) {
@@ -42,6 +48,17 @@ public class PlannerListPanel extends UiPart<Region> {
         } else {
             plannerHeader.setText(date);
         }
+    }
+
+    public void showNote(NoteContent note) {
+        noteContainer.getChildren().clear();
+
+        if (note == null || note.toString().isBlank()) {
+            return; // nothing shown
+        }
+
+        NoteCard noteNode = new NoteCard(note);
+        noteContainer.getChildren().add(noteNode.getRoot());
     }
 
     /**

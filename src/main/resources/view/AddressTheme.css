@@ -159,6 +159,43 @@
     -fx-text-fill: #475569;
 }
 
+.note-area {
+    -fx-background-color: #fffef7;
+    -fx-padding: 3 0 0 8;
+
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0.2, 0, 2);
+
+    /* red margin line */
+    -fx-border-insets: 0 0 0 0;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: transparent transparent transparent #ff6b6b;
+}
+
+.note-label {
+   -fx-font-size: 13px;
+       -fx-text-fill: #333;
+       -fx-font-family: "Consolas", "Segoe UI", monospace;
+       -fx-control-inner-background: transparent;
+       -fx-background-color: transparent;
+       -fx-border-color: transparent;
+       -fx-highlight-fill: #ffd54f;
+       -fx-highlight-text-fill: black;
+}
+
+.note-label .viewport {
+    -fx-background-color: transparent;
+}
+
+.note-label:focused {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-focus-color: transparent;
+}
+
 .stack-pane {
     -fx-background-color: transparent;
 }
