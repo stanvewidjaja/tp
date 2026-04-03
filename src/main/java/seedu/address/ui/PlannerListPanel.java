@@ -36,7 +36,6 @@ public class PlannerListPanel extends UiPart<Region> {
         super(FXML);
         plannerListView.setItems(plannerList);
         plannerListView.setCellFactory(listView -> new PlannerListPanel.PlannerListViewCell());
-        showNote(new NoteContent("TTTSTESTS-STTSTESTSE"));
     }
 
     public void setPlannerHeader(String date) {
@@ -50,6 +49,10 @@ public class PlannerListPanel extends UiPart<Region> {
         }
     }
 
+    /**
+     * Displays note in the planner pane if non-null. Otherwise, clears the note
+     * @param note Valid note to display
+     */
     public void showNote(NoteContent note) {
         noteContainer.getChildren().clear();
 

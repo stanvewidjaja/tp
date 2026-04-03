@@ -1,18 +1,19 @@
 package seedu.address.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.model.location.NoteContent;
 
+/**
+ * Represents a Note in the GUI
+ */
 public class NoteCard extends UiPart<Region> {
     private static final String FXML = "NoteCard.fxml";
 
     @FXML
     private VBox notePane;
-    @FXML
-    private VBox noteContent;
     @FXML
     private TextArea note;
 
