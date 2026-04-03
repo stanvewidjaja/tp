@@ -10,21 +10,21 @@
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Consolas", "Segoe UI Semibold", monospace;
-    -fx-text-fill: #334155;
+    -fx-text-fill: #233662;
     -fx-opacity: 0.95;
 }
 
 .label-bright {
     -fx-font-size: 11pt;
     -fx-font-family: "Consolas", "Segoe UI Semibold", monospace;
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #233662;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Consolas", "Segoe UI Light", monospace;
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #3D98AE;
     -fx-opacity: 1;
 }
 
@@ -144,13 +144,13 @@
 }
 
 .list-cell .label {
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #193f48;
 }
 
 .cell_big_label {
     -fx-font-family: "Consolas", "Segoe UI Semibold", monospace;
     -fx-font-size: 16px;
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #475569;
 }
 
 .cell_small_label {
@@ -160,10 +160,10 @@
 }
 
 .note-area {
-    -fx-background-color: #fffef7;
+    -fx-background-color: #FBF4DB;
     -fx-padding: 3 0 0 8;
 
-    -fx-border-color: #e0e0e0;
+    -fx-border-color: transparent;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0.2, 0, 2);
@@ -176,13 +176,13 @@
 
 .note-label {
    -fx-font-size: 13px;
-       -fx-text-fill: #333;
+       -fx-text-fill: #8B4230;
        -fx-font-family: "Consolas", "Segoe UI", monospace;
        -fx-control-inner-background: transparent;
        -fx-background-color: transparent;
        -fx-border-color: transparent;
        -fx-highlight-fill: #ffd54f;
-       -fx-highlight-text-fill: black;
+       -fx-highlight-text-fill: brown;
 }
 
 .note-label .viewport {

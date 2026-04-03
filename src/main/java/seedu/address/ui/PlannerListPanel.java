@@ -36,6 +36,7 @@ public class PlannerListPanel extends UiPart<Region> {
         super(FXML);
         plannerListView.setItems(plannerList);
         plannerListView.setCellFactory(listView -> new PlannerListPanel.PlannerListViewCell());
+        showNote(new NoteContent("TEST"));
     }
 
     public void setPlannerHeader(String date) {
