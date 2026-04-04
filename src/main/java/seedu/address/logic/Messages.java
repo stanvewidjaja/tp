@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.dates.VisitDate;
+import seedu.address.model.tag.Tag;
 
 /**
  * Container for user visible messages.
@@ -50,11 +52,20 @@ public class Messages {
         if (location.getVisitDates().isEmpty()) {
             builder.append("-");
         } else {
-            builder.append(location.getVisitDates());
+            builder.append(location.getVisitDates().stream()
+                    .map(VisitDate::toString)
+                    .collect(Collectors.joining(", ")));
         }
 
         builder.append("; Tags: ");
-        location.getTags().forEach(builder::append);
+        if (location.getVisitDates().isEmpty()) {
+            builder.append("-");
+        } else {
+            builder.append(location.getTags().stream()
+                    .map(Tag::toString)
+                    .collect(Collectors.joining(", ")));
+        }
+
         return builder.toString();
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.control.TextArea?>
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" styleClass="note-area">
+    <VBox fx:id="notePane" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+        <Label fx:id="header" text="Note:" styleClass="cell_big_label" />
+        <TextArea fx:id="note" styleClass="note-label" text="\$note" wrapText="true" minHeight="60" maxHeight="100" editable="false"/>
+    </VBox>
+</HBox>

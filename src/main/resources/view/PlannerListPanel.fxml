@@ -4,8 +4,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" spacing="10.0">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" spacing="10.0" >
     <Label fx:id="plannerHeader" text="Start planning..." styleClass="label-header" />
-    <ListView fx:id="plannerListView" VBox.vgrow="ALWAYS" />
+
+    <VBox fx:id="noteContainer" />
+
+    <ListView fx:id="plannerListView"  VBox.vgrow="ALWAYS" />
 </VBox>
 

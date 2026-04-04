@@ -61,7 +61,7 @@ public class LocationCard extends UiPart<Region> {
         postalCode.setText("Postal Code: " + location.getPostalString());
 
         if (location.getVisitDates().isEmpty()) {
-            visitDates.getChildren().add(new Label("-"));
+            //visitDates.getChildren().add(new Label("-"));
         } else {
             location.getVisitDates().stream()
                     .sorted(Comparator.comparing(VisitDate::toString))
