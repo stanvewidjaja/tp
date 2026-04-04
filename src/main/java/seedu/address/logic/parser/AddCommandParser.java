@@ -9,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSTAL_CODE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -69,7 +70,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<VisitDate> visitDates = ParserUtil.parseVisitDates(argMultimap.getAllValues(PREFIX_DATE));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Location location = new Location(name, phone, email, address, postalCode, visitDates, tagList);
+        Location location = new Location(name, phone, email, address, postalCode, visitDates, tagList, new HashMap<>());
         return new AddCommand(location);
     }
 

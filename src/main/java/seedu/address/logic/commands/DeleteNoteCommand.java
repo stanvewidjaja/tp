@@ -5,10 +5,11 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.location.Location;
 import seedu.address.model.location.dates.VisitDate;
 
 /**
- * Deletes notes in AddressMe for a given date (backend implementation deferred).
+ * Deletes notes in AddressMe for a given date.
  */
 public class DeleteNoteCommand extends Command {
 
@@ -19,7 +20,8 @@ public class DeleteNoteCommand extends Command {
             + "Parameters: d-/DATE\n"
             + "Example: " + COMMAND_WORD + " d-/2026-03-24";
 
-    public static final String MESSAGE_SUCCESS = "Delete note request received for date: %1$s";
+    public static final String MESSAGE_SUCCESS = "Deleted notes on %1$s";
+    public static final String MESSAGE_NO_NOTES_FOUND = "No notes found for the given date.";
 
     private final VisitDate date;
 
@@ -34,6 +36,21 @@ public class DeleteNoteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        boolean deletedAny = false;
+
+        for (Location location : model.getFilteredLocationList()) {
+            if (location.hasNotesOn(date)) {
+                Location updatedLocation = location.removeNotesByDate(date);
+                model.setLocation(location, updatedLocation);
+                deletedAny = true;
+            }
+        }
+
+        if (!deletedAny) {
+            throw new CommandException(MESSAGE_NO_NOTES_FOUND);
+        }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, date));
     }
 

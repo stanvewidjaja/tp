@@ -117,7 +117,8 @@ public class LocationTest {
                 + ", address=" + ALICE.getAddressString()
                 + ", postalCode=" + ALICE.getPostalString()
                 + ", visitDates=" + ALICE.getVisitDates()
-                + ", tags=" + ALICE.getTags() + "}";
+                + ", tags=" + ALICE.getTags()
+                + ", notes=" + ALICE.getNotes() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -141,7 +142,8 @@ public class LocationTest {
                 + ", address=-"
                 + ", postalCode=-"
                 + ", visitDates=" + location.getVisitDates()
-                + ", tags=" + location.getTags() + "}";
+                + ", tags=" + location.getTags()
+                + ", notes=" + location.getNotes() + "}";
         assertEquals(expected, location.toString());
     }
 }

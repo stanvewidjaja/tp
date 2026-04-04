@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -147,6 +148,6 @@ class JsonAdaptedLocation {
         final Set<Tag> modelTags = new HashSet<>(locationTags);
 
         return new Location(modelName, modelPhone, modelEmail,
-                modelAddress, modelPostalCode, modelVisitDates, modelTags);
+                modelAddress, modelPostalCode, modelVisitDates, modelTags, new HashMap<>());
     }
 }

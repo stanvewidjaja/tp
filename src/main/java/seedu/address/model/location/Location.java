@@ -4,7 +4,9 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -29,14 +31,15 @@ public class Location {
     private final Optional<Address> address;
     private final Set<VisitDate> visitDates = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
+    private final Map<VisitDate, String> notes = new HashMap<>();
 
     /**
      * Creates a Location, optional fields may be empty.
      */
     public Location(Name name, Optional<Phone> phone, Optional<Email> email,
                     Optional<Address> address, Optional<PostalCode> postalCode,
-                    Set<VisitDate> visitDates, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, postalCode, visitDates, tags);
+                    Set<VisitDate> visitDates, Set<Tag> tags, Map<VisitDate, String> notes) {
+        requireAllNonNull(name, phone, email, address, postalCode, visitDates, tags, notes);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -44,6 +47,7 @@ public class Location {
         this.postalCode = postalCode;
         this.visitDates.addAll(visitDates);
         this.tags.addAll(tags);
+        notes.forEach((date, note) -> this.notes.put(date, note));
     }
 
     public Name getName() {
@@ -99,6 +103,37 @@ public class Location {
     }
 
     /**
+     * Returns an immutable view of the notes mapped by visit date.
+     */
+    public Map<VisitDate, String> getNotes() {
+        return Collections.unmodifiableMap(notes);
+    }
+
+    /**
+     * Returns true if this location a note on the given date.
+     */
+    public boolean hasNotesOn(VisitDate date) {
+        requireAllNonNull(date);
+        return notes.containsKey(date);
+    }
+
+    /**
+     * Returns a new {@code Location} with the note on the given date removed.
+     *
+     * @param date The visit date whose associated note is to be removed.
+     * @return A new location without the note on the given date.
+     */
+    public Location removeNotesByDate(VisitDate date) {
+        requireAllNonNull(date);
+
+        Map<VisitDate, String> updatedNotes = new HashMap<>(notes);
+        updatedNotes.remove(date);
+
+        return new Location(name, phone, email, address, postalCode,
+                visitDates, tags, updatedNotes);
+    }
+
+    /**
      * Returns true if both locations have the same name.
      * This defines a weaker notion of equality between two locations.
      */
@@ -139,12 +174,13 @@ public class Location {
                 && address.equals(otherLocation.address)
                 && postalCode.equals(otherLocation.postalCode)
                 && visitDates.equals(otherLocation.visitDates)
-                && tags.equals(otherLocation.tags);
+                && tags.equals(otherLocation.tags)
+                && notes.equals(otherLocation.notes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, address, postalCode, visitDates, tags);
+        return Objects.hash(name, phone, email, address, postalCode, visitDates, tags, notes);
     }
 
     @Override
@@ -157,6 +193,7 @@ public class Location {
                 .add("postalCode", getPostalString())
                 .add("visitDates", visitDates)
                 .add("tags", tags)
+                .add("notes", notes)
                 .toString();
     }
 }
