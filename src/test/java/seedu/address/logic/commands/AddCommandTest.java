@@ -215,7 +215,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setNote(seedu.address.model.location.dates.VisitDate date, seedu.address.model.location.NoteContent note) {
+        public void setNote(seedu.address.model.location.dates.VisitDate date,
+                seedu.address.model.location.NoteContent note) {
             throw new AssertionError("This method should not be called.");
         }
 

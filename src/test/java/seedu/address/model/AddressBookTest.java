@@ -85,7 +85,7 @@ public class AddressBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{locations=" + addressBook.getLocationList() 
+        String expected = AddressBook.class.getCanonicalName() + "{locations=" + addressBook.getLocationList()
                 + ", notes=" + addressBook.getNoteMap() + "}";
         assertEquals(expected, addressBook.toString());
     }
@@ -106,7 +106,8 @@ public class AddressBookTest {
         }
 
         @Override
-        public java.util.Map<seedu.address.model.location.dates.VisitDate, seedu.address.model.location.NoteContent> getNoteMap() {
+        public java.util.Map<seedu.address.model.location.dates.VisitDate,
+                seedu.address.model.location.NoteContent> getNoteMap() {
             return java.util.Collections.emptyMap();
         }
     }

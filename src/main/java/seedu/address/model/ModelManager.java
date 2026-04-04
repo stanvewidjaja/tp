@@ -54,7 +54,7 @@ public class ModelManager implements Model {
         filteredLocations = new FilteredList<>(this.addressBook.getLocationList());
         plannerLocations = new FilteredList<>(
                 this.addressBook.getLocationList()).filtered(PREDICATE_HIDE_ALL_LOCATIONS);
-        
+
         this.plannerNote = new SimpleObjectProperty<>(null);
         this.currentPlannedDate = null;
     }
