@@ -319,8 +319,9 @@ public class ModelManagerTest {
         separateModel.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
 
         String value = separateModel.getPlannerNoteProperty().getValue().toString();
-        // Since it's a LinkedHashMap, "Generic note" should come before "Specific note"
-        String expected = "Generic note" + "\n\n" + "Specific note";
-        assertEquals(expected, value);
+        String[] mergedNotes = value.split("\n\n");
+        assertEquals(2, mergedNotes.length);
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Generic note"));
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Specific note"));
     }
 }

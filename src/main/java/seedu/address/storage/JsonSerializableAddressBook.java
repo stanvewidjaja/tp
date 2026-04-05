@@ -67,16 +67,19 @@ class JsonSerializableAddressBook {
             addressBook.addLocation(location);
         }
         for (Map.Entry<String, String> entry : notes.entrySet()) {
-            VisitDate visitDate = VisitDate.of(entry.getKey());
+            String dateKey = entry.getKey();
+            VisitDate visitDate = VisitDate.of(dateKey);
             String noteValue = entry.getValue();
             NoteContent noteContent;
             if (noteValue == null) {
-                throw new IllegalValueException("Note value is missing. " + NoteContent.MESSAGE_CONSTRAINTS);
+                throw new IllegalValueException("Note value is missing for date '" + dateKey + "'. "
+                        + NoteContent.MESSAGE_CONSTRAINTS);
             }
             if (NoteContent.isValidNoteContent(noteValue)) {
                 noteContent = new NoteContent(noteValue);
             } else {
-                throw new IllegalValueException(NoteContent.MESSAGE_CONSTRAINTS);
+                throw new IllegalValueException("Invalid note value for date '" + dateKey + "'. "
+                        + NoteContent.MESSAGE_CONSTRAINTS);
             }
             addressBook.setNote(visitDate, noteContent);
         }

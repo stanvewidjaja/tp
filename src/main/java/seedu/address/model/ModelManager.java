@@ -275,12 +275,7 @@ public class ModelManager implements Model {
         }
 
         if (combinedNotes.length() > 0) {
-            String combinedString = combinedNotes.toString();
-            if (combinedString.isEmpty()) {
-                plannerNote.set(null);
-            } else {
-                plannerNote.set(new NoteContent(combinedString));
-            }
+            plannerNote.set(new NoteContent(combinedNotes.toString()));
         } else {
             plannerNote.set(null);
         }
