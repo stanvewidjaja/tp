@@ -13,12 +13,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.location.exceptions.DuplicateLocationException;
 import seedu.address.testutil.LocationBuilder;
 
@@ -106,9 +109,8 @@ public class AddressBookTest {
         }
 
         @Override
-        public java.util.Map<seedu.address.model.location.dates.VisitDate,
-                seedu.address.model.location.NoteContent> getNoteMap() {
-            return java.util.Collections.emptyMap();
+        public Map<VisitDate, NoteContent> getNoteMap() {
+            return Collections.emptyMap();
         }
     }
 

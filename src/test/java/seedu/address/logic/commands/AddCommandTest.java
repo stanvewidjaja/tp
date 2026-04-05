@@ -15,6 +15,7 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.Theme;
@@ -26,6 +27,8 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyShortcutMap;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.testutil.LocationBuilder;
 
 public class AddCommandTest {
@@ -215,13 +218,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setNote(seedu.address.model.location.dates.VisitDate date,
-                seedu.address.model.location.NoteContent note) {
+        public void setNote(VisitDate date, NoteContent note) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public javafx.beans.value.ObservableValue<seedu.address.model.location.NoteContent> getPlannerNoteProperty() {
+        public ObservableValue<NoteContent> getPlannerNoteProperty() {
             throw new AssertionError("This method should not be called.");
         }
     }

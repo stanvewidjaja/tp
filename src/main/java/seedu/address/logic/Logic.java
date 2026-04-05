@@ -2,6 +2,7 @@ package seedu.address.logic;
 
 import java.nio.file.Path;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.Theme;
@@ -10,6 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
 
 /**
  * API of the Logic component
@@ -38,7 +40,7 @@ public interface Logic {
     ObservableList<Location> getPlannerLocationList();
 
     /** Returns an observable property pointing to the current active note in the planner */
-    javafx.beans.value.ObservableValue<seedu.address.model.location.NoteContent> getPlannerNoteProperty();
+    ObservableValue<NoteContent> getPlannerNoteProperty();
 
     /**
      * Returns the user prefs' address book file path.

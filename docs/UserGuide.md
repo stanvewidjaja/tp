@@ -337,7 +337,7 @@ Records a date-bound note that will be persisted in future milestones. Currently
 Format: `note n/NOTE d/DATE` (DATE required)
 
 Examples:
-* `note n/Great place d/2026-03-24`
+* `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24`
 
 ### `note d-` - Deleting a note
 
@@ -436,7 +436,7 @@ Format: `exit`
 | **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…` | `edit 2 n/James Lee e/jameslee@example.com d+/e-friday`                   |
 | **Find**        | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`                                              | `find n/Cafe t/Halal d/3/4/26`                                            |
 | **List**        | `list`                                                                                                                                    | `list`                                                                    |
-| **Note**        | `note n/NOTE d/DATE`                                                                                                                      | `note n/Great place d/2026-03-24`                                         |
+| **Note**        | `note n/NOTE d/DATE`                                                                                                                      | `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` |
 | **Delete Note** | `note d-/DATE`                                                                                                                            | `note d-/2026-03-24`                                                      |
 | **Plan**        | `plan DATE` or `plan`                                                                                                                     | `plan d/23/9`                                                             |
 | **Shortcut**    | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`                                                             | `shortcut set a add`, `shortcut remove a`, `shortcut list`                |

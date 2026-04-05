@@ -20,7 +20,7 @@ public class NoteCommand extends Command {
             + "Add format: n/NOTE_CONTENT d/DATE\n"
             + "Delete format: d-/DATE\n"
             + "\nExamples:\n"
-            + COMMAND_WORD + " n/Great place d/2026-03-24\n"
+            + COMMAND_WORD + " n/Involves lots of walking. Bring extra water bottles. d/2026-03-24\n"
             + COMMAND_WORD + " d-/2026-03-24";
 
     public static final String MESSAGE_SUCCESS = "New note recorded: %1$s";
