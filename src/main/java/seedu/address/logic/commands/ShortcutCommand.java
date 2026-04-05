@@ -16,9 +16,10 @@ public class ShortcutCommand extends Command {
     public static final String COMMAND_WORD = "shortcut";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Manages command shortcuts.\n"
-            + "Format: " + COMMAND_WORD + " set ALIAS COMMAND_WORD\n"
-            + "        " + COMMAND_WORD + " remove ALIAS\n"
-            + "        " + COMMAND_WORD + " list";
+            + "Parameters: set ALIAS COMMAND_WORD | remove ALIAS | list\n"
+            + "Example: " + COMMAND_WORD + " set r redo | "
+            + COMMAND_WORD + " remove r | "
+            + COMMAND_WORD + " list";
 
     public static final String MESSAGE_SET_SUCCESS = "Shortcut set: %1$s -> %2$s";
     public static final String MESSAGE_REMOVE_SUCCESS = "Shortcut removed: %1$s";

@@ -13,6 +13,7 @@ public class RedoCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Reapplies the most recent undone undoable command\n"
             + "(for e.g: add, edit, delete, clear, shortcut set/remove, or theme).\n"
+            + "Parameters: none\n"
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Redid the last undone change.";

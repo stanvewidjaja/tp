@@ -13,6 +13,7 @@ public class UndoCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Reverts the most recent successful undoable command\n"
             + "(for e.g: add, edit, delete, clear, shortcut set/remove, or theme).\n"
+            + "Parameters: none\n"
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Undid the last change.";
