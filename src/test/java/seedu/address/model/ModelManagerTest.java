@@ -284,4 +284,71 @@ public class ModelManagerTest {
         String expected = "Generic note" + "\n\n" + "Specific note";
         assertEquals(expected, value);
     }
+
+    @Test
+    public void hasNote_noteExists_returnsTrue() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Involves lots of walking. Bring extra water bottles.");
+
+        modelManager.setNote(date, note);
+
+        assertTrue(modelManager.hasNote(date));
+    }
+
+    @Test
+    public void hasNote_noteMissing_returnsFalse() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+
+        assertFalse(modelManager.hasNote(date));
+    }
+
+    @Test
+    public void removeNote_existingNote_removesNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Involves lots of walking. Bring extra water bottles.");
+
+        modelManager.setNote(date, note);
+        assertTrue(modelManager.hasNote(date));
+
+        modelManager.removeNote(date);
+
+        assertFalse(modelManager.hasNote(date));
+    }
+
+    @Test
+    public void removeNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.removeNote(null));
+    }
+
+    @Test
+    public void removeNote_currentPlannedDate_updatesPlannerNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Involves lots of walking. Bring extra water bottles.");
+
+        modelManager.setNote(date, note);
+        modelManager.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+        assertEquals(note, modelManager.getPlannerNoteProperty().getValue());
+
+        modelManager.removeNote(date);
+
+        assertEquals(null, modelManager.getPlannerNoteProperty().getValue());
+    }
+
+    @Test
+    public void removeNote_differentDate_doesNotAffectPlannerNote() throws Exception {
+        VisitDate plannerDate = VisitDate.of("2026-03-24");
+        VisitDate otherDate = VisitDate.of("2026-03-25");
+        NoteContent plannerNote = new NoteContent("Planner note");
+        NoteContent otherNote = new NoteContent("Other note");
+
+        modelManager.setNote(plannerDate, plannerNote);
+        modelManager.setNote(otherDate, otherNote);
+        modelManager.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+
+        assertEquals(plannerNote, modelManager.getPlannerNoteProperty().getValue());
+
+        modelManager.removeNote(otherDate);
+
+        assertEquals(plannerNote, modelManager.getPlannerNoteProperty().getValue());
+    }
 }

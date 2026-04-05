@@ -13,12 +13,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.location.exceptions.DuplicateLocationException;
 import seedu.address.testutil.LocationBuilder;
 
@@ -106,10 +109,44 @@ public class AddressBookTest {
         }
 
         @Override
-        public java.util.Map<seedu.address.model.location.dates.VisitDate,
-                seedu.address.model.location.NoteContent> getNoteMap() {
+        public java.util.Map<VisitDate, NoteContent> getNoteMap() {
             return java.util.Collections.emptyMap();
         }
     }
+
+    @Test
+    public void setNote_validDate_addsNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+
+        addressBook.setNote(date, note);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
+
+    @Test
+    public void removeNote_existingDate_removesNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+        addressBook.setNote(date, note);
+
+        addressBook.removeNote(date);
+
+        assertTrue(addressBook.getNoteMap().isEmpty());
+    }
+
+    @Test
+    public void removeNote_missingDate_noChange() throws Exception {
+        VisitDate existingDate = VisitDate.of("2026-03-24");
+        VisitDate missingDate = VisitDate.of("2026-03-25");
+        NoteContent note = new NoteContent("Test Note");
+        addressBook.setNote(existingDate, note);
+
+        addressBook.removeNote(missingDate);
+
+        assertEquals(Map.of(existingDate, note), addressBook.getNoteMap());
+    }
+
+
 
 }
