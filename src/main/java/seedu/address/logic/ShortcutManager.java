@@ -25,6 +25,7 @@ public class ShortcutManager {
     public static final String MESSAGE_INVALID_COMMAND_WORD =
             "Shortcut target must be an existing command word.";
     public static final String MESSAGE_USAGE_LIST_EMPTY = "No shortcuts defined.";
+    public static final String MESSAGE_SHORTCUT_LIST_HEADER = "Shortcut List:";
 
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<firstToken>\\S+)(?<remainder>.*)");
     private static final Pattern VALID_ALIAS_PATTERN = Pattern.compile("[A-Za-z][A-Za-z0-9]*");
@@ -109,7 +110,7 @@ public class ShortcutManager {
             return MESSAGE_USAGE_LIST_EMPTY;
         }
 
-        StringJoiner joiner = new StringJoiner("\n");
+        StringJoiner joiner = new StringJoiner("\n", MESSAGE_SHORTCUT_LIST_HEADER + "\n", "");
         model.getShortcutMap().getSortedShortcutMappings()
                 .forEach(entry -> joiner.add(entry.getKey() + " -> " + entry.getValue()));
         return joiner.toString();

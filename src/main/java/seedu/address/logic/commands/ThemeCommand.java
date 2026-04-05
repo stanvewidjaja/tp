@@ -15,7 +15,7 @@ public class ThemeCommand extends Command {
     public static final String COMMAND_WORD = "theme";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Changes the application theme.\n"
-            + "Parameters: THEME_TYPE (light OR dark)\n"
+            + "Parameters: THEME_NAME (light OR dark)\n"
             + "Example: " + COMMAND_WORD + " dark";
 
     public static final String MESSAGE_SUCCESS = "Theme set to %1$s.";
@@ -42,11 +42,6 @@ public class ThemeCommand extends Command {
 
     public Theme getTheme() {
         return theme;
-    }
-
-    @Override
-    public boolean isStateMutating() {
-        return true;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DATE_DESC_AMY;
@@ -28,7 +27,6 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.ShortcutCommand;
-import seedu.address.logic.commands.ThemeCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -77,7 +75,7 @@ public class LogicManagerTest {
     @Test
     public void execute_commandExecutionError_throwsCommandException() {
         String deleteCommand = "delete 9";
-        assertCommandException(deleteCommand, MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandException(deleteCommand, Messages.getInvalidLocationDisplayedIndexMessage(0));
     }
 
     @Test
@@ -121,16 +119,6 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_undoRedoThemeChange_success() throws Exception {
-        assertCommandSuccess(ThemeCommand.COMMAND_WORD + " dark",
-                String.format(ThemeCommand.MESSAGE_SUCCESS, "dark"),
-                createModelWithTheme(Theme.DARK));
-
-        assertCommandSuccess(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_SUCCESS, new ModelManager());
-        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, createModelWithTheme(Theme.DARK));
-    }
-
-    @Test
     public void execute_undoRedoShortcutChange_success() throws Exception {
         assertCommandSuccess(ShortcutCommand.COMMAND_WORD + " set a add",
                 String.format(ShortcutCommand.MESSAGE_SET_SUCCESS, "a", "add"),
@@ -159,7 +147,7 @@ public class LogicManagerTest {
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + POSTAL_CODE_DESC_AMY + DATE_DESC_AMY;
 
         logic.execute(addCommand);
-        assertCommandException("delete 9", MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandException("delete 9", Messages.getInvalidLocationDisplayedIndexMessage(1));
         assertCommandSuccess(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_SUCCESS, new ModelManager());
     }
 

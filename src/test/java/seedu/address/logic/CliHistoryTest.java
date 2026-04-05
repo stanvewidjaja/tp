@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,13 @@ public class CliHistoryTest {
 
         assertEquals(EMPTY_STRING, history.getPrevious());
         assertEquals(EMPTY_STRING, history.getNext());
+    }
+
+    @Test
+    void emptyHistory_setPointer() {
+        CliHistory history = new CliHistory();
+        assertDoesNotThrow(history::setPointerMostRecent);
+
     }
 
     @Test
@@ -124,5 +132,20 @@ public class CliHistoryTest {
         // adding input derefs pointer, so should reset
         assertEquals("c", history.getPrevious());
         assertEquals("b", history.getPrevious());
+    }
+
+    @Test
+    void addInput_thenResetPointer() {
+        CliHistory history = new CliHistory();
+
+        history.addInput("a");
+        history.addInput("b");
+
+        history.setPointerMostRecent();
+        assertEquals("a", history.getPrevious());
+        assertEquals("b", history.getNext());
+
+        history.setPointerMostRecent();
+        assertEquals("", history.getNext());
     }
 }

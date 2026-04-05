@@ -144,7 +144,7 @@ public class ModelManager implements Model {
 
     @Override
     public void saveState() {
-        pendingState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        pendingState = AppState.from(addressBook, shortcutMap);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class ModelManager implements Model {
             return;
         }
 
-        AppState currentState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        AppState currentState = AppState.from(addressBook, shortcutMap);
         if (!pendingState.equals(currentState)) {
             undoState = pendingState;
             redoState = null;
@@ -174,7 +174,7 @@ public class ModelManager implements Model {
 
     @Override
     public void undoState() {
-        redoState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        redoState = AppState.from(addressBook, shortcutMap);
         restoreState(undoState);
         undoState = null;
     }
@@ -186,7 +186,7 @@ public class ModelManager implements Model {
 
     @Override
     public void redoState() {
-        undoState = AppState.from(addressBook, shortcutMap, userPrefs.getTheme());
+        undoState = AppState.from(addressBook, shortcutMap);
         restoreState(redoState);
         redoState = null;
     }
@@ -342,12 +342,11 @@ public class ModelManager implements Model {
     private void restoreState(AppState state) {
         setAddressBook(state.addressBook());
         shortcutMap.resetData(state.shortcutMap());
-        userPrefs.setTheme(state.theme());
     }
 
-    private record AppState(AddressBook addressBook, ShortcutMap shortcutMap, Theme theme) {
-        private static AppState from(ReadOnlyAddressBook addressBook, ReadOnlyShortcutMap shortcutMap, Theme theme) {
-            return new AppState(new AddressBook(addressBook), new ShortcutMap(shortcutMap), theme);
+    private record AppState(AddressBook addressBook, ShortcutMap shortcutMap) {
+        private static AppState from(ReadOnlyAddressBook addressBook, ReadOnlyShortcutMap shortcutMap) {
+            return new AppState(new AddressBook(addressBook), new ShortcutMap(shortcutMap));
         }
     }
 

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +23,8 @@ public class ThemeCommandTest {
     }
 
     @Test
-    public void isStateMutating_returnsTrue() {
-        assertEquals(true, new ThemeCommand(Theme.DARK).isStateMutating());
+    public void isStateMutating_returnsFalse() {
+        assertFalse(new ThemeCommand(Theme.DARK).isStateMutating());
     }
 
     @Test

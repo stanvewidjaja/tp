@@ -160,4 +160,16 @@ public class FindCommandParserTest {
                 new NameContainsKeywordsPredicate(Arrays.asList("aLi")))));
         assertParseSuccess(parser, "aLi", expectedFindCommand);
     }
+
+    @Test
+    void parse_unsupportedPrefix_throwsParseException() {
+        assertParseFailure(parser, " o/123",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    void parse_supportedAndUnsupportedPrefix_throwsParseException() {
+        assertParseFailure(parser, " n/John o/123",
+                           String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
 }

@@ -50,7 +50,8 @@ public class DeleteCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredLocationList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(List.of(outOfBoundIndex));
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model,
+                Messages.getInvalidLocationDisplayedIndexMessage(model.getFilteredLocationList().size()));
     }
 
     @Test
@@ -102,7 +103,8 @@ public class DeleteCommandTest {
 
         DeleteCommand deleteCommand = new DeleteCommand(List.of(outOfBoundIndex));
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model,
+                Messages.getInvalidLocationDisplayedIndexMessage(model.getFilteredLocationList().size()));
     }
 
     @Test

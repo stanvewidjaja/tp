@@ -18,8 +18,10 @@ public class HelpCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows a summary of all commands, help for a "
             + "specific command, or opens the online user guide.\n"
             + "Parameters: [COMMAND_WORD] | [" + LINK_FLAG + "]\n"
-            + "Example: " + COMMAND_WORD + " add\n"
-            + "Example: " + COMMAND_WORD + " " + LINK_FLAG;
+            + "\nExamples:\n"
+            + COMMAND_WORD + "\n"
+            + COMMAND_WORD + " add\n"
+            + COMMAND_WORD + " " + LINK_FLAG;
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
     public static final String MESSAGE_UNKNOWN_HELP_TOPIC = "Unknown command for help: %1$s";

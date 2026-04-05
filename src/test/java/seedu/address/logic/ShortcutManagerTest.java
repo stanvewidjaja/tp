@@ -62,6 +62,7 @@ public class ShortcutManagerTest {
         shortcutManager.addShortcut("e", "edit");
         shortcutManager.addShortcut("a1", "add");
         assertEquals(Map.of("a", "add", "e", "edit", "a1", "add"), model.getShortcutMap().getShortcutMappings());
-        assertEquals("a -> add\n" + "a1 -> add\n" + "e -> edit", shortcutManager.formatShortcutList());
+        assertEquals("Shortcut List:\n" + "a -> add\n" + "a1 -> add\n" + "e -> edit",
+                shortcutManager.formatShortcutList());
     }
 }

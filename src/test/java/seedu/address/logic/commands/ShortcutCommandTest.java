@@ -46,7 +46,7 @@ public class ShortcutCommandTest {
 
         ShortcutCommand command = new ShortcutCommand(ShortcutCommand.Action.LIST, null, null);
         assertCommandSuccess(command, model,
-                "a -> add\n" + "e -> edit", expectedModel);
+                "Shortcut List:\n" + "a -> add\n" + "e -> edit", expectedModel);
     }
 
     @Test

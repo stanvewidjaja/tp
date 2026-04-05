@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.FindCommand;
@@ -37,6 +39,11 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
+
+        if (containsUnsupportedPrefix(args)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
                         PREFIX_ADDRESS, PREFIX_TAG, PREFIX_DATE);
@@ -104,6 +111,34 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         return new FindCommand(new CombinedLocationPredicate(predicates));
+    }
+
+    /**
+     * Returns true if the input contains a prefix not supported by find.
+     */
+    private boolean containsUnsupportedPrefix(String args) {
+        Pattern pattern = Pattern.compile("(^|\\s)([a-zA-Z]+/)");
+        Matcher matcher = pattern.matcher(args);
+
+        while (matcher.find()) {
+            String prefix = matcher.group(2);
+            if (!isSupportedPrefix(prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the prefix is supported by find.
+     */
+    private boolean isSupportedPrefix(String prefix) {
+        return prefix.equals(PREFIX_NAME.getPrefix())
+                || prefix.equals(PREFIX_PHONE.getPrefix())
+                || prefix.equals(PREFIX_EMAIL.getPrefix())
+                || prefix.equals(PREFIX_ADDRESS.getPrefix())
+                || prefix.equals(PREFIX_TAG.getPrefix())
+                || prefix.equals(PREFIX_DATE.getPrefix());
     }
 
 }

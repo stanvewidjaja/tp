@@ -136,7 +136,8 @@ public class EditCommandTest {
         EditLocationDescriptor descriptor = new EditLocationDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandFailure(editCommand, model,
+                Messages.getInvalidLocationDisplayedIndexMessage(model.getFilteredLocationList().size()));
     }
 
     /**
@@ -153,7 +154,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
                 new EditLocationDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+        assertCommandFailure(editCommand, model,
+                Messages.getInvalidLocationDisplayedIndexMessage(model.getFilteredLocationList().size()));
     }
 
     @Test

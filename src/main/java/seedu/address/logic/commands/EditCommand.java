@@ -46,7 +46,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the location identified "
             + "by the index number used in the displayed location list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: INDEX "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -54,14 +54,17 @@ public class EditCommand extends Command {
             + "[" + PREFIX_POSTAL_CODE + "POSTAL_CODE] "
             + "[" + PREFIX_DATE + "DATE]... "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "[" + PREFIX_DATE_ADD + "DATE]... "
+            + "            [" + PREFIX_DATE_ADD + "DATE]... "
             + "[" + PREFIX_DATE_REMOVE + "DATE]... "
             + "[" + PREFIX_TAG_ADD + "TAG]... "
             + "[" + PREFIX_TAG_REMOVE + "TAG]...\n"
-            + "Note: t/ or d/ replaces all; t+/t-/ and d+/d-/ adds and removes (do not mix).\n"
+            + "Notes: INDEX must be a positive integer.\n"
+            + "       t/ or d/ replaces all tags and dates respectively; "
+            + "t+/t-/ and d+/d-/ adds or removes specified tag(s) and date(s) respectively.\n"
+            + "       Do not mix standard and incremental forms (e.g. do not use d/ and d+/ together).\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "alicepauline@gmail.com "
+            + PREFIX_EMAIL + "contact@sundowncafe.com "
             + PREFIX_DATE_ADD + "2026-01-01 "
             + PREFIX_DATE_REMOVE + "2026-02-01";
 
@@ -92,7 +95,7 @@ public class EditCommand extends Command {
         List<Location> lastShownList = model.getFilteredLocationList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX);
+            throw new CommandException(Messages.getInvalidLocationDisplayedIndexMessage(lastShownList.size()));
         }
 
         Location locationToEdit = lastShownList.get(index.getZeroBased());

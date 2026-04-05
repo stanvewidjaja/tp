@@ -168,21 +168,17 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void undoRedoState_themeAndShortcut_success() {
+    public void undoRedoState_shortcutOnly_success() {
         modelManager.saveState();
-        modelManager.setTheme(Theme.DARK);
         modelManager.setShortcut("a", "add");
         modelManager.commitState();
 
-        assertEquals(Theme.DARK, modelManager.getTheme());
         assertTrue(modelManager.hasShortcut("a"));
 
         modelManager.undoState();
-        assertEquals(Theme.LIGHT, modelManager.getTheme());
         assertFalse(modelManager.hasShortcut("a"));
 
         modelManager.redoState();
-        assertEquals(Theme.DARK, modelManager.getTheme());
         assertTrue(modelManager.hasShortcut("a"));
     }
 

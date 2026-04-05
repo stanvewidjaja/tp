@@ -42,7 +42,8 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "fastfood";
 
     public static final String MESSAGE_SUCCESS = "New location added: %1$s";
-    public static final String MESSAGE_DUPLICATE_LOCATION = "This location already exists in the AddressMe";
+    public static final String MESSAGE_DUPLICATE_LOCATION = "This location already exists in AddressMe.\n"
+            + "Use the edit command to update the existing entry instead.";
 
     private final Location toAdd;
 
