@@ -125,6 +125,26 @@ public class AddressBookTest {
     }
 
     @Test
+    public void setNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(null, new NoteContent("Note")));
+    }
+
+    @Test
+    public void setNote_nullNote_throwsNullPointerException() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(date, null));
+    }
+
+    @Test
+    public void removeNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                addressBook.removeNote(null));
+    }
+
+    @Test
     public void removeNote_existingDate_removesNote() throws Exception {
         VisitDate date = VisitDate.of("2026-03-24");
         NoteContent note = new NoteContent("Test Note");
@@ -147,6 +167,16 @@ public class AddressBookTest {
         assertEquals(Map.of(existingDate, note), addressBook.getNoteMap());
     }
 
+    @Test
+    public void resetData_preservesNotes() throws Exception {
+        AddressBook newData = new AddressBook();
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
 
+        newData.setNote(date, note);
 
+        addressBook.resetData(newData);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
 }
