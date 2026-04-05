@@ -347,4 +347,5 @@ public class ModelManagerTest {
 
         assertEquals(plannerNote, modelManager.getPlannerNoteProperty().getValue());
     }
+
 }
