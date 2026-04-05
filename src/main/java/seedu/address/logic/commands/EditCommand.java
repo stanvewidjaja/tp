@@ -64,7 +64,7 @@ public class EditCommand extends Command {
             + "       Do not mix standard and incremental forms (e.g. do not use d/ and d+/ together).\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "alicepauline@gmail.com "
+            + PREFIX_EMAIL + "contact@sundowncafe.com "
             + PREFIX_DATE_ADD + "2026-01-01 "
             + PREFIX_DATE_REMOVE + "2026-02-01";
 

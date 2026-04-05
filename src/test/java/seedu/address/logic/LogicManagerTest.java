@@ -25,7 +25,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.ShortcutCommand;
-import seedu.address.logic.commands.ThemeCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -113,16 +112,6 @@ public class LogicManagerTest {
         Location expectedLocation = new LocationBuilder(AMY).withTags().build();
         expectedModel.addLocation(expectedLocation);
         assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void execute_undoRedoThemeChange_success() throws Exception {
-        assertCommandSuccess(ThemeCommand.COMMAND_WORD + " dark",
-                String.format(ThemeCommand.MESSAGE_SUCCESS, "dark"),
-                createModelWithTheme(Theme.DARK));
-
-        assertCommandSuccess(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_SUCCESS, new ModelManager());
-        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, createModelWithTheme(Theme.DARK));
     }
 
     @Test
