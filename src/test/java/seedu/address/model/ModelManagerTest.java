@@ -17,7 +17,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.commons.core.Theme;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.dates.VisitDate;
