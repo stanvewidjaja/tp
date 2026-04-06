@@ -5,15 +5,21 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Theme;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.location.predicates.VisitDateMatchesKeywordsPredicate;
 
 /**
@@ -31,6 +37,9 @@ public class ModelManager implements Model {
     private AppState redoState;
     private AppState pendingState;
 
+    private final ObjectProperty<NoteContent> plannerNote;
+    private LocalDate currentPlannedDate;
+
     /**
      * Initializes a ModelManager with the given addressBook, userPrefs and shortcuts.
      */
@@ -45,6 +54,9 @@ public class ModelManager implements Model {
         filteredLocations = new FilteredList<>(this.addressBook.getLocationList());
         plannerLocations = new FilteredList<>(
                 this.addressBook.getLocationList()).filtered(PREDICATE_HIDE_ALL_LOCATIONS);
+
+        this.plannerNote = new SimpleObjectProperty<>(null);
+        this.currentPlannedDate = null;
     }
 
     public ModelManager() {
@@ -127,6 +139,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        updatePlannerNote();
     }
 
     @Override
@@ -235,11 +248,51 @@ public class ModelManager implements Model {
      */
     @Override
     public void updatePlannerLocationList(LocalDate date) {
+        currentPlannedDate = date;
         if (date == null) {
             plannerLocations.setPredicate(PREDICATE_HIDE_ALL_LOCATIONS);
+            plannerNote.set(null);
         } else {
             plannerLocations.setPredicate(new VisitDateMatchesKeywordsPredicate(date));
+            updatePlannerNote();
         }
+    }
+
+    private void updatePlannerNote() {
+        if (currentPlannedDate == null) {
+            plannerNote.set(null);
+            return;
+        }
+
+        StringBuilder combinedNotes = new StringBuilder();
+        for (Map.Entry<VisitDate, NoteContent> entry : addressBook.getNoteMap().entrySet()) {
+            if (entry.getKey().isOn(currentPlannedDate)) {
+                if (combinedNotes.length() > 0) {
+                    combinedNotes.append("\n\n");
+                }
+                combinedNotes.append(entry.getValue().toString());
+            }
+        }
+
+        if (combinedNotes.length() > 0) {
+            plannerNote.set(new NoteContent(combinedNotes.toString()));
+        } else {
+            plannerNote.set(null);
+        }
+    }
+
+    @Override
+    public void setNote(VisitDate date, NoteContent note) {
+        requireAllNonNull(date, note);
+        addressBook.setNote(date, note);
+        if (currentPlannedDate != null && date.isOn(currentPlannedDate)) {
+            updatePlannerNote();
+        }
+    }
+
+    @Override
+    public ObservableValue<NoteContent> getPlannerNoteProperty() {
+        return plannerNote;
     }
 
     @Override
@@ -257,7 +310,9 @@ public class ModelManager implements Model {
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && shortcutMap.equals(otherModelManager.shortcutMap)
-                && filteredLocations.equals(otherModelManager.filteredLocations);
+                && filteredLocations.equals(otherModelManager.filteredLocations)
+                && (currentPlannedDate == null ? otherModelManager.currentPlannedDate == null
+                        : currentPlannedDate.equals(otherModelManager.currentPlannedDate));
     }
 
     private void restoreState(AppState state) {

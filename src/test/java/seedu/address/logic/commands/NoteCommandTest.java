@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,23 @@ public class NoteCommandTest {
         NoteCommand command = new NoteCommand(new NoteContent("Great place"), VisitDate.of("2026-03-24"));
         String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS, "Great place (24 Mar 26)");
 
+        expectedModel.setNote(VisitDate.of("2026-03-24"), new NoteContent("Great place"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void isStateMutating() throws IllegalValueException {
+        NoteCommand command = new NoteCommand(new NoteContent("Great place"), VisitDate.of("2026-03-24"));
+        assertTrue(command.isStateMutating());
+    }
+
+    @Test
+    public void toStringMethod() throws IllegalValueException {
+        NoteContent note = new NoteContent("Great place");
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteCommand command = new NoteCommand(note, date);
+        String expected = NoteCommand.class.getCanonicalName() + "{noteContent=" + note + ", date=" + date + "}";
+        assertEquals(expected, command.toString());
     }
 
     @Test
@@ -37,11 +54,13 @@ public class NoteCommandTest {
         NoteCommand first = new NoteCommand(new NoteContent("Great place"), VisitDate.of("2026-03-24"));
         NoteCommand second = new NoteCommand(new NoteContent("Great place"), VisitDate.of("2026-03-24"));
         NoteCommand third = new NoteCommand(new NoteContent("Different note"), VisitDate.of("2026-03-24"));
+        NoteCommand fourth = new NoteCommand(new NoteContent("Great place"), VisitDate.of("2026-03-25"));
 
         assertEquals(first, first);
         assertEquals(first, second);
         assertNotEquals(first, third);
+        assertNotEquals(first, fourth);
         assertNotEquals(first, null);
-        assertNotEquals(first, new Object());
+        assertNotEquals(first, 1);
     }
 }

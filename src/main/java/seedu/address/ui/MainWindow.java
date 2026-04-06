@@ -130,7 +130,7 @@ public class MainWindow extends UiPart<Stage> {
         locationListPanel = new LocationListPanel(logic.getFilteredLocationList());
         locationListPanelPlaceholder.getChildren().add(locationListPanel.getRoot());
 
-        plannerListPanel = new PlannerListPanel(logic.getPlannerLocationList());
+        plannerListPanel = new PlannerListPanel(logic.getPlannerLocationList(), logic.getPlannerNoteProperty());
         plannerPanelPlaceholder.getChildren().add(plannerListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();

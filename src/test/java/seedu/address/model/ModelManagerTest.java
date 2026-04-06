@@ -10,12 +10,16 @@ import static seedu.address.testutil.TypicalLocations.BENSON;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.location.predicates.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
@@ -131,6 +135,44 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void setNote_updatesPlannerNote() throws IllegalValueException {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+        modelManager.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+        NoteContent initialPlannerNote = modelManager.getPlannerNoteProperty().getValue();
+        modelManager.setNote(date, note);
+        NoteContent updatedPlannerNote = modelManager.getPlannerNoteProperty().getValue();
+
+        assertFalse(note.equals(initialPlannerNote));
+        assertEquals(note, updatedPlannerNote);
+    }
+
+    @Test
+    public void discardState_clearsPendingState() {
+        modelManager.saveState();
+        modelManager.discardState();
+        modelManager.commitState();
+        assertFalse(modelManager.canUndoState());
+    }
+
+    @Test
+    public void commitState_noPendingState_noChange() {
+        modelManager.commitState();
+        assertFalse(modelManager.canUndoState());
+    }
+
+    @Test
+    public void updatePlannerLocationList_nullDate_clearsPredicate() {
+        modelManager.updatePlannerLocationList(null);
+        assertEquals(0, modelManager.getPlannerLocationList().size());
+    }
+
+    @Test
+    public void equals_differentTypes_returnsFalse() {
+        assertFalse(modelManager.equals(new Object()));
+    }
+
+    @Test
     public void commitState_noChange_preservesHistory() {
         modelManager.saveState();
         modelManager.commitState();
@@ -220,5 +262,61 @@ public class ModelManagerTest {
         ShortcutMap differentShortcutMap = new ShortcutMap();
         differentShortcutMap.setShortcutMappings(Map.of("e", "edit"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs, differentShortcutMap)));
+
+        // different currentPlannedDate -> returns false
+        modelManager.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+        assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs, shortcutMap)));
+    }
+
+    @Test
+    public void setNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setNote(null, new NoteContent("Note")));
+    }
+
+    @Test
+    public void setNote_nullNote_throwsNullPointerException() throws Exception {
+        assertThrows(NullPointerException.class, () -> modelManager.setNote(VisitDate.of("2026-03-24"), null));
+    }
+
+    @Test
+    public void getPlannerNoteProperty_initialState_returnsNull() {
+        assertEquals(null, modelManager.getPlannerNoteProperty().getValue());
+    }
+
+    @Test
+    public void updatePlannerLocationList_validDate_updatesPlannerNote() throws Exception {
+        ModelManager separateModel = new ModelManager();
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Great day");
+        separateModel.setNote(date, note);
+
+        // Date matches -> note should be present
+        separateModel.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+        assertEquals(note, separateModel.getPlannerNoteProperty().getValue());
+
+        // Date does not match -> note should be null
+        separateModel.updatePlannerLocationList(LocalDate.of(2026, 3, 25));
+        assertEquals(null, separateModel.getPlannerNoteProperty().getValue());
+    }
+
+    @Test
+    public void updatePlannerNote_multipleNotes_mergesNotes() throws Exception {
+        ModelManager separateModel = new ModelManager();
+        VisitDate everyDay = VisitDate.of("everyday");
+        VisitDate oneTime = VisitDate.of("2026-03-24");
+        NoteContent genericNote = new NoteContent("Generic note");
+        NoteContent specificNote = new NoteContent("Specific note");
+
+        // Use LinkedHashMap in AddressBook to ensure order
+        separateModel.setNote(everyDay, genericNote);
+        separateModel.setNote(oneTime, specificNote);
+
+        separateModel.updatePlannerLocationList(LocalDate.of(2026, 3, 24));
+
+        String value = separateModel.getPlannerNoteProperty().getValue().toString();
+        String[] mergedNotes = value.split("\n\n");
+        assertEquals(2, mergedNotes.length);
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Generic note"));
+        assertTrue(java.util.Arrays.asList(mergedNotes).contains("Specific note"));
     }
 }

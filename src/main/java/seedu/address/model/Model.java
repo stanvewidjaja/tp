@@ -4,10 +4,13 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.function.Predicate;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.Theme;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * The API of the Model component.
@@ -164,8 +167,18 @@ public interface Model {
     void updateFilteredLocationList(Predicate<Location> predicate);
 
     /**
-     * Updates the planner list to filter by the given {@code daate}.
+     * Updates the planner list to filter by the given {@code date}.
      * clears the list if {@code date} is null.
      */
     void updatePlannerLocationList(LocalDate date);
+
+    /**
+     * Sets a note for the specified visit date.
+     */
+    void setNote(VisitDate date, NoteContent note);
+
+    /**
+     * Returns an observable property pointing to the current active note in the planner.
+     */
+    ObservableValue<NoteContent> getPlannerNoteProperty();
 }

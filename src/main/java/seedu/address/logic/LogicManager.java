@@ -5,6 +5,7 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -18,6 +19,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
 import seedu.address.storage.Storage;
 
 /**
@@ -139,6 +141,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Location> getPlannerLocationList() {
         return model.getPlannerLocationList();
+    }
+
+    @Override
+    public ObservableValue<NoteContent> getPlannerNoteProperty() {
+        return model.getPlannerNoteProperty();
     }
 
     @Override

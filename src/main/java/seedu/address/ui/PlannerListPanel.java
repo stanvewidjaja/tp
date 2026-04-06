@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -30,15 +31,20 @@ public class PlannerListPanel extends UiPart<Region> {
     private Label plannerHeader;
 
     /**
-     * Creates a {@code LocationListPanel} with the given {@code ObservableList}.
+     * Creates a {@code PlannerListPanel} with the given planner list and planner note observable.
+     *
+     * @param plannerList List of planner locations to display.
+     * @param plannerNote Observable planner note content to display.
      */
-    public PlannerListPanel(ObservableList<Location> plannerList) {
+    public PlannerListPanel(ObservableList<Location> plannerList, ObservableValue<NoteContent> plannerNote) {
         super(FXML);
         plannerListView.setItems(plannerList);
         plannerListView.setCellFactory(listView -> new PlannerListPanel.PlannerListViewCell());
 
-        //TODO: REMOVE THIS ONCE NOTE IS IMPLEMENTED CORRTECTLY, THIS IS JUST A PLACEHOLDER
-        showNote(new NoteContent("TEST"));
+        if (plannerNote.getValue() != null) {
+            showNote(plannerNote.getValue());
+        }
+        plannerNote.addListener((observable, oldValue, newValue) -> showNote(newValue));
     }
 
     public void setPlannerHeader(String date) {

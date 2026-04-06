@@ -180,6 +180,14 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void getMethods_success() {
+        assertEquals(model.getAddressBook(), logic.getAddressBook());
+        assertEquals(model.getAddressBookFilePath(), logic.getAddressBookFilePath());
+        assertEquals(model.getGuiSettings(), logic.getGuiSettings());
+        assertEquals(model.getTheme(), logic.getTheme());
+    }
+
+    @Test
     public void getFilteredLocationList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredLocationList().remove(0));
     }
