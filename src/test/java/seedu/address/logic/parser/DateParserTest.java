@@ -193,7 +193,7 @@ public class DateParserTest {
 
     @Test
     void testInvalidDates() {
-        assertThrows(IllegalValueException.class, ()->DateParser.parse("32/01/2026"));
+        assertThrows(IllegalValueException.class, ()->DateParser.parse("29/02/2026"));
         assertThrows(IllegalValueException.class, ()->DateParser.parse("12-30-2026"));
     }
 

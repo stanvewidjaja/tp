@@ -76,5 +76,13 @@ public abstract class VisitDate {
 
     public abstract boolean isOn(LocalDate date);
 
+    /**
+     * Returns data string to store in the data files, which are parseable by AddressMe
+     */
     public abstract String toDataString();
+
+    /**
+     * Returns string to order dates to compare in chronological order
+     */
+    public abstract String toSortString();
 }

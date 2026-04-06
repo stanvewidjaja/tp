@@ -17,7 +17,7 @@ public class PlanCommand extends Command {
 
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Displays the all the locations listed for a "
-            + "specific date in the right window.\n"
+            + "valid date in the right window.\n"
             + "Parameters: DATE\n"
             + "Example: " + COMMAND_WORD + " 13/3/26";
 

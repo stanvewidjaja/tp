@@ -57,6 +57,7 @@ Ensure you have the exact Java JDK version [here](https://se-education.org/guide
 
 ### Interface Overview
 ![ug_interface_overview.png](images/ug_interface_overview.png)
+
 AddressMe has four main UI zones:
 
 | **Feature**       | **Description**                                                          |

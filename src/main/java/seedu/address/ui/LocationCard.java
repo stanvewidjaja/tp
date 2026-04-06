@@ -64,7 +64,7 @@ public class LocationCard extends UiPart<Region> {
             //visitDates.getChildren().add(new Label("-"));
         } else {
             location.getVisitDates().stream()
-                    .sorted(Comparator.comparing(VisitDate::toString))
+                    .sorted(Comparator.comparing(VisitDate::toSortString))
                     .forEach(visitDate -> visitDates.getChildren().add(new Label(visitDate.toString())));
         }
 
