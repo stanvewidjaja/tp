@@ -145,4 +145,52 @@ public class AddressBookTest {
         }
     }
 
+    @Test
+    public void setNote_validDate_addsNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+
+        addressBook.setNote(date, note);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
+
+    @Test
+    public void setNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(null, new NoteContent("Note")));
+    }
+
+    @Test
+    public void setNote_nullNote_throwsNullPointerException() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(date, null));
+    }
+
+    @Test
+    public void removeNote_missingDate_noChange() throws Exception {
+        VisitDate existingDate = VisitDate.of("2026-03-24");
+        VisitDate missingDate = VisitDate.of("2026-03-25");
+        NoteContent note = new NoteContent("Test Note");
+        addressBook.setNote(existingDate, note);
+
+        addressBook.removeNote(missingDate);
+
+        assertEquals(Map.of(existingDate, note), addressBook.getNoteMap());
+    }
+
+    @Test
+    public void resetData_preservesNotes() throws Exception {
+        AddressBook newData = new AddressBook();
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+
+        newData.setNote(date, note);
+
+        addressBook.resetData(newData);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
 }

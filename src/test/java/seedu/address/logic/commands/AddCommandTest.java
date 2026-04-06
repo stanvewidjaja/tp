@@ -223,9 +223,20 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasNote(seedu.address.model.location.dates.VisitDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeNote(seedu.address.model.location.dates.VisitDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableValue<NoteContent> getPlannerNoteProperty() {
             throw new AssertionError("This method should not be called.");
         }
+
     }
 
     /**

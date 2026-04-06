@@ -335,6 +335,23 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasNote(VisitDate date) {
+        requireNonNull(date);
+        return addressBook.getNoteMap().containsKey(date);
+    }
+
+    @Override
+    public void removeNote(VisitDate date) {
+        requireNonNull(date);
+        addressBook.removeNote(date);
+
+        // update UI if needed
+        if (currentPlannedDate != null && date.isOn(currentPlannedDate)) {
+            updatePlannerNote();
+        }
+    }
+
+    @Override
     public ObservableValue<NoteContent> getPlannerNoteProperty() {
         return plannerNote;
     }

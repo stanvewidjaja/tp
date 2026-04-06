@@ -23,7 +23,9 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.address.commons.core.Theme;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteNoteCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.NoteCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.ShortcutCommand;
 import seedu.address.logic.commands.ThemeCommand;
@@ -38,6 +40,8 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.ShortcutMap;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonShortcutStorage;
@@ -247,6 +251,38 @@ public class LogicManagerTest {
     @Test
     public void getPlannerLocationList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getPlannerLocationList().remove(0));
+    }
+
+    @Test
+    public void execute_addNote_success() throws Exception {
+        String inputCommand = "note n/Test Note d/2026-03-24";
+
+        ModelManager expectedModel = new ModelManager();
+        expectedModel.setNote(VisitDate.of("2026-03-24"), new NoteContent("Test Note"));
+
+        assertCommandSuccess(inputCommand,
+                String.format(NoteCommand.MESSAGE_SUCCESS, "Test Note (24 Mar 26)"),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_deleteNote_success() throws Exception {
+        model.setNote(VisitDate.of("2026-03-24"), new NoteContent("Test Note"));
+
+        String inputCommand = "note d-/2026-03-24";
+
+        ModelManager expectedModel = new ModelManager();
+
+        assertCommandSuccess(inputCommand,
+                String.format(DeleteNoteCommand.MESSAGE_SUCCESS, VisitDate.of("2026-03-24")),
+                expectedModel);
+    }
+
+    @Test
+    public void execute_deleteNote_missingNote() {
+        String inputCommand = "note d-/2026-03-24";
+
+        assertCommandException(inputCommand, DeleteNoteCommand.MESSAGE_NO_NOTES_FOUND);
     }
 
     /**

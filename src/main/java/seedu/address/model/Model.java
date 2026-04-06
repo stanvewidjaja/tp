@@ -214,7 +214,18 @@ public interface Model {
     void setNote(VisitDate date, NoteContent note);
 
     /**
+     * Returns true if a note exists for the given visit date.
+     */
+    boolean hasNote(VisitDate date);
+
+    /**
+     * Removes the note for the specified visit date.
+     */
+    void removeNote(VisitDate date);
+
+    /**
      * Returns an observable property pointing to the current active note in the planner.
      */
     ObservableValue<NoteContent> getPlannerNoteProperty();
+
 }

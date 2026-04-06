@@ -105,4 +105,13 @@ public class JsonSerializableAddressBookTest {
 
         assertEquals(addressBook, converted);
     }
+
+    @Test
+    public void toModelType_addressBookWithEmptyNotes_success() throws Exception {
+        AddressBook addressBook = new AddressBook();
+
+        JsonSerializableAddressBook dataFromModel = new JsonSerializableAddressBook(addressBook);
+
+        assertEquals(addressBook, dataFromModel.toModelType());
+    }
 }

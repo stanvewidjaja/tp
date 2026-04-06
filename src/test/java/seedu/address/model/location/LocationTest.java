@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.testutil.LocationBuilder;
 
 public class LocationTest {
@@ -117,7 +118,8 @@ public class LocationTest {
                 + ", address=" + ALICE.getAddressString()
                 + ", postalCode=" + ALICE.getPostalString()
                 + ", visitDates=" + ALICE.getVisitDates()
-                + ", tags=" + ALICE.getTags() + "}";
+                + ", tags=" + ALICE.getTags()
+                + ", notes=" + ALICE.getNotes() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -141,7 +143,65 @@ public class LocationTest {
                 + ", address=-"
                 + ", postalCode=-"
                 + ", visitDates=" + location.getVisitDates()
-                + ", tags=" + location.getTags() + "}";
+                + ", tags=" + location.getTags()
+                + ", notes=" + location.getNotes() + "}";
         assertEquals(expected, location.toString());
     }
+
+    @Test
+    public void getNotes_modifyMap_throwsUnsupportedOperationException() {
+        Location location = new LocationBuilder().build();
+
+        assertThrows(UnsupportedOperationException.class, () -> location.getNotes().put(null, "test"));
+    }
+
+    @Test
+    public void hasNotesOn() throws Exception {
+        Location location = new LocationBuilder()
+                .withNote("2026-03-24", "Nice place")
+                .build();
+
+        assertTrue(location.hasNotesOn(VisitDate.of("2026-03-24")));
+        assertFalse(location.hasNotesOn(VisitDate.of("2026-03-25")));
+    }
+
+    @Test
+    public void removeNotesByDate_existingNote_removesNote() throws Exception {
+        Location location = new LocationBuilder()
+                .withNote("2026-03-24", "Nice place")
+                .build();
+
+        Location updated = location.removeNotesByDate(VisitDate.of("2026-03-24"));
+
+        assertFalse(updated.hasNotesOn(VisitDate.of("2026-03-24")));
+    }
+
+    @Test
+    public void removeNotesByDate_missingNote_noChange() throws Exception {
+        Location location = new LocationBuilder().build();
+
+        Location updated = location.removeNotesByDate(VisitDate.of("2026-03-24"));
+
+        assertEquals(location, updated);
+    }
+
+    @Test
+    public void equals_differentNotes_notEqual() throws Exception {
+        Location location1 = new LocationBuilder()
+                .withNote("2026-03-24", "Note1")
+                .build();
+
+        Location location2 = new LocationBuilder()
+                .withNote("2026-03-24", "Note2")
+                .build();
+
+        assertFalse(location1.equals(location2));
+    }
+
+    @Test
+    public void hashCode_consistency() {
+        Location location = new LocationBuilder().build();
+        assertEquals(location.hashCode(), location.hashCode());
+    }
+
 }

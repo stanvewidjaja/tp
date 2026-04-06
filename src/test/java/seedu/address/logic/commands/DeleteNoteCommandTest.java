@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +25,17 @@ public class DeleteNoteCommandTest {
     }
 
     @Test
-    public void execute_deleteNote_success() throws IllegalValueException {
-        DeleteNoteCommand command = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
-        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_SUCCESS, "24 Mar 26");
+    public void execute_deleteNote_success() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        seedu.address.model.location.NoteContent note =
+                new seedu.address.model.location.NoteContent("Involves lots of walking. Bring extra water bottles.");
+
+        model.setNote(date, note);
+        expectedModel.setNote(date, note);
+        expectedModel.removeNote(date);
+
+        DeleteNoteCommand command = new DeleteNoteCommand(date);
+        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_SUCCESS, date);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -58,5 +67,12 @@ public class DeleteNoteCommandTest {
 
         String expected = DeleteNoteCommand.class.getCanonicalName() + "{date=2026-03-24}";
         assertEquals(expected, command.toString());
+    }
+
+    @Test
+    public void execute_noNotesOnDate_throwsCommandException() throws Exception {
+        DeleteNoteCommand command = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
+
+        assertCommandFailure(command, model, DeleteNoteCommand.MESSAGE_NO_NOTES_FOUND);
     }
 }

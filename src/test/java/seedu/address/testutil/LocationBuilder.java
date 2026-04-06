@@ -1,9 +1,12 @@
 package seedu.address.testutil;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.location.Address;
 import seedu.address.model.location.Email;
 import seedu.address.model.location.Location;
@@ -33,6 +36,7 @@ public class LocationBuilder {
     private Optional<PostalCode> postalCode;
     private Set<VisitDate> visitDates;
     private Set<Tag> tags;
+    private Map<VisitDate, String> notes;
 
     /**
      * Creates a {@code LocationBuilder} with default details.
@@ -45,6 +49,7 @@ public class LocationBuilder {
         postalCode = Optional.of(new PostalCode(DEFAULT_POSTAL_CODE));
         visitDates = SampleDataUtil.getVisitDateSet(DEFAULT_VISIT_DATE);
         tags = new HashSet<>();
+        notes = new HashMap<>();
     }
 
     /**
@@ -58,6 +63,7 @@ public class LocationBuilder {
         postalCode = locationToCopy.getPostalCode();
         visitDates = new HashSet<>(locationToCopy.getVisitDates());
         tags = new HashSet<>(locationToCopy.getTags());
+        notes = new HashMap<>(locationToCopy.getNotes());
     }
 
     /**
@@ -79,6 +85,7 @@ public class LocationBuilder {
         postalCode = Optional.empty();
         visitDates = new HashSet<>();
         tags = new HashSet<>();
+        notes = new HashMap<>();
         return this;
     }
 
@@ -177,7 +184,19 @@ public class LocationBuilder {
         return this;
     }
 
+    /**
+     * Sets a note for the given {@code VisitDate} of the {@code Location} that we are building.
+     */
+    public LocationBuilder withNote(String visitDate, String note) {
+        try {
+            this.notes.put(VisitDate.of(visitDate), note);
+        } catch (IllegalValueException e) {
+            throw new IllegalArgumentException("Invalid visit date: " + visitDate, e);
+        }
+        return this;
+    }
+
     public Location build() {
-        return new Location(name, phone, email, address, postalCode, visitDates, tags);
+        return new Location(name, phone, email, address, postalCode, visitDates, tags, notes);
     }
 }
