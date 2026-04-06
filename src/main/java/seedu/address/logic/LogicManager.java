@@ -67,11 +67,7 @@ public class LogicManager implements Logic {
             throw e;
         }
 
-        saveAddressBook();
-        saveShortcuts();
-        // Save user preferences as a best-effort operation. Failures here should not cause the entire
-        // command to be reported as failed when the address book has already been successfully persisted.
-        savePreferences();
+        saveDirtyPersistentState();
 
         return commandResult;
     }
@@ -98,9 +94,24 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
+    private void saveDirtyPersistentState() throws CommandException {
+        if (model.hasUnsavedAddressBookChanges()) {
+            saveAddressBook();
+        }
+
+        if (model.hasUnsavedShortcutMapChanges()) {
+            saveShortcuts();
+        }
+
+        if (model.hasUnsavedUserPrefsChanges()) {
+            savePreferences();
+        }
+    }
+
     private void saveAddressBook() throws CommandException {
         try {
             storage.saveAddressBook(model.getAddressBook());
+            model.markAddressBookSaved();
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -111,6 +122,7 @@ public class LogicManager implements Logic {
     private void saveShortcuts() {
         try {
             storage.saveShortcutMap(model.getShortcutMap());
+            model.markShortcutMapSaved();
         } catch (AccessDeniedException e) {
             logger.warning(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()));
         } catch (IOException ioe) {
@@ -121,6 +133,7 @@ public class LogicManager implements Logic {
     private void savePreferences() {
         try {
             storage.saveUserPrefs(model.getUserPrefs());
+            model.markUserPrefsSaved();
         } catch (AccessDeniedException e) {
             logger.warning(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()));
         } catch (IOException ioe) {

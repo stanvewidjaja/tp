@@ -36,6 +36,9 @@ public class ModelManager implements Model {
     private AppState undoState;
     private AppState redoState;
     private AppState pendingState;
+    private boolean hasUnsavedAddressBookChanges;
+    private boolean hasUnsavedShortcutMapChanges;
+    private boolean hasUnsavedUserPrefsChanges;
 
     private final ObjectProperty<NoteContent> plannerNote;
     private LocalDate currentPlannedDate;
@@ -69,6 +72,7 @@ public class ModelManager implements Model {
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
         this.userPrefs.resetData(userPrefs);
+        hasUnsavedUserPrefsChanges = true;
     }
 
     @Override
@@ -90,12 +94,14 @@ public class ModelManager implements Model {
     public void setGuiSettings(GuiSettings guiSettings) {
         requireNonNull(guiSettings);
         userPrefs.setGuiSettings(guiSettings);
+        hasUnsavedUserPrefsChanges = true;
     }
 
     @Override
     public void setTheme(Theme theme) {
         requireNonNull(theme);
         userPrefs.setTheme(theme);
+        hasUnsavedUserPrefsChanges = true;
     }
 
     @Override
@@ -107,6 +113,7 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
+        hasUnsavedUserPrefsChanges = true;
     }
 
     //=========== ShortcutMap ================================================================================
@@ -126,12 +133,14 @@ public class ModelManager implements Model {
     public void setShortcut(String alias, String commandWord) {
         requireAllNonNull(alias, commandWord);
         shortcutMap.setShortcut(alias, commandWord);
+        hasUnsavedShortcutMapChanges = true;
     }
 
     @Override
     public void removeShortcut(String alias) {
         requireNonNull(alias);
         shortcutMap.removeShortcut(alias);
+        hasUnsavedShortcutMapChanges = true;
     }
 
     //=========== AddressBook ================================================================================
@@ -139,6 +148,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        hasUnsavedAddressBookChanges = true;
         updatePlannerNote();
     }
 
@@ -192,6 +202,36 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasUnsavedAddressBookChanges() {
+        return hasUnsavedAddressBookChanges;
+    }
+
+    @Override
+    public boolean hasUnsavedShortcutMapChanges() {
+        return hasUnsavedShortcutMapChanges;
+    }
+
+    @Override
+    public boolean hasUnsavedUserPrefsChanges() {
+        return hasUnsavedUserPrefsChanges;
+    }
+
+    @Override
+    public void markAddressBookSaved() {
+        hasUnsavedAddressBookChanges = false;
+    }
+
+    @Override
+    public void markShortcutMapSaved() {
+        hasUnsavedShortcutMapChanges = false;
+    }
+
+    @Override
+    public void markUserPrefsSaved() {
+        hasUnsavedUserPrefsChanges = false;
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
     }
@@ -205,11 +245,13 @@ public class ModelManager implements Model {
     @Override
     public void deleteLocation(Location target) {
         addressBook.removeLocation(target);
+        hasUnsavedAddressBookChanges = true;
     }
 
     @Override
     public void addLocation(Location location) {
         addressBook.addLocation(location);
+        hasUnsavedAddressBookChanges = true;
         updateFilteredLocationList(PREDICATE_SHOW_ALL_LOCATIONS);
     }
 
@@ -218,6 +260,7 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedLocation);
 
         addressBook.setLocation(target, editedLocation);
+        hasUnsavedAddressBookChanges = true;
     }
 
     //=========== Filtered Location List Accessors =============================================================
@@ -285,6 +328,7 @@ public class ModelManager implements Model {
     public void setNote(VisitDate date, NoteContent note) {
         requireAllNonNull(date, note);
         addressBook.setNote(date, note);
+        hasUnsavedAddressBookChanges = true;
         if (currentPlannedDate != null && date.isOn(currentPlannedDate)) {
             updatePlannerNote();
         }
@@ -333,8 +377,16 @@ public class ModelManager implements Model {
     }
 
     private void restoreState(AppState state) {
-        setAddressBook(state.addressBook());
-        shortcutMap.resetData(state.shortcutMap());
+        if (!addressBook.equals(state.addressBook())) {
+            addressBook.resetData(state.addressBook());
+            hasUnsavedAddressBookChanges = true;
+            updatePlannerNote();
+        }
+
+        if (!shortcutMap.equals(state.shortcutMap())) {
+            shortcutMap.resetData(state.shortcutMap());
+            hasUnsavedShortcutMapChanges = true;
+        }
     }
 
     private record AppState(AddressBook addressBook, ShortcutMap shortcutMap) {

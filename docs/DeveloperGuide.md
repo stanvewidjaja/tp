@@ -190,6 +190,11 @@ The relevant model operations are:
 
 `add`, `edit`, `delete`, `clear`, `shortcut set` and `shortcut remove` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `note` is excluded because it does not persist any model state yet. `undo` and `redo` themselves also do not create new history entries.
 
+Persistence is tracked separately from undo/redo history. `ModelManager` maintains dirty flags for the address book,
+shortcut map, and user preferences, and `LogicManager` only saves the storage slices that have unsaved changes after a
+successful command. As a result, read-only commands such as `list`, `find`, and `plan` do not trigger unnecessary disk
+writes, while commands such as `theme`, `undo`, and `redo` still persist the correct data.
+
 #### Behavior
 
 The implementation is intentionally limited to one level:
@@ -538,9 +543,8 @@ Use case ends.
 
 **MSS**
 
-1. User enters the save/exit command.
-2. System saves the data.
-3. System closes the application.
+1. User enters the exit command.
+2. System closes the application.
 Use case ends.
 
 **Extensions**

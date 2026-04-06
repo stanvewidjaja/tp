@@ -127,6 +127,42 @@ public interface Model {
      */
     default void redoState() {}
 
+    /**
+     * Returns true if the persisted address book differs from the last successful save.
+     */
+    default boolean hasUnsavedAddressBookChanges() {
+        return false;
+    }
+
+    /**
+     * Returns true if the persisted shortcut map differs from the last successful save.
+     */
+    default boolean hasUnsavedShortcutMapChanges() {
+        return false;
+    }
+
+    /**
+     * Returns true if the persisted user preferences differ from the last successful save.
+     */
+    default boolean hasUnsavedUserPrefsChanges() {
+        return false;
+    }
+
+    /**
+     * Marks the address book as saved after a successful persistence operation.
+     */
+    default void markAddressBookSaved() {}
+
+    /**
+     * Marks the shortcut map as saved after a successful persistence operation.
+     */
+    default void markShortcutMapSaved() {}
+
+    /**
+     * Marks the user preferences as saved after a successful persistence operation.
+     */
+    default void markUserPrefsSaved() {}
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
