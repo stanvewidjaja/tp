@@ -27,16 +27,19 @@ public class PhoneTest {
         // invalid phone numbers
         assertFalse(Phone.isValidPhone("")); // empty string
         assertFalse(Phone.isValidPhone(" ")); // spaces only
-        assertFalse(Phone.isValidPhone("91")); // less than 3 numbers
         assertFalse(Phone.isValidPhone("phone")); // non-numeric
         assertFalse(Phone.isValidPhone("9011p041")); // alphabets within digits
-        assertFalse(Phone.isValidPhone("9312 1534")); // spaces within digits
         assertFalse(Phone.isValidPhone("1234512345123456")); // phone number longer than 15 digits
+        assertFalse(Phone.isValidPhone("-213")); // starts with hyphen
+        assertFalse(Phone.isValidPhone("213--213")); // numbers separated by two hyphens
+        assertFalse(Phone.isValidPhone("213  213")); // numbers separated by two spaces
 
         // valid phone numbers
-        assertTrue(Phone.isValidPhone("911")); // exactly 3 numbers
-        assertTrue(Phone.isValidPhone("93121534"));
+        assertTrue(Phone.isValidPhone("911"));
         assertTrue(Phone.isValidPhone("123451234512345")); // long phone numbers up to 15 digits
+        assertTrue(Phone.isValidPhone("9312 1534")); // spaces within digits
+        assertTrue(Phone.isValidPhone("+65 9123 9123")); //country code with number blocks
+        assertTrue(Phone.isValidPhone("9123-9123")); //number blocks with hyphens
     }
 
     @Test

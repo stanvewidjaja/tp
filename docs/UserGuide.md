@@ -199,9 +199,9 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Field Guide:**<br>
-**n/**: Name of the location (e.g. the cafe, clinic, or coworking space).
+**n/**: Name of the location (e.g. the cafe, clinic, or coworking space). Must contain at least one alphanumeric character.
 
-**p/**: Phone number - accepts numbers only, and must be 15 digits or less.
+**p/**: Phone number of the location.
 
 **e/**: Email address.
 
@@ -209,14 +209,14 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 
 **c/**: Postal code - must be alphanumeric.
 
-**d/**: Visit date - accepts any format from Section 3. Repeat for multiple dates.
+**d/**: Visit date - accepts any supported [date format](#date-formats). Repeat for multiple dates.
 
 **t/**: Tag for categorisation (e.g. halal, coworking, pharmacy). Repeat for multiple tags.
 </div>
 
 Examples:<br>
-- `add n/Nomad Hub p/98765432 e/hello@nomadhub.com a/12 Tanjong Pagar d/every day t/coworking`<br>
-- `add n/Al-Azhar Restaurant p/63910060 e/contact@alazhar.sg a/18 Arab St t/halal t/dinner d/Friday`
+- `add n/Nomad Hub p/9876-5432 e/hello@nomadhub.com a/12 Tanjong Pagar d/every day t/coworking`<br>
+- `add n/Al-Azhar Restaurant p/+65 63910060 e/contact@alazhar.sg a/18 Arab St t/halal t/dinner d/Friday`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A location can have any number of tags and visit dates - including none at all. You can always add them later using the edit command.

@@ -23,8 +23,8 @@ import seedu.address.testutil.LocationBuilder;
 
 public class JsonAdaptedLocationTest {
 
-    private static final String INVALID_NAME = "R@chel";
-    private static final String INVALID_PHONE = "+651234";
+    private static final String INVALID_NAME = "R^chel";
+    private static final String INVALID_PHONE = "-651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_POSTAL_CODE = "12 34";
