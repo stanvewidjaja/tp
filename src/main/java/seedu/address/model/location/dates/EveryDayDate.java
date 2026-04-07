@@ -37,6 +37,11 @@ public class EveryDayDate extends VisitDate {
     }
 
     @Override
+    public String toSortString() {
+        return this.toString();
+    }
+
+    @Override
     public boolean equals(Object other) {
         return this == other;
     }

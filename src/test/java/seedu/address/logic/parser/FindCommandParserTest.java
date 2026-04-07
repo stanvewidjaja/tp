@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSTAL_CODE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -22,6 +23,7 @@ import seedu.address.model.location.predicates.CombinedLocationPredicate;
 import seedu.address.model.location.predicates.EmailContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.NameContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.PhoneContainsKeywordsPredicate;
+import seedu.address.model.location.predicates.PostalCodeContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.TagMatchesKeywordsPredicate;
 import seedu.address.model.location.predicates.VisitDateMatchesKeywordsPredicate;
 
@@ -50,6 +52,10 @@ public class FindCommandParserTest {
 
         // empty address prefix
         assertParseFailure(parser, " " + PREFIX_ADDRESS,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+
+        // empty postal code prefix
+        assertParseFailure(parser, " " + PREFIX_POSTAL_CODE + "  ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
 
         // empty tag prefix
@@ -104,6 +110,20 @@ public class FindCommandParserTest {
                 new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
                         new AddressContainsKeywordsPredicate("Clementi"))));
         assertParseSuccess(parser, " " + PREFIX_ADDRESS + "Clementi", expectedFindCommand);
+
+        // Postal code prefix
+        expectedFindCommand =
+                new FindCommand(new CombinedLocationPredicate(Collections.singletonList(
+                        new PostalCodeContainsKeywordsPredicate("123456"))));
+        assertParseSuccess(parser, " " + PREFIX_POSTAL_CODE + "123456", expectedFindCommand);
+
+        // Combined postal code + name
+        expectedFindCommand =
+                new FindCommand(new CombinedLocationPredicate(Arrays.asList(
+                        new NameContainsKeywordsPredicate(Collections.singletonList("Cafe")),
+                        new PostalCodeContainsKeywordsPredicate("589")
+                )));
+        assertParseSuccess(parser, " Cafe " + PREFIX_POSTAL_CODE + "589", expectedFindCommand);
 
         // Tag prefix
         expectedFindCommand =

@@ -17,6 +17,7 @@ public class YearlyRecurringDate extends VisitDate {
 
     private static final DateTimeFormatter PRETTY_FORMAT = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH);
     private static final DateTimeFormatter DATA_FORMAT = DateTimeFormatter.ofPattern("dd/MM", Locale.ENGLISH);
+    private static final DateTimeFormatter SORT_FORMAT = DateTimeFormatter.ofPattern("MM/dd", Locale.ENGLISH);
     private final MonthDay date;
 
     /**
@@ -36,6 +37,11 @@ public class YearlyRecurringDate extends VisitDate {
     @Override
     public String toDataString() {
         return "e-" + date.format(DATA_FORMAT);
+    }
+
+    @Override
+    public String toSortString() {
+        return "eb-" + date.format(SORT_FORMAT);
     }
 
     @Override

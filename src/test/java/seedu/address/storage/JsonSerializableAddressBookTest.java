@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
+import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.TypicalLocations;
 
 public class JsonSerializableAddressBookTest {
@@ -58,12 +59,29 @@ public class JsonSerializableAddressBookTest {
                 .withTags()
                 .build());
 
-        JsonSerializableAddressBook jsonAddressBook =
-                new JsonSerializableAddressBook(addressBook);
+        // Deserialization check
+        JsonSerializableAddressBook dataFromModel = new JsonSerializableAddressBook(addressBook);
+        assertEquals(addressBook, dataFromModel.toModelType());
+    }
 
-        AddressBook converted = jsonAddressBook.toModelType();
+    @Test
+    public void constructor_nullLocations_success() throws IllegalValueException {
+        JsonSerializableAddressBook jsonSerializableAddressBook = new JsonSerializableAddressBook(null, null);
+        AddressBook addressBook = jsonSerializableAddressBook.toModelType();
+        assertEquals(new AddressBook(), addressBook);
+    }
 
-        assertEquals(addressBook, converted);
+    @Test
+    public void toModelType_addressBookWithNotes_success() throws Exception {
+        AddressBook addressBook = new AddressBookBuilder()
+                .withNote(seedu.address.model.location.dates.VisitDate.of("2026-03-24"),
+                        new seedu.address.model.location.NoteContent("Note 1"))
+                .withNote(seedu.address.model.location.dates.VisitDate.of("every Tuesday"),
+                        new seedu.address.model.location.NoteContent("Note 2"))
+                .build();
+
+        JsonSerializableAddressBook dataFromModel = new JsonSerializableAddressBook(addressBook);
+        assertEquals(addressBook, dataFromModel.toModelType());
     }
 
     @Test
@@ -86,5 +104,14 @@ public class JsonSerializableAddressBookTest {
         AddressBook converted = jsonAddressBook.toModelType();
 
         assertEquals(addressBook, converted);
+    }
+
+    @Test
+    public void toModelType_addressBookWithEmptyNotes_success() throws Exception {
+        AddressBook addressBook = new AddressBook();
+
+        JsonSerializableAddressBook dataFromModel = new JsonSerializableAddressBook(addressBook);
+
+        assertEquals(addressBook, dataFromModel.toModelType());
     }
 }

@@ -9,7 +9,7 @@ import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.dates.VisitDate;
 
 /**
- * Records a note in AddressMe (backend implementation deferred).
+ * Records a note in AddressMe.
  */
 public class NoteCommand extends Command {
 
@@ -39,9 +39,15 @@ public class NoteCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        model.setNote(date, noteContent);
         String detail = noteContent.toString() + " (" + date.toString() + ")";
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, detail));
+    }
+
+    @Override
+    public boolean isStateMutating() {
+        return true;
     }
 
     @Override

@@ -11,8 +11,10 @@ public class Phone {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain numbers, and it should only be 3-15 digits long";
-    public static final String VALIDATION_REGEX = "\\d{3,15}";
+            "Phone numbers should only contain numbers separated by a space or hyphen, and can start with a plus."
+                    + "\nIt must contain at least one number and be shorter than 15 characters.\n"
+                    + "Valid examples include: '91231234', '9123 1234' and '+65 9124-1234'";
+    public static final String VALIDATION_REGEX = "^\\+?(?=.*\\d)[0-9]+([ -][0-9]+)*$";
     public final String value;
 
     /**
@@ -30,7 +32,7 @@ public class Phone {
      * Returns true if a given string is a valid phone number.
      */
     public static boolean isValidPhone(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(VALIDATION_REGEX) && test.length() <= 15;
     }
 
     @Override

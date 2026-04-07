@@ -2,12 +2,17 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
 import seedu.address.model.location.UniqueLocationList;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * Wraps all data at the address-book level
@@ -16,6 +21,7 @@ import seedu.address.model.location.UniqueLocationList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueLocationList locations;
+    private final Map<VisitDate, NoteContent> notes;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -26,6 +32,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         locations = new UniqueLocationList();
+        notes = new LinkedHashMap<>();
     }
 
     public AddressBook() {}
@@ -55,7 +62,46 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setLocations(newData.getLocationList());
+        setNotes(newData.getNoteMap());
     }
+
+    //// note-level operations
+
+    /**
+     * Replaces the contents of the notes map with {@code notes}.
+     */
+    public void setNotes(Map<VisitDate, NoteContent> notes) {
+        requireNonNull(notes);
+        notes.forEach((date, note) -> {
+            requireNonNull(date);
+            requireNonNull(note);
+        });
+        this.notes.clear();
+        this.notes.putAll(notes);
+    }
+
+    /**
+     * Sets a note for the specified date.
+     */
+    public void setNote(VisitDate date, NoteContent note) {
+        requireNonNull(date);
+        requireNonNull(note);
+        notes.put(date, note);
+    }
+
+    /**
+     * Removes the note for the specified date if it exists.
+     */
+    public void removeNote(VisitDate date) {
+        requireNonNull(date);
+        notes.remove(date);
+    }
+
+    @Override
+    public Map<VisitDate, NoteContent> getNoteMap() {
+        return Collections.unmodifiableMap(notes);
+    }
+
 
     //// location-level operations
 
@@ -100,6 +146,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("locations", locations)
+                .add("notes", notes)
                 .toString();
     }
 
@@ -120,11 +167,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return locations.equals(otherAddressBook.locations);
+        return locations.equals(otherAddressBook.locations) && notes.equals(otherAddressBook.notes);
     }
 
     @Override
     public int hashCode() {
-        return locations.hashCode();
+        return locations.hashCode() + notes.hashCode();
     }
 }

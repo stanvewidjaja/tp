@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,6 +17,7 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
+    public static final String MESSAGE_INVALID_DATE_COMMAND_FORMAT = "Invalid command or date format! \n%1$s";
     public static final String MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX = "The location index provided is invalid";
     public static final String MESSAGE_LOCATIONS_LISTED_OVERVIEW = "%1$d locations listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
@@ -63,6 +65,7 @@ public class Messages {
             builder.append("-");
         } else {
             builder.append(location.getVisitDates().stream()
+                    .sorted(Comparator.comparing(VisitDate::toSortString))
                     .map(VisitDate::toString)
                     .collect(Collectors.joining(", ")));
         }

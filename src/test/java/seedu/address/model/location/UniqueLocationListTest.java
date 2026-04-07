@@ -173,4 +173,15 @@ public class UniqueLocationListTest {
     public void toStringMethod() {
         assertEquals(uniqueLocationList.asUnmodifiableObservableList().toString(), uniqueLocationList.toString());
     }
+
+    @Test
+    public void contains_locationWithSameNameDifferentCase_returnsTrue() {
+        uniqueLocationList.add(ALICE);
+
+        Location editedAlice = new LocationBuilder(ALICE)
+                .withName(ALICE.getName().fullName.toLowerCase()) // or "sunrise cafe"
+                .build();
+
+        assertTrue(uniqueLocationList.contains(editedAlice));
+    }
 }

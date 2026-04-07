@@ -18,7 +18,7 @@
       <stylesheets>
       </stylesheets>
 
-      <HBox alignment="CENTER" fx:id="helpMessageContainer">
+      <HBox alignment="CENTER" fx:id="helpMessageContainer" minWidth="880">
         <children>
           <Label fx:id="helpMessage" text="Label">
             <HBox.margin>

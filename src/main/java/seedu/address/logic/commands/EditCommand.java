@@ -160,7 +160,7 @@ public class EditCommand extends Command {
         }
 
         return new Location(updatedName, updatedPhone, updatedEmail,
-                updatedAddress, updatedPostalCode, updatedVisitDates, updatedTags);
+                updatedAddress, updatedPostalCode, updatedVisitDates, updatedTags, locationToEdit.getNotes());
     }
 
     @Override

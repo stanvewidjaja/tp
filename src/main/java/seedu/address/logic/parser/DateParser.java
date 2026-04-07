@@ -8,6 +8,7 @@ import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Locale;
@@ -30,15 +31,15 @@ public class DateParser {
             + "\n The case does not matter.";
 
     private static final DateTimeFormatter DATE_FORMATTERS = new DateTimeFormatterBuilder()
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy-M-d", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy/M/d", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("d/M/yy", Locale.ENGLISH))
-            .appendOptional(DateTimeFormatter.ofPattern("d-M-yy", Locale.ENGLISH))
-            .toFormatter();
+            .appendOptional(DateTimeFormatter.ofPattern("uuuu-MM-dd", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("uuuu/MM/dd", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("uuuu-M-d", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-uuuu", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("uuuu/M/d", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/uuuu", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/uu", Locale.ENGLISH))
+            .appendOptional(DateTimeFormatter.ofPattern("d-M-uu", Locale.ENGLISH))
+            .toFormatter().withResolverStyle(ResolverStyle.STRICT);
 
     private static final DateTimeFormatter MONTH_DAY_FORMATTERS = new DateTimeFormatterBuilder()
             .appendOptional(DateTimeFormatter.ofPattern("dd-MM", Locale.ENGLISH))

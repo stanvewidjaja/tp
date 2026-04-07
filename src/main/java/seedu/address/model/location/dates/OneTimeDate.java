@@ -14,6 +14,8 @@ import seedu.address.logic.parser.DateParser;
 public class OneTimeDate extends VisitDate {
 
     public static final String MESSAGE_CONSTRAINTS = DateParser.MESSAGE_WRONG_DATE_FORMAT;
+    private static final DateTimeFormatter PRETTY_FORMAT = DateTimeFormatter.ofPattern("d MMM yy", Locale.ENGLISH);
+    private static final DateTimeFormatter SORT_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.ENGLISH);
 
     private final LocalDate date;
 
@@ -39,8 +41,13 @@ public class OneTimeDate extends VisitDate {
     }
 
     @Override
+    public String toSortString() {
+        return "z" + date.format(SORT_FORMAT);
+    }
+
+    @Override
     public String toString() {
-        return date.format(DateTimeFormatter.ofPattern("d MMM yy", Locale.ENGLISH));
+        return date.format(PRETTY_FORMAT);
     }
 
     @Override

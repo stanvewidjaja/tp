@@ -15,8 +15,9 @@ public class NoteContent {
     /*
      * The first character of the note must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
+     * Use DOTALL to match newlines as well.
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = "(?s)[^\\s].*";
 
     public final String value;
 

@@ -4,10 +4,13 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.function.Predicate;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.Theme;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 
 /**
  * The API of the Model component.
@@ -124,6 +127,42 @@ public interface Model {
      */
     default void redoState() {}
 
+    /**
+     * Returns true if the persisted address book differs from the last successful save.
+     */
+    default boolean hasUnsavedAddressBookChanges() {
+        return false;
+    }
+
+    /**
+     * Returns true if the persisted shortcut map differs from the last successful save.
+     */
+    default boolean hasUnsavedShortcutMapChanges() {
+        return false;
+    }
+
+    /**
+     * Returns true if the persisted user preferences differ from the last successful save.
+     */
+    default boolean hasUnsavedUserPrefsChanges() {
+        return false;
+    }
+
+    /**
+     * Marks the address book as saved after a successful persistence operation.
+     */
+    default void markAddressBookSaved() {}
+
+    /**
+     * Marks the shortcut map as saved after a successful persistence operation.
+     */
+    default void markShortcutMapSaved() {}
+
+    /**
+     * Marks the user preferences as saved after a successful persistence operation.
+     */
+    default void markUserPrefsSaved() {}
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
@@ -164,8 +203,29 @@ public interface Model {
     void updateFilteredLocationList(Predicate<Location> predicate);
 
     /**
-     * Updates the planner list to filter by the given {@code daate}.
+     * Updates the planner list to filter by the given {@code date}.
      * clears the list if {@code date} is null.
      */
     void updatePlannerLocationList(LocalDate date);
+
+    /**
+     * Sets a note for the specified visit date.
+     */
+    void setNote(VisitDate date, NoteContent note);
+
+    /**
+     * Returns true if a note exists for the given visit date.
+     */
+    boolean hasNote(VisitDate date);
+
+    /**
+     * Removes the note for the specified visit date.
+     */
+    void removeNote(VisitDate date);
+
+    /**
+     * Returns an observable property pointing to the current active note in the planner.
+     */
+    ObservableValue<NoteContent> getPlannerNoteProperty();
+
 }

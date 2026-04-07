@@ -38,6 +38,11 @@ public class WeeklyRecurringDate extends VisitDate {
     }
 
     @Override
+    public String toSortString() {
+        return "ea-" + day.getValue();
+    }
+
+    @Override
     public String toString() {
         String dayString = day.toString();
         dayString = dayString.substring(0, 1).toUpperCase() + dayString.substring(1).toLowerCase();

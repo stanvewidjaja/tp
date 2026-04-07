@@ -5,6 +5,7 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -18,6 +19,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
 import seedu.address.storage.Storage;
 
 /**
@@ -65,11 +67,7 @@ public class LogicManager implements Logic {
             throw e;
         }
 
-        saveAddressBook();
-        saveShortcuts();
-        // Save user preferences as a best-effort operation. Failures here should not cause the entire
-        // command to be reported as failed when the address book has already been successfully persisted.
-        savePreferences();
+        saveDirtyPersistentState();
 
         return commandResult;
     }
@@ -96,9 +94,24 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
+    private void saveDirtyPersistentState() throws CommandException {
+        if (model.hasUnsavedAddressBookChanges()) {
+            saveAddressBook();
+        }
+
+        if (model.hasUnsavedShortcutMapChanges()) {
+            saveShortcuts();
+        }
+
+        if (model.hasUnsavedUserPrefsChanges()) {
+            savePreferences();
+        }
+    }
+
     private void saveAddressBook() throws CommandException {
         try {
             storage.saveAddressBook(model.getAddressBook());
+            model.markAddressBookSaved();
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -109,6 +122,7 @@ public class LogicManager implements Logic {
     private void saveShortcuts() {
         try {
             storage.saveShortcutMap(model.getShortcutMap());
+            model.markShortcutMapSaved();
         } catch (AccessDeniedException e) {
             logger.warning(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()));
         } catch (IOException ioe) {
@@ -119,6 +133,7 @@ public class LogicManager implements Logic {
     private void savePreferences() {
         try {
             storage.saveUserPrefs(model.getUserPrefs());
+            model.markUserPrefsSaved();
         } catch (AccessDeniedException e) {
             logger.warning(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()));
         } catch (IOException ioe) {
@@ -139,6 +154,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Location> getPlannerLocationList() {
         return model.getPlannerLocationList();
+    }
+
+    @Override
+    public ObservableValue<NoteContent> getPlannerNoteProperty() {
+        return model.getPlannerNoteProperty();
     }
 
     @Override

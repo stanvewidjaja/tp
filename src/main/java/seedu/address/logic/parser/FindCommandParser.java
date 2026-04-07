@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSTAL_CODE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import seedu.address.model.location.predicates.CombinedLocationPredicate;
 import seedu.address.model.location.predicates.EmailContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.NameContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.PhoneContainsKeywordsPredicate;
+import seedu.address.model.location.predicates.PostalCodeContainsKeywordsPredicate;
 import seedu.address.model.location.predicates.TagMatchesKeywordsPredicate;
 import seedu.address.model.location.predicates.VisitDateMatchesKeywordsPredicate;
 
@@ -46,7 +48,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                        PREFIX_ADDRESS, PREFIX_TAG, PREFIX_DATE);
+                        PREFIX_ADDRESS, PREFIX_POSTAL_CODE, PREFIX_TAG, PREFIX_DATE);
 
         List<Predicate<Location>> predicates = new ArrayList<>();
 
@@ -89,7 +91,15 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicates.add(new AddressContainsKeywordsPredicate(addressKeyword));
         }
 
-        // 6. Parse Tags (AND logic for multiple tags)
+        // 6. Parse Postal Codes (AND logic)
+        for (String postalKeyword : argMultimap.getAllValues(PREFIX_POSTAL_CODE)) {
+            if (postalKeyword.trim().isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+            predicates.add(new PostalCodeContainsKeywordsPredicate(postalKeyword));
+        }
+
+        // 7. Parse Tags (AND logic for multiple tags)
         for (String tagKeyword : argMultimap.getAllValues(PREFIX_TAG)) {
             if (tagKeyword.trim().isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -97,7 +107,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicates.add(new TagMatchesKeywordsPredicate(tagKeyword));
         }
 
-        // 7. Parse Dates (AND logic)
+        // 8. Parse Dates (AND logic)
         for (String dateKeyword : argMultimap.getAllValues(PREFIX_DATE)) {
             try {
                 predicates.add(new VisitDateMatchesKeywordsPredicate(DateParser.parse(dateKeyword)));
@@ -137,6 +147,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                 || prefix.equals(PREFIX_PHONE.getPrefix())
                 || prefix.equals(PREFIX_EMAIL.getPrefix())
                 || prefix.equals(PREFIX_ADDRESS.getPrefix())
+                || prefix.equals(PREFIX_POSTAL_CODE.getPrefix())
                 || prefix.equals(PREFIX_TAG.getPrefix())
                 || prefix.equals(PREFIX_DATE.getPrefix());
     }

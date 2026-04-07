@@ -13,12 +13,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.location.Location;
+import seedu.address.model.location.NoteContent;
+import seedu.address.model.location.dates.VisitDate;
 import seedu.address.model.location.exceptions.DuplicateLocationException;
 import seedu.address.testutil.LocationBuilder;
 
@@ -85,8 +89,39 @@ public class AddressBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{locations=" + addressBook.getLocationList() + "}";
+        String expected = AddressBook.class.getCanonicalName() + "{locations=" + addressBook.getLocationList()
+                + ", notes=" + addressBook.getNoteMap() + "}";
         assertEquals(expected, addressBook.toString());
+    }
+
+    @Test
+    public void removeNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.removeNote(null));
+    }
+
+    @Test
+    public void removeNote_existingDate_removesNote() throws IllegalValueException {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+        addressBook.setNote(date, note);
+        assertTrue(addressBook.getNoteMap().containsKey(date));
+        addressBook.removeNote(date);
+        assertFalse(addressBook.getNoteMap().containsKey(date));
+    }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        assertTrue(addressBook.equals(addressBook));
+    }
+
+    @Test
+    public void equals_notAddressBook_returnsFalse() {
+        assertFalse(addressBook.equals(1));
+    }
+
+    @Test
+    public void hashCodeMethod() {
+        assertEquals(addressBook.hashCode(), addressBook.hashCode());
     }
 
     /**
@@ -103,6 +138,59 @@ public class AddressBookTest {
         public ObservableList<Location> getLocationList() {
             return locations;
         }
+
+        @Override
+        public Map<VisitDate, NoteContent> getNoteMap() {
+            return Collections.emptyMap();
+        }
     }
 
+    @Test
+    public void setNote_validDate_addsNote() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+
+        addressBook.setNote(date, note);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
+
+    @Test
+    public void setNote_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(null, new NoteContent("Note")));
+    }
+
+    @Test
+    public void setNote_nullNote_throwsNullPointerException() throws Exception {
+        VisitDate date = VisitDate.of("2026-03-24");
+
+        assertThrows(NullPointerException.class, () ->
+                addressBook.setNote(date, null));
+    }
+
+    @Test
+    public void removeNote_missingDate_noChange() throws Exception {
+        VisitDate existingDate = VisitDate.of("2026-03-24");
+        VisitDate missingDate = VisitDate.of("2026-03-25");
+        NoteContent note = new NoteContent("Test Note");
+        addressBook.setNote(existingDate, note);
+
+        addressBook.removeNote(missingDate);
+
+        assertEquals(Map.of(existingDate, note), addressBook.getNoteMap());
+    }
+
+    @Test
+    public void resetData_preservesNotes() throws Exception {
+        AddressBook newData = new AddressBook();
+        VisitDate date = VisitDate.of("2026-03-24");
+        NoteContent note = new NoteContent("Test Note");
+
+        newData.setNote(date, note);
+
+        addressBook.resetData(newData);
+
+        assertEquals(Map.of(date, note), addressBook.getNoteMap());
+    }
 }

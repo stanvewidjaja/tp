@@ -1,6 +1,6 @@
 ---
 layout: page
-title: User Guide
+title: AddressMe User Guide
 ---
 
 ---
@@ -27,11 +27,14 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 <h3 style="font-weight: bold;">If so, AddressMe is built for you!</h3>
 
 ---
-
+<div style="page-break-after: always;"></div>
+<h2>Table of Contents</h2>
 * Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
 ## 1. Quick Start
 
 ---
@@ -39,12 +42,12 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 
 1. Ensure you have Java `17` or above installed on your machine.<br>
    You can do this by opening the Command Prompt app (for Windows users), or Terminal (for Mac/Linux users) and entering "`java -version`".<br>
-1. Download the latest version of `addressbook.jar` from the GitHub releases page [here](https://github.com/AY2526S2-CS2103T-W14-3/tp/releases).
+1. Download the latest version of `AddressMe.jar` from the GitHub releases page [here](https://github.com/AY2526S2-CS2103T-W14-3/tp/releases).
 2. Place the AddressMe.jar file in a folder - this becomes your AddressMe home folder.
 3. While in your home folder, right-click and select "Open in Terminal"
    ![ug_quickstart_nav_help.png](images/ug_quickstart_nav_help.png)
 4. Enter the following command into the terminal:
-   `java -jar addressbook.jar`
+   `java -jar AddressMe.jar`
 5. That's it! AddressMe launches with sample data, and you can plan your trip immediately.
 
 <div markdown="block" class="alert alert-warning">
@@ -54,9 +57,11 @@ It offers a **minimalist, easy-to-learn experience** designed for digital nomads
 Ensure you have the exact Java JDK version [here](https://se-education.org/guides/tutorials/javaInstallationMac.html) to avoid compatibility issues.
 
 </div>
+<div style="page-break-after: always;"></div>
 
 ### Interface Overview
 ![ug_interface_overview.png](images/ug_interface_overview.png)
+
 AddressMe has four main UI zones:
 
 | **Feature**       | **Description**                                                          |
@@ -65,6 +70,8 @@ AddressMe has four main UI zones:
 | **Result Panel**  | Displays confirmation messages, search results, and errors encountered.  |
 | **Location List** | Shows all your saved locations, updated in real time after each command. |
 | **Planner Panel** | View destinations on a specific date (using the **plan** command).       |
+
+<div style="page-break-after: always;"></div>
 
 ## 2. Starting to use Commands
 
@@ -102,9 +109,10 @@ AddressMe even accepts a large range of date inputs so you can type dates flexib
 
 - With **day** and **month** (no **year**): AddressMe picks the next occurrence of that date.
 
-| **DD/MM** | **DD-MM** |
-|-----------|-----------|
-| **D/M**   | **D-M**   |
+| **With slashes** | **With hyphens** |
+|------------------|------------------|
+| **DD/MM**        | **DD-MM**        |
+| **D/M**          | **D-M**          |
 
 - With **day of the week** (case-insensitive): AddressMe picks the upcoming date of that weekday.
 
@@ -158,6 +166,7 @@ Closes the application.
 When you're comfortable with sending commands, you're ready to dive deeper into each [feature](#3-features---full-reference)!
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## 3. Features - Full Reference
 
@@ -178,8 +187,8 @@ help -ug
 * `help COMMAND_WORD` displays detailed local guidance for that command.<br>
 `COMMAND_WORD` must be an existing built-in command word.
 
-Example:<br>
-`help add` shows the specific usage for the `add` command.
+**Examples:**
+* `help add` shows the specific usage for the `add` command.
 
 * `help -ug` opens the help window for the link to the online User Guide (see below).
 
@@ -188,6 +197,7 @@ Example:<br>
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 If you minimise the Help window and run help again, the minimised window will not reappear automatically. Restore it manually from your taskbar.
 </div>
+<div style="page-break-after: always;"></div>
 
 ### `add` - Adding a location
 
@@ -199,9 +209,9 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Field Guide:**<br>
-**n/**: Name of the location (e.g. the cafe, clinic, or coworking space).
+**n/**: Name of the location (e.g. the cafe, clinic, or coworking space). Must contain at least one alphanumeric character.
 
-**p/**: Phone number - accepts numbers only, and must be 15 digits or less.
+**p/**: Phone number of the location.
 
 **e/**: Email address.
 
@@ -209,14 +219,14 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 
 **c/**: Postal code - must be alphanumeric.
 
-**d/**: Visit date - accepts any format from Section 3. Repeat for multiple dates.
+**d/**: Visit date - accepts any supported [date format](#date-formats). Repeat for multiple dates.
 
 **t/**: Tag for categorisation (e.g. halal, coworking, pharmacy). Repeat for multiple tags.
 </div>
 
-Examples:<br>
-- `add n/Nomad Hub p/98765432 e/hello@nomadhub.com a/12 Tanjong Pagar d/every day t/coworking`<br>
-- `add n/Al-Azhar Restaurant p/63910060 e/contact@alazhar.sg a/18 Arab St t/halal t/dinner d/Friday`
+**Examples:**
+- `add n/Nomad Hub p/9876-5432 e/hello@nomadhub.com a/12 Tanjong Pagar d/every day t/coworking`<br>
+- `add n/Al-Azhar Restaurant p/+65 63910060 e/contact@alazhar.sg a/18 Arab St t/halal t/dinner d/Friday`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A location can have any number of tags and visit dates - including none at all. You can always add them later using the edit command.
@@ -232,14 +242,14 @@ Format: `list`
 
 Your most powerful command. Searches across names, addresses, tags, phone numbers, emails, and visit dates. Multiple conditions are combined with AND logic - the more specific you are, the more precise your results.
 
-Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG] [d/DATE]`
+Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [t/TAG] [d/DATE]`
 
 **How Search Works**
 
 | **Feature**             | **Description**                                                                                   |
 |-------------------------|---------------------------------------------------------------------------------------------------|
 | **Unprefixed keywords** | OR logic on name. `find ramen cafe` will returns locations containing 'Ramen' **OR** 'Cafe'.      |
-| **n/, p/, e/, a/**      | Substring match. `n/Bak` returns 'Bakery', 'Al-Bakar', 'Bak Kut Teh'.                             |
+| **n/, p/, e/, a/, c/**  | Substring match. `n/Bak` returns 'Bakery', 'Al-Bakar', 'Bak Kut Teh'.                             |
 | **t/TAG**               | Exact match (case-insensitive). Must match the full tag. `t/hal` does **not** match 'halal'.      |
 | **d/DATE**              | Accepts any date format or keyword [supported by AddressMe](#date-formats).                       |
 | **Multiple prefixes**   | AND logic. `n/Cafe t/Halal t/Vegetarian` returns cafes that are ALSO tagged halal and vegetarian. |
@@ -254,9 +264,11 @@ Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]
 
 </div>
 
-Examples:
+**Examples:**
 * `find Restaurant` returns all locations with "Restaurant" in the name.
 * `find n/Hanjin p/9123` returns locations with "Hanjin" in the name AND "9123" in the phone number.
+* `find c/123456` returns locations with postal codes containing `123456`.
+* `find n/Cafe c/589` returns locations with "Cafe" in the name AND "589" in the postal code.
 * `find t/Japanese t/Halal` returns locations that have BOTH "Japanese" AND "Halal" tags.
 * `find d/2023-10-15` returns locations visited on 15th Oct 2023.
 * `find d/2023-10-15 d/2023-11-20` returns locations visited on BOTH 15th Oct 2023 AND 20th Nov 2023.
@@ -269,7 +281,7 @@ Updates one or more fields of a saved location.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…`
 
-* Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive integer** 1, 2, 3, ...
+* Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location list. The index **must be a positive number** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 
@@ -287,10 +299,10 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/
 
 </div>
 
-Examples:
-*  `edit 1 p/91234567 e/contact@sundowncafe.com` Edits the phone number and email address of the 1st location to be `91234567` and `contact@sundowncafe.com` respectively.
-*  `edit 2 n/Happy Bistro t/ d+/2026-01-01` Edits the name of the 2nd location to be `Happy Bistro`, clears all existing tags, and adds a visit date of `2026-01-01`.
-*  `edit 1 d-/2025-12-25` Removes the visit date `2025-12-25` from the 1st location.
+**Examples:**
+*  `edit 1 p/91234567 e/contact@sundowncafe.com` <br>Edits the phone number and email address of the 1st location to be `91234567` and `contact@sundowncafe.com` respectively.
+*  `edit 2 n/Happy Bistro t/ d+/2026-01-01`<br>Edits the name of the 2nd location to be `Happy Bistro`, clears all existing tags, and adds a visit date of `2026-01-01`.
+*  `edit 1 d-/2025-12-25`<br>Removes the visit date `2025-12-25` from the 1st location.
 
 ### `delete` - Deleting a location
 
@@ -305,7 +317,7 @@ Deleted anything by accident? Try the `undo` command listed [here](#undo---rever
 
 </div>
 
-Examples:
+**Examples:**
 * `list` followed by `delete 2`<br>Deletes the 2nd location in the current list.
 * `find Sentosa` followed by `delete 1`<br>Finds locations matching 'Sentosa', then deletes the 1st result from filtered list.
 * `list` followed by `delete 1 3 5`<br>Deletes the 1st, 3rd, and 5th locations in a single command.
@@ -319,7 +331,7 @@ Format: `plan [DATE]`
 * Used with a date: Displays all the locations with the matching dates for easy cross-referencing.
 * Used without a date: clears the Planner Panel
 
-Examples:
+**Examples:**
 * `plan 12/3/26`<br>Shows all locations planned for 12 March 2026.
 * `plan Friday`<br>Shows locations planned for the upcoming Friday.
 * `plan`<br>Clears the planner page.
@@ -336,8 +348,8 @@ Records a date-bound note that will be persisted in future milestones. Currently
 
 Format: `note n/NOTE d/DATE` (DATE required)
 
-Examples:
-* `note n/Great place d/2026-03-24`
+**Examples:**
+* `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24`
 
 ### `note d-` - Deleting a note
 
@@ -345,7 +357,7 @@ Deletes a note by date.
 
 Format: note d-/DATE
 
-Example:
+**Example:**
 * `note d-/2026-03-24`
 
 ### `undo` - Reverting the last change
@@ -355,13 +367,16 @@ Reverts the most recent successful undoable change.
 Format: `undo`
 
 * `undo` currently supports only one level of history.
-* Successful `add`, `edit`, `delete`, `clear`, `shortcut set` and `shortcut remove` commands are undoable.
-* Commands that do not change undoable state, such as `list`, `find` and `plan`, do not affect undo history.
-* `note` is not undoable yet because it currently validates input and shows a confirmation message without persisting data.
 * If there is nothing to undo, AddressMe shows an error message.
 
-Examples:
+| **Undo-able**                                                                                         | **Does not Affect**                |
+|-------------------------------------------------------------------------------------------------------|------------------------------------|
+| Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands    | `list`, `find` and `plan` commands |
+
+
+**Examples:**
 * `delete 3` followed by `undo` restores the deleted location.
+* `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` followed by `undo` removes the note again.
 * `shortcut set a add` followed by `undo` removes the shortcut again.
 
 ### `redo` - Redoing the last undo
@@ -371,10 +386,10 @@ Reapplies the most recent undone change.
 Format: `redo`
 
 * `redo` is available after a successful `undo` until another successful undoable command happens.
-* A new successful `add`, `edit`, `delete`, `clear`, `shortcut set` or `shortcut remove` command clears the redo state.
+* A new successful undoable command clears the redo state.
 * If there is nothing to redo, AddressMe shows an error message.
 
-Examples:
+**Examples:**
 * `add n/McDonalds` followed by `undo` and `redo` adds the same location back.
 * `delete 1` followed by `undo` and `redo` deletes the same location.
 
@@ -394,19 +409,23 @@ shortcut list
 * You cannot reuse an existing command word as an alias (e.g. you cannot set `add` as an alias for `edit`).
 * `COMMAND_WORD` must be a default command word.
 
-Examples:
-* `shortcut set a add` <br>Now typing `a n/...` behaves exactly like `add n/..`.
-* `shortcut list`      <br>Displays all current shortcuts.
-* `shortcut remove a`  <br>Removes alias 'a'.
+**Examples:**
+* `shortcut set a add`: Now typing `a n/...` behaves exactly like `add n/..`.
+* `shortcut list`: Displays all current shortcuts.
+* `shortcut remove a`: Removes alias 'a'.
 
 ### `theme` - Customize your application
 
 Switches the application between light and dark modes.
 
+![ug_theme_light.png](images/ug_themes.png)
+
 Format: `theme THEME_NAME`
 
 * Use `theme light` and `theme dark` to switch to light and dark mode respectively.
 * The selected theme is saved and restored the next time the app starts.
+
+<div style="page-break-after: always;"></div>
 
 ### `clear` - Clearing all entries
 
@@ -421,29 +440,30 @@ Format: `clear`
 
 ### `exit` - Exiting the program
 
-Closes AddressMe. Your data and shortcuts are saved automatically.
+Closes AddressMe. Your data is saved after relevant commands; no need to manually save.
 
 Format: `exit`
 
 ## 4. Command summary
 
-| **Action**      | **Format**                                                                                                                                | **Examples**                                                              |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| **Add**         | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]... [t/TAG]...`                                                | `add n/Nomad Hub p/98765432 e/hi@nomad.sg a/12 Tanjong Pagar t/coworking` |
-| **Clear**       | `clear`                                                                                                                                   | `clear`                                                                   |
-| **Delete**      | `delete INDEX [MORE_INDEXES]...`                                                                                                          | `delete 3` or `delete 1 2 3`                                              |
-| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…` | `edit 2 n/Happy Bistro e/contact@happybistro.com d+/e-friday`             |
-| **Find**        | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]… [d/DATE]…`                                              | `find n/Cafe t/Halal d/3/4/26`                                            |
-| **List**        | `list`                                                                                                                                    | `list`                                                                    |
-| **Note**        | `note n/NOTE d/DATE`                                                                                                                      | `note n/Great place d/2026-03-24`                                         |
-| **Delete Note** | `note d-/DATE`                                                                                                                            | `note d-/2026-03-24`                                                      |
-| **Plan**        | `plan DATE` or `plan`                                                                                                                     | `plan d/23/9`                                                             |
-| **Shortcut**    | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`                                                             | `shortcut set a add`, `shortcut remove a`, `shortcut list`                |
-| **Theme**       | `theme THEME_NAME`                                                                                                                        | `theme light` or `theme dark`                                             |
-| **Undo**        | `undo`                                                                                                                                    | `undo`                                                                    |
-| **Redo**        | `redo`                                                                                                                                    | `redo`                                                                    |
-| **Help**        | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                            |
+| **Action**      | **Format**                                                                                                                                | **Examples**                                                               |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **Add**         | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]... [t/TAG]...`                                                | `add n/Nomad Hub p/98765432 e/hi@nomad.sg a/12 Tanjong Pagar t/coworking`  |
+| **Clear**       | `clear`                                                                                                                                   | `clear`                                                                    |
+| **Delete**      | `delete INDEX [MORE_INDEXES]...`                                                                                                          | `delete 3` or `delete 1 2 3`                                               |
+| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…` | `edit 2 n/Happy Bistro e/contact@happybistro.com d+/e-friday`              |
+| **Find**        | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [t/TAG]… [d/DATE]…`                              | `find n/Cafe t/Halal d/3/4/26`                                             |
+| **List**        | `list`                                                                                                                                    | `list`                                                                     |
+| **Note**        | `note n/NOTE d/DATE`                                                                                                                      | `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` |
+| **Delete Note** | `note d-/DATE`                                                                                                                            | `note d-/2026-03-24`                                                       |
+| **Plan**        | `plan DATE` or `plan`                                                                                                                     | `plan d/23/9`                                                              |
+| **Shortcut**    | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`                                                             | `shortcut set a add`, `shortcut remove a`, `shortcut list`                 |
+| **Theme**       | `theme THEME_NAME`                                                                                                                        | `theme light` or `theme dark`                                              |
+| **Undo**        | `undo`                                                                                                                                    | `undo`                                                                     |
+| **Redo**        | `redo`                                                                                                                                    | `redo`                                                                     |
+| **Help**        | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                             |
 
+<div style="page-break-after: always;"></div>
 
 ## 5. CLI Power Features
 
@@ -454,7 +474,7 @@ All commands you type during a session are stored. While clicked into the comman
 - Press the `UP` arrow to scroll back through previous commands.
 - Press the `DOWN` arrow to move forward in history.
 
-Example: After entering `list` and `find Cafe` into the CLI, pressing `UP` recalls `find Cafe`. Pressing `UP` again recalls `list`.
+**Example:** After entering `list` and `find Cafe` into the CLI, pressing `UP` recalls `find Cafe`. Pressing `UP` again recalls `list`.
 
 This makes repeating your most-used commands extremely fast.
 
@@ -464,12 +484,13 @@ Press `Tab` while typing a command to autocomplete it.
 - Autocomplete is case-insensitive.
 - If multiple commands match (e.g. e matches both `edit` and `exit`), AddressMe fills to the longest common starting letters.
 
-Examples:
+**Examples:**
 - `a` + `[Tab]` → `add`
 
 - `e` + `[Tab]` → `e` (ambiguous: edit / exit)
 
 - `ex` + `[Tab]` → `exit`
+<div style="page-break-after: always;"></div>
 
 ## 6. Data Management
 
@@ -478,7 +499,8 @@ Examples:
 
 Your data is saved to disk automatically after every command that changes it. You do not need to save manually.
 
-Data is stored at: `[home folder]/data/addressbook.json`
+Location data is stored at: `[home folder]/data/addressbook.json`
+Shortcuts are stored at: `[home folder]/data/shortcut.json`
 
 ### Editing the data file directly
 
@@ -496,11 +518,12 @@ Values outside acceptable ranges may cause unexpected behaviour.
 
 ### Transferring Data to Another Device
 
-Install AddressMe on the new device, run it once to generate the data folder, then replace the empty addressbook.json with your existing data file from the old device.
+Install AddressMe on the new device, run it once to generate the data folder, exit the application, then replace any .json files with your existing data files from the old device.
 
 
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## 7. FAQ & Known Issues
 ### Frequently Asked Questions
@@ -508,10 +531,6 @@ Install AddressMe on the new device, run it once to generate the data folder, th
 **Q:** How do I move my data to a new laptop?
 
 **A:** Install AddressMe on the new device, run it once, then copy all the .json files (found in the folder labelled "data") from the old device into the new device's data folder, replacing the files that were created.
-
-**Q:** Can I have the same location listed multiple times?
-
-**A:** Yes. There is no deduplication. You may want to use tags or visit dates to distinguish between records instead of creating duplicates.
 
 **Q:** Will my shortcuts and themes persist after I close AddressMe?
 
