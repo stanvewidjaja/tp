@@ -19,10 +19,10 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all locations whose fields match the "
             + "specified criteria (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Name search is based on substring match of any provided keywords.\n"
-            + "Search by multiple prefixes (n/, p/, e/, a/, c/, t/, d/) uses AND logic.\n"
             + "Parameters: [NAME_KEYWORD]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] "
             + "[t/TAG]... [d/DATE]...\n"
+            + "Notes: Name search is based on substring match of any provided keywords.\n"
+            + "       Search by multiple prefixes (n/, p/, e/, a/, c/, t/, d/) uses AND logic.\n"
             + "Example: " + COMMAND_WORD + " cafe n/Nomad p/9876 e/contact@nomad.sg t/coworking "
             + "a/Tanjong c/123456 d/2024-01-15";
 
