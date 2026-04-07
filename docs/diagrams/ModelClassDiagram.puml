@@ -7,19 +7,24 @@ skinparam classBackgroundColor MODEL_COLOR
 Package Model as ModelPackage <<Rectangle>>{
 Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
 Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+Class "<<interface>>\nReadOnlyShortcutMap" as ReadOnlyShortcutMap
 Class "<<interface>>\nModel" as Model
 Class AddressBook
 Class ModelManager
 Class UserPrefs
+Class ShortcutMap
 
 Class UniqueLocationList
+
 Class Location
 Class Address
 Class Email
 Class Name
 Class Phone
+Class PostalCode
 Class Tag
 Class VisitDate
+Class NoteContent
 
 Class I #FFFFFF
 }
@@ -28,22 +33,31 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
 AddressBook .up.|> ReadOnlyAddressBook
+UserPrefs .up.|> ReadOnlyUserPrefs
+ShortcutMap .up.|> ReadOnlyShortcutMap
 
 ModelManager .up.|> Model
-Model .right.> ReadOnlyUserPrefs
 Model .left.> ReadOnlyAddressBook
+Model .right.> ReadOnlyUserPrefs
+Model .down.> ReadOnlyShortcutMap
+
 ModelManager -left-> "1" AddressBook
 ModelManager -right-> "1" UserPrefs
-UserPrefs .up.|> ReadOnlyUserPrefs
+ModelManager -down-> "1" ShortcutMap
 
 AddressBook *--> "1" UniqueLocationList
 UniqueLocationList --> "~* all" Location
+ModelManager --> "~* filtered" Location
+
 Location *--> Name
-Location *--> Phone
-Location *--> Email
-Location *--> Address
+Location *--> "0..1" Phone
+Location *--> "0..1" Email
+Location *--> "0..1" Address
+Location *--> "0..1" PostalCode
 Location *--> "*" Tag
 Location *--> "*" VisitDate
+
+ModelManager --> "*" NoteContent
 
 Location -[hidden]up--> I
 UniqueLocationList -[hidden]right-> I
@@ -51,6 +65,6 @@ UniqueLocationList -[hidden]right-> I
 Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
+Email -[hidden]right-> PostalCode
 
-ModelManager --> "~* filtered" Location
 @enduml
