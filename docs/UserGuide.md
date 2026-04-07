@@ -358,13 +358,13 @@ Reverts the most recent successful undoable change.
 Format: `undo`
 
 * `undo` currently supports only one level of history.
-* Successful `add`, `edit`, `delete`, `clear`, `shortcut set` and `shortcut remove` commands are undoable.
+* Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands are undoable.
 * Commands that do not change undoable state, such as `list`, `find` and `plan`, do not affect undo history.
-* `note` is not undoable yet because it currently validates input and shows a confirmation message without persisting data.
 * If there is nothing to undo, AddressMe shows an error message.
 
 Examples:
 * `delete 3` followed by `undo` restores the deleted location.
+* `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` followed by `undo` removes the note again.
 * `shortcut set a add` followed by `undo` removes the shortcut again.
 
 ### `redo` - Redoing the last undo

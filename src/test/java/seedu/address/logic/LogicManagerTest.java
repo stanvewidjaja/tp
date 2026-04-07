@@ -287,6 +287,18 @@ public class LogicManagerTest {
     }
     //@@author
 
+    @Test
+    public void execute_undoRedoNoteChange_success() throws Exception {
+        String noteCommand = "note n/Test Note d/2026-03-24";
+
+        logic.execute(noteCommand);
+        assertCommandSuccess(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_SUCCESS, new ModelManager());
+
+        ModelManager expectedModel = new ModelManager();
+        expectedModel.setNote(VisitDate.of("2026-03-24"), new NoteContent("Test Note"));
+        assertCommandSuccess(RedoCommand.COMMAND_WORD, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
     /**
      * Executes the command and confirms that
      * - no exceptions are thrown

@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 
@@ -59,6 +60,12 @@ public class DeleteNoteCommandTest {
         DeleteNoteCommand command = new DeleteNoteCommand(date);
 
         assertEquals(date, command.getDate());
+    }
+
+    @Test
+    public void isStateMutating() throws IllegalValueException {
+        DeleteNoteCommand command = new DeleteNoteCommand(VisitDate.of("2026-03-24"));
+        assertTrue(command.isStateMutating());
     }
 
     @Test

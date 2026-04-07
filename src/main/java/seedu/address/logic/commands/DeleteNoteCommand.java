@@ -50,6 +50,11 @@ public class DeleteNoteCommand extends Command {
     }
 
     @Override
+    public boolean isStateMutating() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

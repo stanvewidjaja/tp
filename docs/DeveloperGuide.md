@@ -188,7 +188,7 @@ The relevant model operations are:
 4. If execution succeeds, call `Model#commitState()`.
 5. If execution fails, call `Model#discardState()` so failed commands do not affect undo history.
 
-`add`, `edit`, `delete`, `clear`, `shortcut set` and `shortcut remove` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `note` is excluded because it does not persist any model state yet. `undo` and `redo` themselves also do not create new history entries.
+`add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` return `true` for `isStateMutating()`. Non-mutating commands such as `list`, `find` and `plan` do not change undo/redo history. `undo` and `redo` themselves also do not create new history entries.
 
 Persistence is tracked separately from undo/redo history. `ModelManager` maintains dirty flags for the address book,
 shortcut map, and user preferences, and `LogicManager` only saves the storage slices that have unsaved changes after a
