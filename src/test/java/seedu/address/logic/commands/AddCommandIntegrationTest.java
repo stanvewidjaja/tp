@@ -29,7 +29,11 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_newLocation_success() {
-        Location validLocation = new LocationBuilder().build();
+        Location validLocation = new LocationBuilder()
+                .withName("New Place")
+                .withAddress("77 Sunset Way")
+                .withPostalCode("765432")
+                .build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new ShortcutMap());
         expectedModel.addLocation(validLocation);

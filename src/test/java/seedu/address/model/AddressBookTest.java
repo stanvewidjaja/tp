@@ -3,10 +3,11 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalLocations.ALICE;
+import static seedu.address.testutil.TypicalLocations.ZERO;
 import static seedu.address.testutil.TypicalLocations.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class AddressBookTest {
     @Test
     public void resetData_withDuplicateLocations_throwsDuplicateLocationException() {
         // Two locations with the same identity fields
-        Location editedAlice = new LocationBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Location editedAlice = new LocationBuilder(ALICE).withName(VALID_NAME_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Location> newLocations = Arrays.asList(ALICE, editedAlice);
         AddressBookStub newData = new AddressBookStub(newLocations);
@@ -77,9 +78,28 @@ public class AddressBookTest {
     @Test
     public void hasLocation_locationWithSameIdentityFieldsInAddressBook_returnsTrue() {
         addressBook.addLocation(ALICE);
-        Location editedAlice = new LocationBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Location editedAlice = new LocationBuilder(ALICE).withName(VALID_NAME_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(addressBook.hasLocation(editedAlice));
+    }
+
+    @Test
+    public void hasLocation_locationWithSameNameOnlyButDifferentAddress_returnsFalse() {
+        addressBook.addLocation(ALICE);
+        Location editedAlice = new LocationBuilder(ALICE)
+                .withAddress("77 Sunset Way")
+                .withPostalCode("765432")
+                .build();
+        assertFalse(addressBook.hasLocation(editedAlice));
+    }
+
+    @Test
+    public void hasLocation_locationWithoutAddressSameNameDifferentCase_returnsTrue() {
+        addressBook.addLocation(ZERO);
+        Location editedZero = new LocationBuilder(ZERO)
+                .withName(ZERO.getName().fullName.toLowerCase())
+                .build();
+        assertTrue(addressBook.hasLocation(editedZero));
     }
 
     @Test

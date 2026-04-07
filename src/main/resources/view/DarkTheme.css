@@ -173,7 +173,7 @@
 }
 
 .note-area {
-    -fx-background-color: #0f4c81;
+    -fx-background-color: #0b3353;
     -fx-padding: 3 0 0 8;
 
     -fx-border-color: #e0e0e0;
@@ -184,7 +184,7 @@
     /* red margin line */
     -fx-border-insets: 0 0 0 0;
     -fx-border-width: 0 0 0 2;
-    -fx-border-color: transparent transparent transparent #ff6b6b;
+    -fx-border-color: transparent transparent transparent #93013c;
 }
 
 .note-label {

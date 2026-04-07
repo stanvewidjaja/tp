@@ -3,11 +3,12 @@ package seedu.address.model.location;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalLocations.ALICE;
 import static seedu.address.testutil.TypicalLocations.BOB;
+import static seedu.address.testutil.TypicalLocations.ZERO;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class UniqueLocationListTest {
     @Test
     public void contains_locationWithSameIdentityFieldsInList_returnsTrue() {
         uniqueLocationList.add(ALICE);
-        Location editedAlice = new LocationBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Location editedAlice = new LocationBuilder(ALICE).withName(VALID_NAME_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(uniqueLocationList.contains(editedAlice));
     }
@@ -85,7 +86,7 @@ public class UniqueLocationListTest {
     @Test
     public void setLocation_editedLocationHasSameIdentity_success() {
         uniqueLocationList.add(ALICE);
-        Location editedAlice = new LocationBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Location editedAlice = new LocationBuilder(ALICE).withName(VALID_NAME_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         uniqueLocationList.setLocation(ALICE, editedAlice);
         UniqueLocationList expectedUniqueLocationList = new UniqueLocationList();
@@ -175,13 +176,38 @@ public class UniqueLocationListTest {
     }
 
     @Test
-    public void contains_locationWithSameNameDifferentCase_returnsTrue() {
-        uniqueLocationList.add(ALICE);
+    public void contains_locationWithSameAddressDifferentName_returnsTrue() {
+        Location locationWithoutPostalCode = new LocationBuilder(ALICE)
+                .withoutPostalCode()
+                .build();
+        uniqueLocationList.add(locationWithoutPostalCode);
 
-        Location editedAlice = new LocationBuilder(ALICE)
-                .withName(ALICE.getName().fullName.toLowerCase()) // or "sunrise cafe"
+        Location editedAlice = new LocationBuilder(locationWithoutPostalCode)
+                .withName(ALICE.getName().fullName.toLowerCase())
                 .build();
 
         assertTrue(uniqueLocationList.contains(editedAlice));
+    }
+
+    @Test
+    public void contains_locationWithSameAddressDifferentPostalCode_returnsFalse() {
+        uniqueLocationList.add(ALICE);
+
+        Location editedAlice = new LocationBuilder(ALICE)
+                .withPostalCode("999999")
+                .build();
+
+        assertFalse(uniqueLocationList.contains(editedAlice));
+    }
+
+    @Test
+    public void contains_locationWithoutAddressSameNameDifferentCase_returnsTrue() {
+        uniqueLocationList.add(ZERO);
+
+        Location editedZero = new LocationBuilder(ZERO)
+                .withName(ZERO.getName().fullName.toLowerCase())
+                .build();
+
+        assertTrue(uniqueLocationList.contains(editedZero));
     }
 }

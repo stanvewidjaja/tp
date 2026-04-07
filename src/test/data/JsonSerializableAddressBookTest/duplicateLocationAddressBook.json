@@ -1,16 +1,18 @@
 {
   "locations": [ {
-    "name": "Alice Pauline",
+    "name": "Sample Place One",
     "phone": "94351253",
-    "email": "alice@example.com",
+    "email": "sample1@example.com",
     "address": "123, Jurong West Ave 6, #08-111",
+    "postalCode": "640123",
     "visitDates": ["2026-01-01"],
     "tags": [ "friends" ]
   }, {
-    "name": "Alice Pauline",
+    "name": "Allegedly Different Place",
     "phone": "94351253",
-    "email": "pauline@example.com",
-    "visitDates": ["2026-02-01"],
-    "address": "4th street"
+    "email": "sample2@example.com",
+    "address": "123, Jurong West Ave 6, #08-111",
+    "postalCode": "640123",
+    "visitDates": ["2026-02-01"]
   } ]
 }

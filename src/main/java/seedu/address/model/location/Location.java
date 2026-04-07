@@ -134,16 +134,39 @@ public class Location {
     }
 
     /**
-     * Returns true if both locations have the same name.
-     * This defines a weaker notion of equality between two locations.
+     * Returns true if both locations have the same identity.
+     * Identity is compared using postal code and address when both are present,
+     * otherwise address alone, and finally name as the last fallback.
      */
     public boolean isSameLocation(Location otherLocation) {
         if (otherLocation == this) {
             return true;
         }
 
-        return otherLocation != null
-                && otherLocation.getName().isSameNameIgnoreCase(getName());
+        if (otherLocation == null) {
+            return false;
+        }
+
+        boolean hasPostalAndAddress = postalCode.isPresent() && otherLocation.postalCode.isPresent()
+                && address.isPresent() && otherLocation.address.isPresent();
+        if (hasPostalAndAddress) {
+            return postalCode.equals(otherLocation.postalCode)
+                    && hasSameAddressIgnoreCase(otherLocation);
+        }
+
+        if (address.isPresent() && otherLocation.address.isPresent()) {
+            return hasSameAddressIgnoreCase(otherLocation);
+        }
+
+        return otherLocation.getName().isSameNameIgnoreCase(getName());
+    }
+
+    private boolean hasSameAddressIgnoreCase(Location otherLocation) {
+        if (address.isEmpty() || otherLocation.address.isEmpty()) {
+            return false;
+        }
+
+        return address.get().toString().equalsIgnoreCase(otherLocation.address.get().toString());
     }
 
     /**
