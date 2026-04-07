@@ -47,18 +47,39 @@ public class LocationTest {
         assertFalse(ALICE.isSameLocation(null));
 
         Location editedAlice = new LocationBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+                .withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSameLocation(editedAlice));
 
-        editedAlice = new LocationBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        editedAlice = new LocationBuilder(ALICE).withPostalCode("999999").build();
         assertFalse(ALICE.isSameLocation(editedAlice));
 
-        Location editedBob = new LocationBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertTrue(BOB.isSameLocation(editedBob));
+        Location namelessAddressFallback = new LocationBuilder(ZERO)
+                .withName(ZERO.getName().fullName.toLowerCase())
+                .build();
+        assertTrue(ZERO.isSameLocation(namelessAddressFallback));
+
+        Location addressOnly = new LocationBuilder(ZERO)
+                .withAddress(VALID_ADDRESS_BOB)
+                .withPostalCode("999999")
+                .build();
+        Location addressFallbackMatch = new LocationBuilder(addressOnly)
+                .withName(VALID_NAME_BOB.toLowerCase())
+                .withAddress(VALID_ADDRESS_BOB.toLowerCase())
+                .withoutPostalCode()
+                .build();
+        assertTrue(addressOnly.isSameLocation(addressFallbackMatch));
+
+        Location postalAndAddressCaseInsensitive = new LocationBuilder(ALICE)
+                .withAddress(ALICE.getAddressString().toLowerCase())
+                .build();
+        assertTrue(ALICE.isSameLocation(postalAndAddressCaseInsensitive));
+
+        Location differentAddress = new LocationBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
+        assertFalse(ALICE.isSameLocation(differentAddress));
 
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new LocationBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSameLocation(editedBob));
+        Location fallbackNameMismatch = new LocationBuilder(ZERO).withName(nameWithTrailingSpaces).build();
+        assertFalse(ZERO.isSameLocation(fallbackNameMismatch));
     }
 
     @Test
