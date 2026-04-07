@@ -15,7 +15,7 @@ public class NoteCommand extends Command {
 
     public static final String COMMAND_WORD = "note";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Records notes in AddressMe\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Records notes in AddressMe.\n"
             + "Parameters: n/NOTE_CONTENT d/DATE\n"
             + "Example: "
             + COMMAND_WORD + " n/Involves lots of walking. Bring extra water bottles. d/2026-03-24";
