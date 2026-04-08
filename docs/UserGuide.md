@@ -335,10 +335,7 @@ Accepts multiple unique index numbers in a single command.
 
 Format: `delete INDEX [MORE_INDEXES]...`
 
-<div markdown="block" class="alert alert-primary">:bulb: **Tip:**
-
-Deleted anything by accident? Try the `undo` command listed [here](#undo---reverting-the-last-change)!
-
+<div markdown="block" class="alert alert-primary">:bulb: **Tip:** Deleted anything by accident? Try the `undo` command listed [here](#undo---reverting-the-last-change)!
 </div>
 
 **Examples:**
@@ -347,15 +344,13 @@ Deleted anything by accident? Try the `undo` command listed [here](#undo---rever
 * `find Sentosa` followed by `delete 1`: Finds locations matching 'Sentosa', then deletes the 1st result from filtered
   list.
 * `list` followed by `delete 1 3 5`: Deletes the 1st, 3rd, and 5th locations in a single command.
-
 ### `plan` - Using the itinerary planner
 
 Displays all locations assigned to a given date in the Planner Panel, so you can view your day's plan at a glance.
 
-Format: `plan [DATE]`
-
-* Used with a date: Displays all the locations with the matching dates for easy cross-referencing.
-* Used without a date: clears the Planner Panel
+Formats: 
+* `plan [DATE]`: Displays all the locations with the matching dates for easy cross-referencing.
+* `plan`: clears the Planner Panel
 
 **Examples:**
 
@@ -490,7 +485,6 @@ Format: `exit`
 | **Redo**     | `redo`                                                                                                                                    | `redo`                                                                    |
 | **Help**     | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                            |
 
-<div style="page-break-after: always;"></div>
 
 ## 5. CLI Power Features
 
