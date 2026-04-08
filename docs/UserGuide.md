@@ -327,6 +327,7 @@ Format:
   existing tags, and adds a visit date of `2026-01-01`.
 * `edit 1 p/ e/ `<br> Clears the phone number and email of the 1st location without changing anything else.
 
+<div style="page-break-after: always;"></div>
 ### `delete` - Deleting a location
 
 Removes one or more locations from your address book, keeping it clean and relevant throughout your journey.<br>
@@ -342,10 +343,10 @@ Deleted anything by accident? Try the `undo` command listed [here](#undo---rever
 
 **Examples:**
 
-* `list` followed by `delete 2`<br>Deletes the 2nd location in the current list.
-* `find Sentosa` followed by `delete 1`<br>Finds locations matching 'Sentosa', then deletes the 1st result from filtered
+* `list` followed by `delete 2`: Deletes the 2nd location in the current list.
+* `find Sentosa` followed by `delete 1`: Finds locations matching 'Sentosa', then deletes the 1st result from filtered
   list.
-* `list` followed by `delete 1 3 5`<br>Deletes the 1st, 3rd, and 5th locations in a single command.
+* `list` followed by `delete 1 3 5`: Deletes the 1st, 3rd, and 5th locations in a single command.
 
 ### `plan` - Using the itinerary planner
 
@@ -358,9 +359,9 @@ Format: `plan [DATE]`
 
 **Examples:**
 
-* `plan 12/3/26`<br>Shows all locations planned for 12 March 2026.
-* `plan Friday`<br>Shows locations planned for the upcoming Friday.
-* `plan`<br>Clears the planner page.
+* `plan 12/3/26`: Shows all locations planned for 12 March 2026.
+* `plan Friday`: Shows locations planned for the upcoming Friday.
+* `plan`: Clears the planner page.
 
 <div markdown="block" class="alert alert-primary">:bulb: **Tip:**
 
@@ -402,6 +403,8 @@ Format: `undo`
 * `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` followed by `undo` removes the note again.
 * `shortcut set a add` followed by `undo` removes the shortcut again.
 
+
+<div style="page-break-after: always;"></div>
 ### `redo` - Redoing the last undo
 
 Reapplies the most recent undone change.
@@ -440,6 +443,7 @@ shortcut list
 * `shortcut list`: Displays all current shortcuts.
 * `shortcut remove a`: Removes alias 'a'.
 
+<div style="page-break-after: always;"></div>
 ### `theme` - Customize your application
 
 Switches the application between light and dark modes.
@@ -450,8 +454,6 @@ Format: `theme THEME_NAME`
 
 * Use `theme light` and `theme dark` to switch to light and dark mode respectively.
 * The selected theme is saved and restored the next time the app starts.
-
-<div style="page-break-after: always;"></div>
 
 ### `clear` - Clearing all entries
 
