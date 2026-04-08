@@ -1,6 +1,6 @@
 ---
 layout: page
-title: AddressMe User Guide
+title: User Guide
 ---
 
 ---
@@ -33,6 +33,9 @@ AddressMe is the app for you!
 ---
 <div style="page-break-after: always;"></div>
 <h2>Table of Contents</h2>
+
+---
+
 * Table of Contents
 {:toc}
 
@@ -283,14 +286,7 @@ Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]
 </div>
 
 **Examples:**
-
-* `find Restaurant` returns all locations with "Restaurant" in the name.
-* `find n/Hanjin p/9123` returns locations with "Hanjin" in the name AND "9123" in the phone number.
-* `find c/123456` returns locations with postal codes containing `123456`.
-* `find n/Cafe c/589` returns locations with "Cafe" in the name AND "589" in the postal code.
-* `find t/Japanese t/Halal` returns locations that have BOTH "Japanese" AND "Halal" tags.
-* `find d/2023-10-15` returns locations visited on 15th Oct 2023.
-* `find d/2023-10-15 d/2023-11-20` returns locations visited on BOTH 15th Oct 2023 AND 20th Nov 2023.
+* `find Restaurant` returns all locations with “Restaurant” in the name
 * `find Marina Beach` returns `Marina Park`, `Beach Resort` (OR search for names).
 * `find n/Cafe e/gmail.com` returns all cafes with a Gmail address.
 
@@ -304,7 +300,9 @@ Format:
 * Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location
   list. The index **must be a positive number** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
+* Existing values will be updated to the input. 
+* Using empty fields would clear the values if possible. 
+(Works for phone, email, postal code and address)
 
 **Tag and Date Editing Modes**
 
@@ -327,7 +325,7 @@ Format:
   `91234567` and `contact@sundowncafe.com` respectively.
 * `edit 2 n/Happy Bistro t/ d+/2026-01-01`<br>Edits the name of the 2nd location to be `Happy Bistro`, clears all
   existing tags, and adds a visit date of `2026-01-01`.
-* `edit 1 d-/2025-12-25`<br>Removes the visit date `2025-12-25` from the 1st location.
+* `edit 1 p/ e/ `<br> Clears the phone number and email of the 1st location without changing anything else.
 
 ### `delete` - Deleting a location
 
@@ -373,15 +371,12 @@ upcoming days' itinerary too.
 
 ### `note` - Managing notes
 
-Adds or deletes a note for a specific date.
+Adds or deletes a note for a specific date. Use this with the [planner](#plan---using-the-itinerary-planner) to create reminders for yourself!
 
-Format:
+Formats:
 
-* Add a note: `note n/NOTE d/DATE`
-* Delete a note: `note d-/DATE`
-
-* Use `n/` together with `d/` to save a note for a date.
-* Use `d-/` to delete the note for a date.
+* `note n/NOTE d/DATE` : Adds a note to a specific date
+* `note d-/DATE` : Delete notes on that date
 
 **Examples:**
 

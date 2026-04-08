@@ -1,0 +1,65 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Model UI_COLOR_T1
+participant ":MainWindow" as Main UI_COLOR
+participant ":PlannerListPanel" as Planner UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as Parser LOGIC_COLOR
+participant "p:PlanCommand" as Plan LOGIC_COLOR
+participant "result:CommandResult" as Result LOGIC_COLOR
+end box
+
+
+[-> Main : executeCommand()
+activate Main
+
+Main -> LogicManager : execute()
+activate LogicManager
+
+LogicManager -> Parser : parseCommand()
+activate Parser
+
+create Plan
+Parser -> Plan
+activate Plan
+
+Plan --> Parser
+deactivate Plan
+
+Parser --> LogicManager : p
+deactivate Parser
+
+LogicManager -> Plan : execute()
+activate Plan
+
+create Result
+Plan -> Result : dateToDisplay
+activate Result
+
+Result --> Plan
+deactivate Result
+
+Plan --> LogicManager : result
+deactivate Plan
+
+LogicManager --> Main : result
+deactivate LogicManager
+destroy Plan
+
+Main --> Result : getFeedbackToPlanner
+activate Result
+
+Result --> Main : dateHeader
+deactivate Result
+
+Main --> Planner : setPlannerHeader(dateHeader)
+activate Planner
+destroy Result
+deactivate Planner
+deactivate Main
+@enduml

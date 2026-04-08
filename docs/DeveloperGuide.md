@@ -8,8 +8,13 @@ title: Developer Guide
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+### Libraries
+* [JavaFX](https://openjfx.io/)
+* [Jackson](https://github.com/FasterXML/jackson)
+* [JUnit5](https://github.com/junit-team/junit5)
+* [PlantUML](https://plantuml.com/stdlib)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -151,6 +156,26 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+### VisitDates
+VisitDates in AddressMe have many different behaviours, possibly being recurring, or one-time. It is implemented
+using polymorphism, where the subclasses support the few abstract methods required to function. The VisitDate class is
+also implemented as a factory, taking in Strings to return a VisitDate of its appropriate subclasses.
+
+- The isOn() function returns true if the date falls on the VisitDate inputted
+- toString() returns a nicely formatted string displayed to the user
+- toDataString() returns a string that can be re-parsed into the VisitDate, and is used to store data as files.
+
+<img src="images/VisitDateClassDiagram.png" width="550" />
+
+**To note:** EveryDayDate uses the Singleton pattern as every EveryDayDate should be the same.
+It has a public static EverydayDate as an attribute for access.
+
+### PlanCommand MCV Patterns
+The `plan` command updates the user's GUI as well as the headers. This means it needs to pass information 
+to the view controllers. We do this via the CommandResult class.
+
+<img src="images/PlanSequenceDiagram.png" width="600" />
 
 ### Undo/redo feature
 
@@ -397,6 +422,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | experienced user           | use up and down arrows to echo my past commands                               | quickly retry commands that have a minor mistake                            |
 | `* * *`  | user                       | save my friends’ addresses                                                    | easier meetups and not have to store them separately from my travels        |
 | `* * *`  | student                    | handle my classwork that requires moving to mobile places                     | have a better plan without being confused about where to go next            |
+| `* * *`  | busy user                  | Organize my locations by dates                                                | remember where I have to be on a certain day                                |
+| `* * *`  | user                       | View a schedule for my locations by date                                      | be more organized                                                           |
 | `* *`    | user                       | add keywords/notes to specific addresses                                      | remember the details easily                                                 |
 | `* *`    | experienced user           | set shortcuts for my commands                                                 | use the app more efficiently                                                |
 | `* *`    | frequent user              | save shortcuts across restarts                                                | avoid recreating them every time I open the app                             |
@@ -405,6 +432,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | food explorer              | group restaurant recommendations                                              | sort them out by preference/some other metric                               |
 | `* *`    | new user                   | view a help message explaining the keyboard commands                          | quickly learn how to use the app                                            |
 | `* *`    | tech-savvy user            | use a single keyboard command to search for all "sightseeing" spots           | find my next destination fast and easily                                    |
+| `* *`    | hasty user                 | quickly navigate my previous commands                                         | repeat my frequent commands and save time typing                            |
 | `* *`    | cautious solo traveller    | store emergency contacts (embassy, hospital, local police)                    | access them quickly in urgent situations                                    |
 | `* *`    | user                       | change the application's colour (light/dark mode)                             | read the content comfortably                                                |
 | `* *`    | user                       | pin important locations                                                       | quickly see my highest-priority entries                                     |
@@ -426,7 +454,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | dark mode user             | use the app in dark mode                                                      | keep it consistent with the rest of my setup                                |
 | `*`      | parent                     | organize my trip together with different users (family, friends, tour agency) | allow them to contribute ideas/routes for my trip                           |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -533,6 +560,24 @@ Use case ends.
 * 2a. The list is empty.
 * 2a1. System informs the user the list is empty.
 Use case ends.
+
+---
+
+**Use case: Modify your schedule on a specific day**
+
+**MSS**
+
+1. User enters the plan command with the desired date.
+2. System shows all the locations that fall on that date.
+3. User edits a location to add it to the date.
+4. System shows the updated schedule on that day.
+   Use case ends.
+
+**Extensions**
+
+* 1a. The entered date is invalid.
+* 1a1. System informs the user of correct date and command format.
+  Use case ends.
 
 ---
 
@@ -659,7 +704,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Run `java -jar AddressMe.jar` in terminal. Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -668,7 +713,21 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Autocomplete
+
+1. Autocomplete a command with no shared prefix
+    1. Press `Tab` after typing `a`. Expected: the command line now shows `add`
+
+1. Autocomplete command with shared prefix
+   1. Press `Tab` after typing `e`. Expected: the command line still shows `e` (Since `exit` and `edit` exist)
+
+### CLI History
+1. Recalling previous commands
+   1. With an empty command line, press `UP` repeatedly. Expected: Command line scrolls through previous commands
+   2. Now press `DOWN` repeatedly. Expected: Command line goes forward through commands and becomes blank again.
+1. Recalling commands after an error
+   1. Enter an erroneous command (the text should turn red)
+   1. Press `UP` once. Expected: Should see the command entered before the erroneous command.
 
 ### Deleting a location
 
@@ -687,14 +746,6 @@ testers are expected to do more *exploratory* testing.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `delete 1 1`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
-
-1. _{ more test cases …​ }_
-
-### Saving data
-
-1. Dealing with missing/corrupted data files
-
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
 
@@ -729,3 +780,26 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `redo` again<br>
       Expected: No data changes. An error message is shown because only one redo level is supported.
+
+### Using Planner Panel
+
+1. Viewing Locations and Notes
+   1. After adding dates to locations and notes, use `plan DATE` where DATE is the same date. 
+   Expected: The locations and notes added should appear in the planner and the header changes to DATE.
+2. Changing entities with Planner open
+   1. `delete` a location or `note d-/` a note currently in the open planner. Expected: The planner is updated and the entity disappears.
+   2. `undo` your action. Expected: The item reappears in the planner.
+3. Clearing the planner
+   1. Type `plan` in the Command line. 
+   Expected: The planner is cleared and the header resets. The locations can still be view in the left list.
+
+---
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. Support autocomplete for tags. Typing `t/a`, `t+/a` or `t-/a` then pressing `Tab` would autocomplete with any existing tags.
+   This is done by having a persistent tag management system, and storing tags in data files.
+2. Currently, the implementation of different commands have slightly differing formats. <br>Sometimes, commands take in strings with the `n/` prefix, like in `add`, but in `find` it does not. Then, in `plan` it doesn't take in a date with the `d/` prefix either.
+<br>Standardise ALL commands to use the prefixes for every variable. This applies even for INDEX, with proposed tag i/. This makes it clearer to the user that every field must be prefixed.
+

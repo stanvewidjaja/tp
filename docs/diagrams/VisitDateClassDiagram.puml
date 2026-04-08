@@ -1,0 +1,59 @@
+@startuml
+!include style.puml
+show members
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+package "Date package"{
+Class "{abstract}\nVisitDate" as Visit {
+    <u>of(String) : VisitDate</u>
+    isOn(LocalDate) : boolean {abstract}
+    toDataString() {abstract} : String
+}
+
+Class EveryDayDate {
+    <u>EVERYDAY_DATE : EveryDayDate</u>
+    isOn(LocalDate)
+    toString()
+    toDataString()
+}
+
+Class WeeklyRecurringDate {
+    day : DayOfWeek
+    isOn(LocalDate)
+    toString()
+    toDataString()
+}
+
+Class YearlyRecurringDate {
+    date : DayMonth
+    isOn(LocalDate)
+    toString()
+    toDataString()
+}
+
+Class OneTimeDate {
+    date : LocalDate
+    isOn(LocalDate)
+    toString()
+    toDataString()
+}
+
+}
+
+class DateParser
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Visit
+
+
+
+Visit .right.> DateParser : <<uses>>
+
+EveryDayDate -up-|> Visit
+OneTimeDate -up-|> Visit
+WeeklyRecurringDate -up-|> Visit
+YearlyRecurringDate -up-|> Visit
+
+@enduml

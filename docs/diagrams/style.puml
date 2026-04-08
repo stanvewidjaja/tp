@@ -41,6 +41,8 @@ skinparam Package {
 
 skinparam Class {
     FontColor #FFFFFF
+    AttributeFontColor #FFFFFF
+    MethodFontColor #FFFFFF
     FontSize 15
     BorderThickness 1
     BorderColor #FFFFFF
