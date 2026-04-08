@@ -67,9 +67,4 @@ public class WeeklyRecurringDate extends VisitDate {
     public int hashCode() {
         return day.hashCode();
     }
-
-    @Override
-    public String toInputString() {
-        return "e-" + day.toString();
-    }
 }

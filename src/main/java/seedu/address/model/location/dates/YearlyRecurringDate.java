@@ -67,9 +67,4 @@ public class YearlyRecurringDate extends VisitDate {
     public int hashCode() {
         return date.hashCode();
     }
-
-    @Override
-    public String toInputString() {
-        return "e-" + date.format(DATA_FORMAT);
-    }
 }
