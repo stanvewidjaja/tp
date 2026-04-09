@@ -47,7 +47,7 @@ public class LocationUtil {
 
         // multi-date support (IMPORTANT)
         location.getVisitDates().forEach(
-                visitDate -> sb.append(PREFIX_DATE).append(visitDate).append(" ")
+                visitDate -> sb.append(PREFIX_DATE).append(visitDate.toDataString()).append(" ")
         );
 
         location.getTags().forEach(tag ->
@@ -79,7 +79,7 @@ public class LocationUtil {
                 sb.append(PREFIX_DATE).append(" ");
             } else {
                 visitDates.forEach(d ->
-                        sb.append(PREFIX_DATE).append(d).append(" "));
+                        sb.append(PREFIX_DATE).append(d.toDataString()).append(" "));
             }
         }
 

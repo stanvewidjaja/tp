@@ -257,10 +257,6 @@ The implementation is intentionally limited to one level:
   * Pros: Commands can create a  snapshot at very precise points in execution.
   * Cons: Easier to forget in new commands, and failure handling becomes duplicated across commands.
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 ### Substring Matching in Find Command
 
 #### Implementation
@@ -388,6 +384,36 @@ The multi-date support feature allows a `Location` to have multiple visit dates.
 | `FindCommand` | Matches single last visit date | Matches if ANY visit date matches the keyword |
 | `EditCommand` | Overwrites single visit date | Supports cumulative add/remove or overwrite |
 | `Storage` | Saves/loads `visitDate` | Saves/loads `visitDates` (with backward compatibility) |
+
+### Help Message Consistency
+
+Help messages were made more consistent by using two standardized formats:
+
+* a compact `Parameters`/`Example` format for single-purpose commands
+* a Usage-based format for commands with multiple forms
+
+Typical structure:
+
+Single-purpose commands:
+```
+command: description
+Parameters: ...
+Example: ...
+```
+Multi-purpose commaands:
+```
+command: description
+Usage:
+  command form 1 – description
+  command form 2 – description
+Examples:
+  example 1
+  example 2
+```
+
+This improves readability without forcing all commands into one rigid structure. 
+
+Commands such as `help`, `note`, and `shortcut` has all their modes specified in the `Usage` format with more than one example, while simpler commands remain concise.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -678,8 +704,6 @@ Use case ends.
 * 2a1. System shows an error message.
 Use case ends.
 
-*{More to be added}*
-
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -688,9 +712,6 @@ Use case ends.
 4. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 5. Should work well for standard screen resolutions 1920x1080 and higher of 100% and 125% scales.
 6. Should be usable for resolutions 1280x720 and higher and for screen scales 150%.
-
-
-*{More to be added}*
 
 ### Glossary
 
@@ -710,6 +731,30 @@ Given below are instructions to test the app manually.
 testers are expected to do more *exploratory* testing.
 
 </div>
+
+### Help Command
+
+#### Viewing help information
+
+1. Viewing general help
+
+    1. Test case: `help`  
+       Expected: A summary of all commands is displayed in the help window or output area.
+
+2. Viewing help for a specific command
+
+    1. Test case: `help add`  
+       Expected: Detailed usage information for the `add` command is displayed.
+
+3. Opening the user guide
+
+    1. Test case: `help -ug`  
+       Expected: The user guide is opened in a new window or browser.
+
+4. Invalid usage
+
+    1. Test case: `help unknowncommand`  
+       Expected: An error message is shown indicating the command is invalid.
 
 ### Launch and shutdown
 
@@ -760,7 +805,7 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `delete 1 1`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+
 
 ### Undoing and redoing changes
 
@@ -806,6 +851,47 @@ testers are expected to do more *exploratory* testing.
    1. Type `plan` in the Command line. 
    Expected: The planner is cleared and the header resets. The locations can still be view in the left list.
 
+### Flexible Name and Phone Input
+
+1. Adding locations with flexible names
+
+    1. Test case:  
+       `add n/McDonald's @ Orchard a/Some address c/123456`  
+       Expected: Location is successfully added.
+
+    2. Test case:  
+       `add n/!!! a/Some address`  
+       Expected: Error message shown (no alphanumeric character).
+
+2. Adding locations with flexible phone numbers
+
+    1. Test case:  
+       `add n/Test p/+65 9123 1234`  
+       Expected: Location is successfully added.
+
+    2. Test case:  
+       `add n/Test p/123-456-789`  
+       Expected: Location is successfully added.
+
+    3. Test case:  
+       `add n/Test p/-1234`  
+       Expected: Error message shown.
+
+
+### Editing Fields to Empty
+
+1. Clearing a field using edit
+
+    1. Prerequisites: At least one location exists with a phone number
+
+    2. Test case:  
+       `edit 1 p/`  
+       Expected: Phone number of the location is removed.
+
+    3. Test case:  
+       `edit 1 n/`  
+       Expected: Name cannot be empty, error message shown (if applicable).
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -818,4 +904,4 @@ Team size: 5
    This is done by having a persistent tag management system, and storing tags in data files.
 2. Currently, the implementation of different commands have slightly differing formats. <br>Sometimes, commands take in strings with the `n/` prefix, like in `add`, but in `find` it does not. Then, in `plan` it doesn't take in a date with the `d/` prefix either.
 <br>Standardise ALL commands to use the prefixes for every variable. This applies even for INDEX, with proposed tag i/. This makes it clearer to the user that every field must be prefixed.
-
+3. Support data archiving. Old locations that is no longer needed can be archived for the future, so they don't appear but still recoverable.
