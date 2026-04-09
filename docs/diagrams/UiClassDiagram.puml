@@ -16,6 +16,7 @@ Class LocationCard
 Class StatusBarFooter
 Class CommandBox
 Class PlannerCard
+Class NoteCard
 Class PlannerListPanel
 }
 
@@ -41,6 +42,7 @@ MainWindow --> "0..1" HelpWindow
 
 LocationListPanel -down-> "*" LocationCard
 PlannerListPanel -down-> "*" PlannerCard
+PlannerListPanel -down-> "0..1" NoteCard
 
 MainWindow -left-|> UiPart
 
@@ -49,11 +51,13 @@ CommandBox --|> UiPart
 LocationListPanel --|> UiPart
 PlannerListPanel --|> UiPart
 LocationCard --|> UiPart
+NoteCard --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
 
 LocationCard ..> Model
 PlannerCard ..> Model
+NoteCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 

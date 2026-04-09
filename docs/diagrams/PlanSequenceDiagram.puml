@@ -58,8 +58,7 @@ Result --> Main : dateHeader
 deactivate Result
 
 Main --> Planner : setPlannerHeader(dateHeader)
-activate Planner
 destroy Result
+activate Planner
 deactivate Planner
-deactivate Main
 @enduml

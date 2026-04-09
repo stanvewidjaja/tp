@@ -901,8 +901,9 @@ testers are expected to do more *exploratory* testing.
 
 Team size: 5
 
-1. Support autocomplete for tags. Typing `t/a`, `t+/a` or `t-/a` then pressing `Tab` would autocomplete with any existing tags.
-   This is done by having a persistent tag management system, and storing tags in data files.
-2. Currently, the implementation of different commands have slightly differing formats. <br>Sometimes, commands take in strings with the `n/` prefix, like in `add`, but in `find` it does not. Then, in `plan` it doesn't take in a date with the `d/` prefix either.
-<br>Standardise ALL commands to use the prefixes for every variable. This applies even for INDEX, with proposed tag i/. This makes it clearer to the user that every field must be prefixed.
-3. Support data archiving. Old locations that is no longer needed can be archived for the future, so they don't appear but still recoverable.
+1. **Support autocomplete for tags.** Typing `t/a`, `t+/a` or `t-/a` then pressing `Tab` would autocomplete with any existing tags.
+   This is done by having a persistent tag management system, storing tags in data files, and loading them into a TagManager class upon startup.
+2. Currently, the implementation of different commands have slightly differing formats. Sometimes, commands take in strings with the `n/` prefix, like in `add`, but in `find` it does not. Then, in `plan` it doesn't take in a date with the `d/` prefix either.
+<br>**Standardise ALL commands to use the prefixes for every variable**. This applies even for `INDEX`, with proposed tag `i/`. This makes it clearer to the user that every field must be prefixed.
+3. **Support data archiving/hiding.** Old locations that is no longer needed can be archived for the future, so they don't appear but still recoverable.
+4. **Implement a range for date fields in `plan` and `find`**. This can allow users to view plans over a weekend for example, or to find locations over a range too.
