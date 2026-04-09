@@ -402,9 +402,9 @@ Format: `undo`
 * `undo` currently supports only one level of history.
 * If there is nothing to undo, AddressMe shows an error message.
 
-| **Undo-able**                                                                                      | **Does not Affect**                                 |
-|----------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands | `help`, `list`, `find`, `plan` and `theme` commands |
+| **Undo-able**                                                                                      | **Does not Affect**                                                  |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| Successful `add`, `edit`, `delete`, `clear`, `note`, `shortcut set` and `shortcut remove` commands | `help`, `list`, `find`, `plan`, `theme` and `shortcut list` commands |
 
 **Examples:**
 
@@ -542,7 +542,7 @@ Press `Tab` while typing a command to autocomplete it.
 
 Your data is saved to disk automatically after every command that changes it. You do not need to save manually.
 
-Location data is stored at: `[home folder]/data/addressbook.json`
+Location data is stored at: `[home folder]/data/addressbook.json` <br>
 Shortcuts are stored at: `[home folder]/data/shortcut.json`
 
 ### Editing the data file directly
@@ -594,7 +594,7 @@ all of which will be restored the next time you launch the app.
 ### Known Issues
 
 **Multiple Monitors:** If you move AddressMe to a secondary screen and later disconnect that monitor, the application
-window may open off-screen. Fix: delete preferences.json in your home folder before relaunching.<br><br>
-**Help Window:** If the Help window is minimised and you run help -ug again, no new window will appear. Fix: manually
+window may open off-screen. <br> Fix: delete preferences.json in your home folder before relaunching.<br><br>
+**Help Window:** If the Help window is minimised and you run `help -ug` again, no new window will appear. <br> Fix: manually
 restore the minimised Help window from your taskbar.
 --------------------------------------------------------------------------------------------------------------------
