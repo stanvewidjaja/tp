@@ -902,3 +902,4 @@ Team size: 5
 <br>**Standardise ALL commands to use the prefixes for every variable**. This applies even for `INDEX`, with proposed tag `i/`. This makes it clearer to the user that every field must be prefixed.
 3. **Support data archiving/hiding.** Old locations that is no longer needed can be archived for the future, so they don't appear but still recoverable.
 4. **Implement a range for date fields in `plan` and `find`**. This can allow users to view plans over a weekend for example, or to find locations over a range too.
+5. **Add an archiving system** to automatically manage past dates, enabling users to filter or hide outdated notes and locations.

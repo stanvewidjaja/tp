@@ -74,12 +74,12 @@ avoid compatibility issues.
 
 AddressMe has four main UI zones:
 
-| **Feature**       | **Description**                                                          |
-|-------------------|--------------------------------------------------------------------------|
-| **Command Box**   | Type your commands here and press Enter to execute.                      |
-| **Result Panel**  | Displays confirmation messages, search results, and errors encountered.  |
-| **Location List** | Shows all your saved locations, updated in real time after each command. |
-| **Planner Panel** | View destinations on a specific date (using the **plan** command).       |
+| **Feature**       | **Description**                                                              |
+|-------------------|------------------------------------------------------------------------------|
+| **Command Box**   | Type your commands here and press Enter to execute.                          |
+| **Result Panel**  | Displays confirmation messages, search results, and errors encountered.      |
+| **Location List** | Shows all your saved locations, updated in real time after each command.     |
+| **Planner List**  | View destinations and notes on a specific date (using the **plan** command). |
 
 <div style="page-break-after: always;"></div>
 
@@ -324,7 +324,7 @@ Format:
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input. 
 * To clear a field, provide the prefix without a value (e.g. `p/` to clear phone). 
-  * This applies to single-value fields such as phone, email, postal code and address.
+* This applies to optional fields such as phone, email, postal code and address.
 
 **Tag and Date Editing Modes**
 
@@ -369,17 +369,17 @@ Format: `delete INDEX [MORE_INDEXES]...`
 
 ### `plan` - Using the itinerary planner
 
-Displays all locations assigned to a given date in the Planner Panel, so you can view your day's plan at a glance.
+Displays all locations assigned to a given date in the Planner List, so you can view your day's plan at a glance.
 
 Formats: 
 * `plan [DATE]`: Displays all the locations with the matching dates for easy cross-referencing.
-* `plan`: clears the Planner Panel
+* `plan`: clears the Planner List
 
 **Examples:**
 
 * `plan 12/3/26`: Shows all locations planned for 12 March 2026.
 * `plan Friday`: Shows locations planned for the upcoming Friday.
-* `plan`: Clears the planner page.
+* `plan`: Clears the planner list.
 
 <div markdown="block" class="alert alert-primary">:bulb: **Tip:**
 Each morning, run `plan today` to pull up everything you have scheduled. Combine with `find` and `edit` to build your

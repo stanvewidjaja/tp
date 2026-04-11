@@ -2,7 +2,7 @@
 !include style.puml
 skinparam ArrowFontStyle plain
 
-box Model UI_COLOR_T1
+box UI UI_COLOR_T1
 participant ":MainWindow" as Main UI_COLOR
 participant ":PlannerListPanel" as Planner UI_COLOR
 end box
