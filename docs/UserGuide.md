@@ -37,13 +37,14 @@ AddressMe is the app for you!
 ---
 
 * Table of Contents
-{:toc}
+  {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## 1. Quick Start
 
 ---
+
 ### Installation
 
 1. Ensure you have Java `17` or above installed on your machine.<br>
@@ -247,7 +248,7 @@ Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DA
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Field Guide:**<br>
-**n/**: Name of the location (e.g. the cafe, clinic, or coworking space). 
+**n/**: Name of the location (e.g. the cafe, clinic, or coworking space).
 
 Letters, numbers and some common symbols are allowed. See [name format](#name-formats) for details.
 
@@ -308,6 +309,7 @@ Format: `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]
 </div>
 
 **Examples:**
+
 * `find Restaurant` returns all locations with “Restaurant” in the name
 * `find Marina Beach` returns `Marina Park`, `Beach Resort` (OR search for names).
 * `find n/Cafe e/gmail.com` returns all cafes with a Gmail address.
@@ -322,8 +324,8 @@ Format:
 * Edits the location at the specified `INDEX`. The index refers to the index number shown in the displayed location
   list. The index **must be a positive number** 1, 2, 3, ...
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input. 
-* To clear a field, provide the prefix without a value (e.g. `p/` to clear phone). 
+* Existing values will be updated to the input.
+* To clear a field, provide the prefix without a value (e.g. `p/` to clear phone).
 * This applies to optional fields such as phone, email, postal code and address.
 
 **Tag and Date Editing Modes**
@@ -371,7 +373,8 @@ Format: `delete INDEX [MORE_INDEXES]...`
 
 Displays all locations assigned to a given date in the Planner List, so you can view your day's plan at a glance.
 
-Formats: 
+Formats:
+
 * `plan [DATE]`: Displays all the locations with the matching dates for easy cross-referencing.
 * `plan`: clears the Planner List
 
@@ -389,17 +392,36 @@ upcoming days' itinerary too.
 
 ### `note` - Managing notes
 
-Adds or deletes a note for a specific date. Use this with the [planner](#plan---using-the-itinerary-planner) to create reminders for yourself!
+Adds or deletes notes for specific or recurring dates. Use this together with the [
+`plan`](#plan---using-the-itinerary-planner) command to view your notes for a specific date.
 
 Formats:
 
-* `note n/NOTE d/DATE` : Adds a note to a specific date
-* `note d-/DATE` : Delete notes on that date
+* `note n/NOTE d/DATE` : Adds a note to a date
+* `note d-/DATE` : Deletes the note for that date
 
-**Examples:**
+**Behaviour:**
 
-* `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24`
-* `note d-/2026-03-24`
+* Notes can be added to both one-time dates (e.g. `2026-04-12`) and recurring dates (e.g. `e-Sunday`).
+* One-time dates and recurring dates are treated as separate entries.
+* It is possible for both a one-time note and a recurring note to apply to the same day.  
+  For example, `2026-04-12` (Sunday) may show a note for `2026-04-12` and a note for `e-Sunday`.
+* When this happens, both notes will be displayed.
+* To update a note, add a new note with the same date format (e.g. `2026-04-12`). The existing note will be replaced.
+* Deleting a note only affects the exact date format provided.  
+  For example, `note d-/2026-04-12` removes only the one-time note, while `note d-/e-Sunday` removes only the recurring
+  note.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+If both a one-time note and a recurring note apply to the same day, both will be shown in the planner, even if they refer to the same calendar date.
+</div>
+
+Examples:
+
+* `note n/Bring passport d/2026-04-12`
+* `note n/Weekly reminder d/e-Sunday`
+* `note d-/2026-04-12`
+* `note d-/e-Sunday`
 
 ### `undo` - Reverting the last change
 
@@ -419,7 +441,6 @@ Format: `undo`
 * `delete 3` followed by `undo` restores the deleted location.
 * `note n/Involves lots of walking. Bring extra water bottles. d/2026-03-24` followed by `undo` removes the note again.
 * `shortcut set a add` followed by `undo` removes the shortcut again.
-
 
 <div style="page-break-after: always;"></div>
 ### `redo` - Redoing the last undo
@@ -491,22 +512,21 @@ Format: `exit`
 
 ## 4. Command summary
 
-| **Action**   | **Format**                                                                                                                                | **Examples**                                                              |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| **Add**      | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]... [t/TAG]...`                                                | `add n/Nomad Hub p/98765432 e/hi@nomad.sg a/12 Tanjong Pagar t/coworking` |
-| **Clear**    | `clear`                                                                                                                                   | `clear`                                                                   |
-| **Delete**   | `delete INDEX [MORE_INDEXES]...`                                                                                                          | `delete 3` or `delete 1 2 3`                                              |
-| **Edit**     | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…` | `edit 2 n/Happy Bistro e/contact@happybistro.com d+/e-friday`             |
-| **Find**     | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [t/TAG]… [d/DATE]…`                              | `find n/Cafe t/Halal d/3/4/26`                                            |
-| **List**     | `list`                                                                                                                                    | `list`                                                                    |
-| **Note**     | `note n/NOTE d/DATE` / `note d-/DATE`                                                                                                     | `note n/Bring water d/2026-03-24`, `note d-/2026-03-24`                   |
-| **Plan**     | `plan DATE` or `plan`                                                                                                                     | `plan 23/9`                                                               |
-| **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`                                                             | `shortcut set a add`, `shortcut remove a`, `shortcut list`                |
-| **Theme**    | `theme THEME_NAME`                                                                                                                        | `theme light` or `theme dark`                                             |
-| **Undo**     | `undo`                                                                                                                                    | `undo`                                                                    |
-| **Redo**     | `redo`                                                                                                                                    | `redo`                                                                    |
-| **Help**     | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                            |
-
+| **Action**   | **Format**                                                                                                                                | **Examples**                                                                                 |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| **Add**      | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]... [t/TAG]...`                                                | `add n/Nomad Hub p/98765432 e/hi@nomad.sg a/12 Tanjong Pagar t/coworking`                    |
+| **Clear**    | `clear`                                                                                                                                   | `clear`                                                                                      |
+| **Delete**   | `delete INDEX [MORE_INDEXES]...`                                                                                                          | `delete 3` or `delete 1 2 3`                                                                 |
+| **Edit**     | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [d/DATE]… [d+/DATE]… [d-/DATE]… [t/TAG]… [t+/TAG]… [t-/TAG]…` | `edit 2 n/Happy Bistro e/contact@happybistro.com d+/e-friday`                                |
+| **Find**     | `find [KEYWORD] [MORE_KEYWORDS] [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/POSTAL_CODE] [t/TAG]… [d/DATE]…`                              | `find n/Cafe t/Halal d/3/4/26`                                                               |
+| **List**     | `list`                                                                                                                                    | `list`                                                                                       |
+| **Note**     | `note n/NOTE d/DATE` / `note d-/DATE`                                                                                                     | `note n/Bring water d/2026-04-12`, `note n/Weekly reminder d/e-Sunday`, `note d-/2026-04-12` |
+| **Plan**     | `plan DATE` or `plan`                                                                                                                     | `plan 23/9`                                                                                  |
+| **Shortcut** | `shortcut set ALIAS COMMAND_WORD` / `shortcut remove ALIAS` / `shortcut list`                                                             | `shortcut set a add`, `shortcut remove a`, `shortcut list`                                   |
+| **Theme**    | `theme THEME_NAME`                                                                                                                        | `theme light` or `theme dark`                                                                |
+| **Undo**     | `undo`                                                                                                                                    | `undo`                                                                                       |
+| **Redo**     | `redo`                                                                                                                                    | `redo`                                                                                       |
+| **Help**     | `help` / `help COMMAND_WORD` / `help -ug`                                                                                                 | `help`, `help add`, `help -ug`                                                               |
 
 ## 5. CLI Power Features
 
@@ -595,6 +615,7 @@ all of which will be restored the next time you launch the app.
 **Q:** Can I have the same location listed multiple times?
 
 **A:** No. Duplicates are checked when you add or edit a location. Locations are considered the same by the following:
+
 - **Postal code and address** if both locations have these fields
 - **Address** if both locations have addresses, but either does not have a postal code
 - **Name** if either location has no address
@@ -603,6 +624,7 @@ all of which will be restored the next time you launch the app.
 
 **Multiple Monitors:** If you move AddressMe to a secondary screen and later disconnect that monitor, the application
 window may open off-screen. <br> Fix: delete preferences.json in your home folder before relaunching.<br><br>
-**Help Window:** If the Help window is minimised and you run `help -ug` again, no new window will appear. <br> Fix: manually
+**Help Window:** If the Help window is minimised and you run `help -ug` again, no new window will appear. <br> Fix:
+manually
 restore the minimised Help window from your taskbar.
 --------------------------------------------------------------------------------------------------------------------
