@@ -90,7 +90,7 @@ public class EditCommandParserTest {
         // preamble size one but bad form (generic string)
         assertParseFailure(parser, "abc n/test name", MESSAGE_INVALID_FORMAT);
 
-        // preamble size one but bad form
+        // preamble size one, an integer but not a non-zero unsigned integer
         assertParseFailure(parser, "-1 n/test name", ParserUtil.MESSAGE_INVALID_INDEX);
     }
 
