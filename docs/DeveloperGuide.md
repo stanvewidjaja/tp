@@ -866,11 +866,11 @@ testers are expected to do more *exploratory* testing.
        Expected: Location is successfully added.
 
     2. Test case:  
-       `add n/Test p/123-456-789`  
+       `add n/Test2 p/123-456-789`  
        Expected: Location is successfully added.
 
     3. Test case:  
-       `add n/Test p/-1234`  
+       `add n/Test3 p/-1234`  
        Expected: Error message shown.
 
 
