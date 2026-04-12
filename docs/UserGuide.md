@@ -450,7 +450,8 @@ shortcut list
 ```
 
 * Shortcuts are case-insensitive and stored in lowercase.
-* Shortcuts must start with a letter and contain only letters and numbers (no spaces or symbols).
+* Shortcuts must start with a letter and contain only alphanumeric characters.
+* You cannot reuse an alias that is already assigned to another command.
 * You cannot reuse an existing command word as an alias (e.g. you cannot set `add` as an alias for `edit`).
 * `COMMAND_WORD` must be a default command word.
 
