@@ -21,7 +21,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_LOCATION_DISPLAYED_INDEX = "The location index provided is invalid";
     public static final String MESSAGE_LOCATIONS_LISTED_OVERVIEW = "%1$d matching locations found!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
-                "Multiple values specified for the following single-valued field(s): ";
+                "Duplicate prefixes for the following field(s) are not allowed: ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
